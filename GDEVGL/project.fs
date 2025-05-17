@@ -22,8 +22,8 @@ out vec4 fragmentColor;
 uniform float is_border;
 
 in vec2 shaderTexCoord;
-uniform sampler2D woodTex;
-uniform sampler2D goldTex;
+uniform sampler2D barkTex;
+uniform sampler2D leafTex;
 uniform vec3 lightPosition;
 uniform vec3 lightColor;
 uniform int is_light;
@@ -42,12 +42,12 @@ void main()
     }
 
     // texturing
-    if (objectColor.x == 1.0f || objectColor.z == 0.0f) {
-        vec4 gold = texture(goldTex, shaderTexCoord);
-        grayscale = mix(1.0f, gold.r, gray_strength);
+    if (objectColor.y < 0.5f) {
+        vec4 bark = texture(barkTex, shaderTexCoord);
+        grayscale = mix(1.0f, bark.r, gray_strength);
     } else {
-        vec4 wood = texture(woodTex, shaderTexCoord);
-        grayscale = mix(1.0f, wood.r, gray_strength);
+        vec4 leaf = texture(leafTex, shaderTexCoord);
+        grayscale = mix(1.0f, leaf.r, gray_strength);
     }
 
 
