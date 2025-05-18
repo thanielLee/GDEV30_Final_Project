@@ -29,6 +29,7 @@ GLFWwindow *pWindow;
 
 GLuint barkTexture;
 GLuint leafTexture;
+GLuint groundTexture;
 
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 2.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -36,8 +37,10 @@ glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 lightPosition;
 float lightHeight = 2.0f;
 float lightSpeed = 1.0f;
-float lightBrightness = 1.0f;
+// float lightBrightness = 1.0f;
+float lightBrightness = 0.75f;
 float specular = 128.0f;
+// float specular = 16.0f;
 float prev_time = 0.0f;
 float current_time = 0.0f;
 float cur = 0.0f;
@@ -50,32 +53,6 @@ float lastX = WINDOW_WIDTH/2.0f;
 float lastY = WINDOW_HEIGHT/2.0f;
 bool firstMouse = true;
 
-glm::vec3 staff_center = glm::vec3(0.0f, -0.8f, 0.0f);
-
-#define red_color 0.58f, 0.02f, 0.02f
-#define gold_color 1.0f, 0.84f, 0.0f
-#define shaft_width 0.035f
-#define top_width 0.05f
-#define diag 0.0707106f
-#define small_side 0.0243825f
-#define short_delta 0.0715839f
-#define big_delta 0.1060660f
-#define half_side ((3.0f * top_width) / 2.0f)
-#define edge_side (top_width-small_side)
-#define top_side (half_side*2.0f - small_side*2.0f)
-#define bottom_side (half_side*2.0f)
-
-// Deltas for the relevant sides in the diagonals
-#define small_side_delta (big_delta * (small_side/bottom_side))
-#define edge_side_delta (big_delta * (edge_side/bottom_side))
-#define width_delta (big_delta * (top_width/bottom_side))
-
-#define test_edge (short_delta * (edge_side/top_side))
-#define front_z top_width/2.0f
-#define back_z -top_width/2.0f
-#define small_edge_x_delta (small_side * small_edge_side_ratio)
-#define main_side_len (2.0f*small_side+2.0f*edge_side+top_width)
-#define ratio
 
 #define tree_width 0.15
 #define bark_color 0.41f, 0.29f, 0.21f
@@ -165,8 +142,6 @@ float icosphere[] = {
 };
 
 float leaf_dip = -0.05f;
-
-
 float vertices[] = 
 {
     // first bark section
@@ -1110,480 +1085,6 @@ const std::vector<float> tree_data ={
     0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
 };
 
-float x = 0;
-float y = 0;
-float z = 0;
-float tree_with_var[] {
-    // first bark section
-    // bottom face
-    0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-    0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
-    0.000000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-
-    0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
-    -0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
-    0.000000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-
-    -0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
-    -0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-    0.000000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-
-    -0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-    -0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
-    0.000000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-
-    -0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
-    0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
-    0.000000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-
-    0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
-    0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-    0.000000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-
-    // no top face
-    0.047500f + x, -0.500000f + y, 0.082272f + z, bark_color,
-    0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
-    0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-
-    0.095000f + x, -0.500000f + y, 0.000000f + z, bark_color,
-    0.047500f + x, -0.500000f + y, 0.082272f + z, bark_color,
-    0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-
-    -0.047500f + x, -0.500000f + y, 0.082272f + z, bark_color,
-    -0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
-    0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
-
-    0.047500f + x, -0.500000f + y, 0.082272f + z, bark_color,
-    -0.047500f + x, -0.500000f + y, 0.082272f + z, bark_color,
-    0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
-
-    -0.095000f + x, -0.500000f + y, 0.000000f + z, bark_color,
-    -0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-    -0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
-
-    -0.047500f + x, -0.500000f + y, 0.082272f + z, bark_color,
-    -0.095000f + x, -0.500000f + y, 0.000000f + z, bark_color,
-    -0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
-
-    -0.047500f + x, -0.500000f + y, -0.082272f + z, bark_color,
-    -0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
-    -0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-
-    -0.095000f + x, -0.500000f + y, 0.000000f + z, bark_color,
-    -0.047500f + x, -0.500000f + y, -0.082272f + z, bark_color,
-    -0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-
-    0.047500f + x, -0.500000f + y, -0.082272f + z, bark_color,
-    0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
-    -0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
-
-    -0.047500f + x, -0.500000f + y, -0.082272f + z, bark_color,
-    0.047500f + x, -0.500000f + y, -0.082272f + z, bark_color,
-    -0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
-
-    0.095000f + x, -0.500000f + y, 0.000000f + z, bark_color,
-    0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
-    0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
-
-    0.047500f + x, -0.500000f + y, -0.082272f + z, bark_color,
-    0.095000f + x, -0.500000f + y, 0.000000f + z, bark_color,
-    0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
-
-
-    // first leaf section
-
-    // 1
-    0.095000f + x, -0.250000f + y, 0.000000f + z, leaf_color,
-    0.047500f + x, -0.250000f + y, 0.082272f + z, leaf_color,
-    0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
-
-    0.095000f + x, -0.250000f + y, 0.000000f + z, leaf_color,
-    0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
-    0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
-    0.047500f + x, -0.500000f + y, 0.082272f + z, leaf_color,
-    0.095000f + x, -0.500000f + y, 0.000000f + z, leaf_color,
-
-    0.095000f + x, -0.500000f + y, 0.000000f + z, leaf_color,
-    0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
-
-    // 2
-    0.047500f + x, -0.250000f + y, 0.082272f + z, leaf_color,
-    -0.047500f + x, -0.250000f + y, 0.082272f + z, leaf_color,
-    -0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
-
-    0.047500f + x, -0.250000f + y, 0.082272f + z, leaf_color,
-    -0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
-    0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
-
-    -0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
-    -0.047500f + x, -0.500000f + y, 0.082272f + z, leaf_color,
-    0.047500f + x, -0.500000f + y, 0.082272f + z, leaf_color,
-
-    0.047500f + x, -0.500000f + y, 0.082272f + z, leaf_color,
-    0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
-    -0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
-
-    // 3
-    -0.047500f + x, -0.250000f + y, 0.082272f + z, leaf_color,
-    -0.095000f + x, -0.250000f + y, 0.000000f + z, leaf_color,
-    -0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    -0.047500f + x, -0.250000f + y, 0.082272f + z, leaf_color,
-    -0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    -0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
-
-    -0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    -0.095000f + x, -0.500000f + y, 0.000000f + z, leaf_color,
-    -0.047500f + x, -0.500000f + y, 0.082272f + z, leaf_color,
-
-    -0.047500f + x, -0.500000f + y, 0.082272f + z, leaf_color,
-    -0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
-    -0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    // 4
-    -0.095000f + x, -0.250000f + y, 0.000000f + z, leaf_color,
-    -0.047500f + x, -0.250000f + y, -0.082272f + z, leaf_color,
-    -0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
-
-    -0.095000f + x, -0.250000f + y, 0.000000f + z, leaf_color,
-    -0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
-    -0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    -0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
-    -0.047500f + x, -0.500000f + y, -0.082272f + z, leaf_color,
-    -0.095000f + x, -0.500000f + y, 0.000000f + z, leaf_color,
-
-    -0.095000f + x, -0.500000f + y, 0.000000f + z, leaf_color,
-    -0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    -0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
-
-    // 5
-    -0.047500f + x, -0.250000f + y, -0.082272f + z, leaf_color,
-    0.047500f + x, -0.250000f + y, -0.082272f + z, leaf_color,
-    0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
-
-    -0.047500f + x, -0.250000f + y, -0.082272f + z, leaf_color,
-    0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
-    -0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
-
-    0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
-    0.047500f + x, -0.500000f + y, -0.082272f + z, leaf_color,
-    -0.047500f + x, -0.500000f + y, -0.082272f + z, leaf_color,
-
-    -0.047500f + x, -0.500000f + y, -0.082272f + z, leaf_color,
-    -0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
-    0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
-
-
-    // 6
-    0.047500f + x, -0.250000f + y, -0.082272f + z, leaf_color,
-    0.095000f + x, -0.250000f + y, 0.000000f + z, leaf_color,
-    0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    0.047500f + x, -0.250000f + y, -0.082272f + z, leaf_color,
-    0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
-
-    0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    0.095000f + x, -0.500000f + y, 0.000000f + z, leaf_color,
-    0.047500f + x, -0.500000f + y, -0.082272f + z, leaf_color,
-
-    0.047500f + x, -0.500000f + y, -0.082272f + z, leaf_color,
-    0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
-    0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    // second bark section
-    0.037500f + x, -0.150000f + y, 0.064952f + z, bark_color,
-    0.047500f + x, -0.250000f + y, 0.082272f + z, bark_color,
-    0.095000f + x, -0.250000f + y, 0.000000f + z, bark_color,
-
-    0.075000f + x, -0.150000f + y, 0.000000f + z, bark_color,
-    0.037500f + x, -0.150000f + y, 0.064952f + z, bark_color,
-    0.095000f + x, -0.250000f + y, 0.000000f + z, bark_color,
-
-    -0.037500f + x, -0.150000f + y, 0.064952f + z, bark_color,
-    -0.047500f + x, -0.250000f + y, 0.082272f + z, bark_color,
-    0.047500f + x, -0.250000f + y, 0.082272f + z, bark_color,
-
-    0.037500f + x, -0.150000f + y, 0.064952f + z, bark_color,
-    -0.037500f + x, -0.150000f + y, 0.064952f + z, bark_color,
-    0.047500f + x, -0.250000f + y, 0.082272f + z, bark_color,
-
-    -0.075000f + x, -0.150000f + y, 0.000000f + z, bark_color,
-    -0.095000f + x, -0.250000f + y, 0.000000f + z, bark_color,
-    -0.047500f + x, -0.250000f + y, 0.082272f + z, bark_color,
-
-    -0.037500f + x, -0.150000f + y, 0.064952f + z, bark_color,
-    -0.075000f + x, -0.150000f + y, 0.000000f + z, bark_color,
-    -0.047500f + x, -0.250000f + y, 0.082272f + z, bark_color,
-
-    -0.037500f + x, -0.150000f + y, -0.064952f + z, bark_color,
-    -0.047500f + x, -0.250000f + y, -0.082272f + z, bark_color,
-    -0.095000f + x, -0.250000f + y, 0.000000f + z, bark_color,
-
-    -0.075000f + x, -0.150000f + y, 0.000000f + z, bark_color,
-    -0.037500f + x, -0.150000f + y, -0.064952f + z, bark_color,
-    -0.095000f + x, -0.250000f + y, 0.000000f + z, bark_color,
-
-    0.037500f + x, -0.150000f + y, -0.064952f + z, bark_color,
-    0.047500f + x, -0.250000f + y, -0.082272f + z, bark_color,
-    -0.047500f + x, -0.250000f + y, -0.082272f + z, bark_color,
-
-    -0.037500f + x, -0.150000f + y, -0.064952f + z, bark_color,
-    0.037500f + x, -0.150000f + y, -0.064952f + z, bark_color,
-    -0.047500f + x, -0.250000f + y, -0.082272f + z, bark_color,
-
-    0.075000f + x, -0.150000f + y, 0.000000f + z, bark_color,
-    0.095000f + x, -0.250000f + y, 0.000000f + z, bark_color,
-    0.047500f + x, -0.250000f + y, -0.082272f + z, bark_color,
-
-    0.037500f + x, -0.150000f + y, -0.064952f + z, bark_color,
-    0.075000f + x, -0.150000f + y, 0.000000f + z, bark_color,
-    0.047500f + x, -0.250000f + y, -0.082272f + z, bark_color,
-
-
-    // second leaf section
-    // length = 0.5
-    // 1
-    0.075000f + x, 0.050000f + y, 0.000000f + z, leaf_color,
-    0.037500f + x, 0.050000f + y, 0.064952f + z, leaf_color,
-    0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
-
-    0.075000f + x, 0.050000f + y, 0.000000f + z, leaf_color,
-    0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
-    0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
-    0.037500f + x, -0.150000f + y, 0.064952f + z, leaf_color,
-    0.075000f + x, -0.150000f + y, 0.000000f + z, leaf_color,
-
-    0.075000f + x, -0.150000f + y, 0.000000f + z, leaf_color,
-    0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
-
-    // 2
-    0.037500f + x, 0.050000f + y, 0.064952f + z, leaf_color,
-    -0.037500f + x, 0.050000f + y, 0.064952f + z, leaf_color,
-    -0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
-
-    0.037500f + x, 0.050000f + y, 0.064952f + z, leaf_color,
-    -0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
-    0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
-
-    -0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
-    -0.037500f + x, -0.150000f + y, 0.064952f + z, leaf_color,
-    0.037500f + x, -0.150000f + y, 0.064952f + z, leaf_color,
-
-    0.037500f + x, -0.150000f + y, 0.064952f + z, leaf_color,
-    0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
-    -0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
-
-    // 3
-    -0.037500f + x, 0.050000f + y, 0.064952f + z, leaf_color,
-    -0.075000f + x, 0.050000f + y, 0.000000f + z, leaf_color,
-    -0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    -0.037500f + x, 0.050000f + y, 0.064952f + z, leaf_color,
-    -0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    -0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
-
-    -0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    -0.075000f + x, -0.150000f + y, 0.000000f + z, leaf_color,
-    -0.037500f + x, -0.150000f + y, 0.064952f + z, leaf_color,
-
-    -0.037500f + x, -0.150000f + y, 0.064952f + z, leaf_color,
-    -0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
-    -0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    //4
-    -0.075000f + x, 0.050000f + y, 0.000000f + z, leaf_color,
-    -0.037500f + x, 0.050000f + y, -0.064952f + z, leaf_color,
-    -0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
-
-    -0.075000f + x, 0.050000f + y, 0.000000f + z, leaf_color,
-    -0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
-    -0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    -0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
-    -0.037500f + x, -0.150000f + y, -0.064952f + z, leaf_color,
-    -0.075000f + x, -0.150000f + y, -0.000000f + z, leaf_color,
-
-    -0.075000f + x, -0.150000f + y, -0.000000f + z, leaf_color,
-    -0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    -0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
-
-    // 5
-    -0.037500f + x, 0.050000f + y, -0.064952f + z, leaf_color,
-    0.037500f + x, 0.050000f + y, -0.064952f + z, leaf_color,
-    0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
-
-    -0.037500f + x, 0.050000f + y, -0.064952f + z, leaf_color,
-    0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
-    -0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
-
-    0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
-    0.037500f + x, -0.150000f + y, -0.064952f + z, leaf_color,
-    -0.037500f + x, -0.150000f + y, -0.064952f + z, leaf_color,
-
-    -0.037500f + x, -0.150000f + y, -0.064952f + z, leaf_color,
-    -0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
-    0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
-
-
-    // 6
-    0.037500f + x, 0.050000f + y, -0.064952f + z, leaf_color,
-    0.075000f + x, 0.050000f + y, 0.000000f + z, leaf_color,
-    0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    0.037500f + x, 0.050000f + y, -0.064952f + z, leaf_color,
-    0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
-
-    0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    0.075000f + x, -0.150000f + y, 0.000000f + z, leaf_color,
-    0.037500f + x, -0.150000f + y, -0.064952f + z, leaf_color,
-
-    0.037500f + x, -0.150000f + y, -0.064952f + z, leaf_color,
-    0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
-    0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-
-    // third bark section
-    0.032500f + x, 0.120000f + y, 0.056292f + z, bark_color,
-    0.037500f + x, 0.050000f + y, 0.064952f + z, bark_color,
-    0.075000f + x, 0.050000f + y, 0.000000f + z, bark_color,
-
-    0.065000f + x, 0.120000f + y, 0.000000f + z, bark_color,
-    0.032500f + x, 0.120000f + y, 0.056292f + z, bark_color,
-    0.075000f + x, 0.050000f + y, 0.000000f + z, bark_color,
-
-    -0.032500f + x, 0.120000f + y, 0.056292f + z, bark_color,
-    -0.037500f + x, 0.050000f + y, 0.064952f + z, bark_color,
-    0.037500f + x, 0.050000f + y, 0.064952f + z, bark_color,
-
-    0.032500f + x, 0.120000f + y, 0.056292f + z, bark_color,
-    -0.032500f + x, 0.120000f + y, 0.056292f + z, bark_color,
-    0.037500f + x, 0.050000f + y, 0.064952f + z, bark_color,
-
-    -0.065000f + x, 0.120000f + y, 0.000000f + z, bark_color,
-    -0.075000f + x, 0.050000f + y, 0.000000f + z, bark_color,
-    -0.037500f + x, 0.050000f + y, 0.064952f + z, bark_color,
-
-    -0.032500f + x, 0.120000f + y, 0.056292f + z, bark_color,
-    -0.065000f + x, 0.120000f + y, 0.000000f + z, bark_color,
-    -0.037500f + x, 0.050000f + y, 0.064952f + z, bark_color,
-
-    -0.032500f + x, 0.120000f + y, -0.056292f + z, bark_color,
-    -0.037500f + x, 0.050000f + y, -0.064952f + z, bark_color,
-    -0.075000f + x, 0.050000f + y, 0.000000f + z, bark_color,
-
-    -0.065000f + x, 0.120000f + y, 0.000000f + z, bark_color,
-    -0.032500f + x, 0.120000f + y, -0.056292f + z, bark_color,
-    -0.075000f + x, 0.050000f + y, 0.000000f + z, bark_color,
-
-    0.032500f + x, 0.120000f + y, -0.056292f + z, bark_color,
-    0.037500f + x, 0.050000f + y, -0.064952f + z, bark_color,
-    -0.037500f + x, 0.050000f + y, -0.064952f + z, bark_color,
-
-    -0.032500f + x, 0.120000f + y, -0.056292f + z, bark_color,
-    0.032500f + x, 0.120000f + y, -0.056292f + z, bark_color,
-    -0.037500f + x, 0.050000f + y, -0.064952f + z, bark_color,
-
-    0.065000f + x, 0.120000f + y, 0.000000f + z, bark_color,
-    0.075000f + x, 0.050000f + y, 0.000000f + z, bark_color,
-    0.037500f + x, 0.050000f + y, -0.064952f + z, bark_color,
-
-    0.032500f + x, 0.120000f + y, -0.056292f + z, bark_color,
-    0.065000f + x, 0.120000f + y, 0.000000f + z, bark_color,
-    0.037500f + x, 0.050000f + y, -0.064952f + z, bark_color,
-
-
-    // top leaf
-    // 1
-    0.00000f + x, 0.40000f + y, 0.000000f + z, leaf_color,
-    0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
-    0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
-    0.032500f + x, 0.120000f + y, 0.056292f + z, leaf_color,
-    0.065000f + x, 0.120000f + y, 0.000000f + z, leaf_color,
-
-    0.065000f + x, 0.120000f + y, 0.000000f + z, leaf_color,
-    0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
-
-    // 2
-    0.00000f + x, 0.40000f + y, 0.000000f + z, leaf_color,
-    -0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
-    0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
-
-    -0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
-    -0.032500f + x, 0.120000f + y, 0.056292f + z, leaf_color,
-    0.032500f + x, 0.120000f + y, 0.056292f + z, leaf_color,
-
-    0.032500f + x, 0.120000f + y, 0.056292f + z, leaf_color,
-    0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
-    -0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
-
-    // 3
-    0.00000f + x, 0.40000f + y, 0.000000f + z, leaf_color,
-    -0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    -0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
-
-    -0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    -0.065000f + x, 0.120000f + y, 0.000000f + z, leaf_color,
-    -0.032500f + x, 0.120000f + y, 0.056292f + z, leaf_color,
-
-    -0.032500f + x, 0.120000f + y, 0.056292f + z, leaf_color,
-    -0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
-    -0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    // 4
-    0.00000f + x, 0.40000f + y, 0.000000f + z, leaf_color,
-    -0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
-    -0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-    -0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
-    -0.032500f + x, 0.120000f + y, -0.056292f + z, leaf_color,
-    -0.065000f + x, 0.120000f + y, 0.000000f + z, leaf_color,
-
-    -0.065000f + x, 0.120000f + y, 0.000000f + z, leaf_color,
-    -0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    -0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
-
-    // 5
-    0.00000f + x, 0.40000f + y, 0.00000f + z, leaf_color,
-    0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
-    -0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
-
-    0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
-    0.032500f + x, 0.120000f + y, -0.056292f + z, leaf_color,
-    -0.032500f + x, 0.120000f + y, -0.056292f + z, leaf_color,
-
-    -0.032500f + x, 0.120000f + y, -0.056292f + z, leaf_color,
-    -0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
-    0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
-
-
-    // 6
-    0.00000f + x, 0.40000f + y, 0.00000f + z, leaf_color,
-    0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
-
-    0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
-    0.065000f + x, 0.120000f + y, 0.000000f + z, leaf_color,
-    0.032500f + x, 0.120000f + y, -0.056292f + z, leaf_color,
-
-    0.032500f + x, 0.120000f + y, -0.056292f + z, leaf_color,
-    0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
-    0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
-
-};
-
-
 std::vector<float> generate_tree(const glm::vec3& origin, float scale = 1.0f) {
     std::vector<float> vertices;
 
@@ -1606,10 +1107,7 @@ std::vector<float> generate_tree(const glm::vec3& origin, float scale = 1.0f) {
     return vertices;
 }
 
-
 std::vector<float> final_vertices;
-
-
 
 float bounding_box[] = 
 {
@@ -1650,6 +1148,16 @@ float bounding_box[] =
     -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
 };
 
+float ground_data[] = {
+    10.00f, -1.00f, 10.00f, 1.0f, 1.0f, 1.0f,
+    10.00f, -1.00f, -10.00f, 1.0f, 1.0f, 1.0f,
+    -10.00f, -1.00f, -10.00f, 1.0f, 1.0f, 1.0f,
+
+    -10.00f, -1.00f, -10.00f, 1.0f, 1.0f, 1.0f,
+    -10.00f, -1.00f, 10.00f, 1.0f, 1.0f, 1.0f,
+    10.00f, -1.00f, 10.00f, 1.0f, 1.0f, 1.0f,
+};
+
 
 // define OpenGL object IDs to represent the vertex array and the shader program in the GPU
 GLuint vao;         // vertex array object (stores the render state for our vertex array)
@@ -1659,6 +1167,8 @@ GLuint bounding_box_vbo;
 GLuint bounding_box_vao;
 GLuint ico_sphere_vbo;
 GLuint ico_sphere_vao;
+GLuint terrain_vbo;
+GLuint terrain_vao;
 
 // called by the main function to do initial setup, such as uploading vertex
 // arrays, shader programs, etc.; returns true if successful, false otherwise
@@ -1671,7 +1181,8 @@ bool setup()
     glGenBuffers(1, &bounding_box_vbo);
     glGenVertexArrays(1, &ico_sphere_vao);
     glGenBuffers(1, &ico_sphere_vbo);
-    
+    glGenVertexArrays(1, &terrain_vao);
+    glGenBuffers(1, &terrain_vbo);
 
     // bind the newly-created VAO to make it the current one that OpenGL will apply state changes to
     glBindVertexArray(vao);
@@ -1715,7 +1226,16 @@ bool setup()
 
     glEnableVertexAttribArray(0);
 
+    glBindVertexArray(terrain_vao);
 
+    glBindBuffer(GL_ARRAY_BUFFER, terrain_vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(ground_data), ground_data, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) 0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) (3 * sizeof(float)));
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
 
     // important: if you have more vertex arrays to draw, make sure you separately define them
     // with unique VAO and VBO IDs, and follow the same process above to upload them to the GPU
@@ -1725,6 +1245,8 @@ bool setup()
     if (! barkTexture) return false;
     leafTexture = gdevLoadTexture("leaf_gray.jpg", GL_REPEAT, true, true);
     if (! leafTexture) return false;
+    groundTexture = gdevLoadTexture("grass_tex.jpg", GL_REPEAT, true, true);
+    if (! groundTexture) return false;
     
 
     // load our shader program
@@ -1746,7 +1268,8 @@ void render()
     // glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // black
     // glClearColor(0.05f, 0.05f, 0.05f, 1.0f); // very dark gray
     // glClearColor(0.02f, 0.02f, 0.08f, 1.0f); // dark blue
-    glClearColor(0.03f, 0.06f, 0.05f, 1.0f); // dark desaturated green
+    // glClearColor(0.03f, 0.06f, 0.05f, 1.0f); // dark desaturated green
+    glClearColor(0.53f, 0.81f, 0.92f, 1.0f); // sky blue
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // using our shader program...
@@ -1813,10 +1336,13 @@ void render()
     glBindTexture(GL_TEXTURE_2D, barkTexture);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, leafTexture);
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, groundTexture);
 
     // then connect each texture unit to a sampler2D in the fragment shader
     glUniform1i(glGetUniformLocation(shader,"barkTex"), 0);
     glUniform1i(glGetUniformLocation(shader,"leafTex"), 1);
+    glUniform1i(glGetUniformLocation(shader,"groundTex"), 2);
     
     
     // ... draw our triangles
@@ -1830,6 +1356,11 @@ void render()
     glUniform1f(glGetUniformLocation(shader, "is_border"), 1.0f);
     glBindVertexArray(bounding_box_vao);
     glDrawArrays(GL_LINES, 0, sizeof(bounding_box) / (6 * sizeof(float)));
+
+
+    glUniform1f(glGetUniformLocation(shader, "is_border"), 2.0f);
+    glBindVertexArray(terrain_vbo);
+    glDrawArrays(GL_TRIANGLES, 0, sizeof(ground_data) / (6 * sizeof(float)));
 
 }
 
@@ -1974,72 +1505,35 @@ std::map<glm::vec3, glm::vec3, decltype(cmp1)> point_to_normal(cmp1);
 // main function
 int main(int argc, char** argv)
 {
-
-    glm::vec2 start_bot(0.075f, 0.362132f);
-    glm::vec2 start_top(0.0506171f, 0.0506171f);
-    glm::vec2 small(-small_side, 0.0f);
-    glm::vec2 edge(-edge_side, 0.0f);
-    glm::vec2 width(-top_width, 0.0f);
-
-    for (int i = 0; i < (sizeof(vertices)/sizeof(float)/6.0f/3.0f); i++) {
-        int cur = i*6*3;
-
-        
-
-        glm::vec3 a = glm::vec3(vertices[cur+6]-vertices[cur+0], vertices[cur+7]-vertices[cur+1],vertices[cur+8]-vertices[cur+2]);
-        glm::vec3 b = glm::vec3(vertices[cur+12]-vertices[cur+0], vertices[cur+13]-vertices[cur+1],vertices[cur+14]-vertices[cur+2]);
-
-        glm::vec3 normal = calculate_normal(a, b);
-
-        glm::vec3 first = glm::vec3(vertices[cur+0], vertices[cur+1], vertices[cur+2]);
-        glm::vec3 second = glm::vec3(vertices[cur+6], vertices[cur+7], vertices[cur+8]);
-        glm::vec3 third = glm::vec3(vertices[cur+12], vertices[cur+13], vertices[cur+14]);
-
-        if (test.find(first) != test.end()) {
-            test[first].insert(normal);
-        } else {
-            test[first] = std::set<glm::vec3, cmp>();
-            test[first].insert(normal);
-        }
-    }
-
-    for (auto cur : test) {
-        glm::vec3 cur_vec = cur.first;
-        std::set<glm::vec3, cmp> cur_set = cur.second;
-
-        glm::vec3 current_normal = glm::vec3(0.0f);
-        
-        for (glm::vec3 cur_norm : cur_set) {
-            current_normal += cur_norm;
-        }
-
-        current_normal /= cur_set.size();
-        point_to_normal[cur_vec] = current_normal;
-    }
-    
     // ADD OBJECTS
     std::vector<float> objects; 
-    std::vector<float> tree1 = generate_tree({0.0f, 0.0f, 0.0f}, 0.75);
-    std::vector<float> tree2 = generate_tree({1.0f, 0.0f, 1.0f}, 0.5f);
+    // std::vector<float> tree1 = generate_tree({0.0f, 0.0f, 0.0f}, 0.75);
+    std::vector<float> tree2 = generate_tree({1.0f, 0.0f, 1.0f}, 0.4f);
 
-    objects.insert(objects.end(), tree1.begin(), tree1.end());
+    // objects.insert(objects.end(), tree1.begin(), tree1.end());
     objects.insert(objects.end(), tree2.begin(), tree2.end());
 
     // generate trees at random spots (keeps it between -1, 1)
-    int num_trees = 8;
-    int xz_range = 20;
-    // int y_range = 5;
-    // for (int i = 0; i < num_trees; i++) {
-    //     // float x = (rand() % (xz_range*2) - xz_range) / xz_range;
-    //     float x = float(rand() % xz_range*2 - xz_range)/float(xz_range);
-    //     float z = float(rand() % xz_range*2 - xz_range)/float(xz_range);
-    //     float s = float(rand() % xz_range+1)/float(xz_range); // 0.0 to 1.0 inclusive
+    // srand(time(0));
+    // srand(1747578212); // random generated seed
+    // srand(1747578678);
+    srand(1747578808);
+    // std::cout << "seed: " << time(0) << std::endl;
+    int num_trees = 24;
+    int xz_range = 20; // 0 to 20 divided by 20 // higher number, more precise floats
+    int y_range = 5;
+    int s_range = 10;
+    for (int i = 0; i < num_trees; i++) {
+        // float x = (rand() % (xz_range*2) - xz_range) / xz_range;
+        float x = float(rand() % xz_range*2 - xz_range)/float(xz_range)*2;
+        float z = float(rand() % xz_range*2 - xz_range)/float(xz_range)*2;
+        float s = float(rand() % s_range+1)/float(s_range*10) + 0.2f; // 0.2 to 0.3 inclusive
        
-    //     std::cout << "x:" << x << ", z:" << z << ", s:" << s << std::endl;
+        // std::cout << "x:" << x << ", z:" << z << ", s:" << s << std::endl;
        
-    //     std::vector<float> tree = generate_tree({x, 0.0f, z}, 0.5);
-    //     objects.insert(objects.end(), tree.begin(), tree.end());
-    // }
+        std::vector<float> tree = generate_tree({x, 0.0f, z}, s);
+        objects.insert(objects.end(), tree.begin(), tree.end());
+    }
 
 
     
@@ -2061,8 +1555,6 @@ int main(int argc, char** argv)
         
     }
 
-
-
     // adding vertices to vertex buffer
     // for (int i = 0; i < (sizeof(vertices)/sizeof(float)/6.0f/3.0f); i++) {
     //     int cur = i*6*3;
@@ -2081,23 +1573,6 @@ int main(int argc, char** argv)
 
     //     final_vertices.insert(final_vertices.end(), cur_triangle.begin(), cur_triangle.end());
 
-
-    //     // glm::vec3 first = glm::vec3(vertices[cur+0], vertices[cur+1], vertices[cur+2]);
-    //     // glm::vec3 second = glm::vec3(vertices[cur+6], vertices[cur+7], vertices[cur+8]);
-    //     // glm::vec3 third = glm::vec3(vertices[cur+12], vertices[cur+13], vertices[cur+14]);
-
-    //     // glm::vec3 normal1 = point_to_normal[first];
-    //     // glm::vec3 normal2 = point_to_normal[second];
-    //     // glm::vec3 normal3 = point_to_normal[third];
-
-    //     // std::vector<float> cur_triangle = {
-    //     //     vertices[cur+0], vertices[cur+1], vertices[cur+2], vertices[cur+3], vertices[cur+4], vertices[cur+5], normal1.x, normal1.y, normal1.z, 
-    //     //     vertices[cur+6], vertices[cur+7], vertices[cur+8], vertices[cur+9], vertices[cur+10], vertices[cur+11], normal2.x, normal2.y, normal2.z,
-    //     //     vertices[cur+12], vertices[cur+13], vertices[cur+14], vertices[cur+15], vertices[cur+16], vertices[cur+17], normal3.x, normal3.y, normal3.z,
-    //     // };
-
-    //     // final_vertices.insert(final_vertices.end(), cur_triangle.begin(), cur_triangle.end());
-        
     // }
 
 

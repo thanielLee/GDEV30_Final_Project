@@ -24,6 +24,7 @@ uniform float is_border;
 in vec2 shaderTexCoord;
 uniform sampler2D barkTex;
 uniform sampler2D leafTex;
+uniform sampler2D groundTex;
 uniform vec3 lightPosition;
 uniform vec3 lightColor;
 uniform int is_light;
@@ -35,6 +36,12 @@ void main()
 {
     float grayscale;
     float gray_strength = 0.7;
+
+    if (is_border > 1.0f) {
+        vec4 ground = texture(groundTex, shaderTexCoord);
+        fragmentColor = ground;
+        return;
+    }
 
     if (is_light == 1) {
         fragmentColor = vec4(lightColor, 1.0f);
