@@ -78,7 +78,7 @@ glm::vec3 staff_center = glm::vec3(0.0f, -0.8f, 0.0f);
 #define ratio
 
 #define tree_width 0.15
-#define bark_color 0.41f,0.29f,0.21f
+#define bark_color 0.41f, 0.29f, 0.21f
 #define leaf_color 0.51f, 0.61f, 0.41f 
 
 float icosphere[] = {
@@ -195,7 +195,6 @@ float vertices[] =
     0.000000f, -1.000000f, 0.000000f, bark_color,
 
     // no top face
-
     0.047500f, -0.500000f, 0.082272f, bark_color,
     0.060000f, -1.000000f, 0.103923f, bark_color,
     0.120000f, -1.000000f, 0.000000f, bark_color,
@@ -246,10 +245,7 @@ float vertices[] =
 
 
     // first leaf section
-        //length = 0.75
-        // height = 0.1
-        // y = -0.5
-        // pinch = 0.025
+
     // 1
     0.095000f, -0.250000f, 0.000000f, leaf_color,
     0.047500f, -0.250000f, 0.082272f, leaf_color,
@@ -353,64 +349,58 @@ float vertices[] =
     0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
     0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
 
-
     // second bark section
+    0.037500f, -0.150000f, 0.064952f, bark_color,
+    0.047500f, -0.250000f, 0.082272f, bark_color,
+    0.095000f, -0.250000f, 0.000000f, bark_color,
 
+    0.075000f, -0.150000f, 0.000000f, bark_color,
+    0.037500f, -0.150000f, 0.064952f, bark_color,
+    0.095000f, -0.250000f, 0.000000f, bark_color,
 
-// 0.075000f, -0.150000f, 0.000000f, bark_color,
-// 0.037500f, -0.150000f, -0.064952f, bark_color,
-// 0.000000f, -0.150000f, 0.000000f, bark_color,
+    -0.037500f, -0.150000f, 0.064952f, bark_color,
+    -0.047500f, -0.250000f, 0.082272f, bark_color,
+    0.047500f, -0.250000f, 0.082272f, bark_color,
 
-0.037500f, -0.150000f, 0.064952f, bark_color,
-0.047500f, -0.250000f, 0.082272f, bark_color,
-0.095000f, -0.250000f, 0.000000f, bark_color,
+    0.037500f, -0.150000f, 0.064952f, bark_color,
+    -0.037500f, -0.150000f, 0.064952f, bark_color,
+    0.047500f, -0.250000f, 0.082272f, bark_color,
 
-0.075000f, -0.150000f, 0.000000f, bark_color,
-0.037500f, -0.150000f, 0.064952f, bark_color,
-0.095000f, -0.250000f, 0.000000f, bark_color,
+    -0.075000f, -0.150000f, 0.000000f, bark_color,
+    -0.095000f, -0.250000f, 0.000000f, bark_color,
+    -0.047500f, -0.250000f, 0.082272f, bark_color,
 
--0.037500f, -0.150000f, 0.064952f, bark_color,
--0.047500f, -0.250000f, 0.082272f, bark_color,
-0.047500f, -0.250000f, 0.082272f, bark_color,
+    -0.037500f, -0.150000f, 0.064952f, bark_color,
+    -0.075000f, -0.150000f, 0.000000f, bark_color,
+    -0.047500f, -0.250000f, 0.082272f, bark_color,
 
-0.037500f, -0.150000f, 0.064952f, bark_color,
--0.037500f, -0.150000f, 0.064952f, bark_color,
-0.047500f, -0.250000f, 0.082272f, bark_color,
+    -0.037500f, -0.150000f, -0.064952f, bark_color,
+    -0.047500f, -0.250000f, -0.082272f, bark_color,
+    -0.095000f, -0.250000f, 0.000000f, bark_color,
 
--0.075000f, -0.150000f, 0.000000f, bark_color,
--0.095000f, -0.250000f, 0.000000f, bark_color,
--0.047500f, -0.250000f, 0.082272f, bark_color,
+    -0.075000f, -0.150000f, 0.000000f, bark_color,
+    -0.037500f, -0.150000f, -0.064952f, bark_color,
+    -0.095000f, -0.250000f, 0.000000f, bark_color,
 
--0.037500f, -0.150000f, 0.064952f, bark_color,
--0.075000f, -0.150000f, 0.000000f, bark_color,
--0.047500f, -0.250000f, 0.082272f, bark_color,
+    0.037500f, -0.150000f, -0.064952f, bark_color,
+    0.047500f, -0.250000f, -0.082272f, bark_color,
+    -0.047500f, -0.250000f, -0.082272f, bark_color,
 
--0.037500f, -0.150000f, -0.064952f, bark_color,
--0.047500f, -0.250000f, -0.082272f, bark_color,
--0.095000f, -0.250000f, 0.000000f, bark_color,
+    -0.037500f, -0.150000f, -0.064952f, bark_color,
+    0.037500f, -0.150000f, -0.064952f, bark_color,
+    -0.047500f, -0.250000f, -0.082272f, bark_color,
 
--0.075000f, -0.150000f, 0.000000f, bark_color,
--0.037500f, -0.150000f, -0.064952f, bark_color,
--0.095000f, -0.250000f, 0.000000f, bark_color,
+    0.075000f, -0.150000f, 0.000000f, bark_color,
+    0.095000f, -0.250000f, 0.000000f, bark_color,
+    0.047500f, -0.250000f, -0.082272f, bark_color,
 
-0.037500f, -0.150000f, -0.064952f, bark_color,
-0.047500f, -0.250000f, -0.082272f, bark_color,
--0.047500f, -0.250000f, -0.082272f, bark_color,
-
--0.037500f, -0.150000f, -0.064952f, bark_color,
-0.037500f, -0.150000f, -0.064952f, bark_color,
--0.047500f, -0.250000f, -0.082272f, bark_color,
-
-0.075000f, -0.150000f, 0.000000f, bark_color,
-0.095000f, -0.250000f, 0.000000f, bark_color,
-0.047500f, -0.250000f, -0.082272f, bark_color,
-
-0.037500f, -0.150000f, -0.064952f, bark_color,
-0.075000f, -0.150000f, 0.000000f, bark_color,
-0.047500f, -0.250000f, -0.082272f, bark_color,
+    0.037500f, -0.150000f, -0.064952f, bark_color,
+    0.075000f, -0.150000f, 0.000000f, bark_color,
+    0.047500f, -0.250000f, -0.082272f, bark_color,
 
 
     // second leaf section
+    // length = 0.5
     // 1
     0.075000f, 0.050000f, 0.000000f, leaf_color,
     0.037500f, 0.050000f, 0.064952f, leaf_color,
@@ -480,21 +470,21 @@ float vertices[] =
     -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
 
     // 5
--0.037500f, 0.050000f, -0.064952f, leaf_color,
-0.037500f, 0.050000f, -0.064952f, leaf_color,
-0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+    -0.037500f, 0.050000f, -0.064952f, leaf_color,
+    0.037500f, 0.050000f, -0.064952f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
 
--0.037500f, 0.050000f, -0.064952f, leaf_color,
-0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
--0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+    -0.037500f, 0.050000f, -0.064952f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
 
-0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-0.037500f, -0.150000f, -0.064952f, leaf_color,
--0.037500f, -0.150000f, -0.064952f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+    0.037500f, -0.150000f, -0.064952f, leaf_color,
+    -0.037500f, -0.150000f, -0.064952f, leaf_color,
 
--0.037500f, -0.150000f, -0.064952f, leaf_color,
--0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+    -0.037500f, -0.150000f, -0.064952f, leaf_color,
+    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
 
 
     // 6
@@ -515,9 +505,613 @@ float vertices[] =
     0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
 
 
+    // third bark section
+    0.032500f, 0.120000f, 0.056292f, bark_color,
+    0.037500f, 0.050000f, 0.064952f, bark_color,
+    0.075000f, 0.050000f, 0.000000f, bark_color,
+
+    0.065000f, 0.120000f, 0.000000f, bark_color,
+    0.032500f, 0.120000f, 0.056292f, bark_color,
+    0.075000f, 0.050000f, 0.000000f, bark_color,
+
+    -0.032500f, 0.120000f, 0.056292f, bark_color,
+    -0.037500f, 0.050000f, 0.064952f, bark_color,
+    0.037500f, 0.050000f, 0.064952f, bark_color,
+
+    0.032500f, 0.120000f, 0.056292f, bark_color,
+    -0.032500f, 0.120000f, 0.056292f, bark_color,
+    0.037500f, 0.050000f, 0.064952f, bark_color,
+
+    -0.065000f, 0.120000f, 0.000000f, bark_color,
+    -0.075000f, 0.050000f, 0.000000f, bark_color,
+    -0.037500f, 0.050000f, 0.064952f, bark_color,
+
+    -0.032500f, 0.120000f, 0.056292f, bark_color,
+    -0.065000f, 0.120000f, 0.000000f, bark_color,
+    -0.037500f, 0.050000f, 0.064952f, bark_color,
+
+    -0.032500f, 0.120000f, -0.056292f, bark_color,
+    -0.037500f, 0.050000f, -0.064952f, bark_color,
+    -0.075000f, 0.050000f, 0.000000f, bark_color,
+
+    -0.065000f, 0.120000f, 0.000000f, bark_color,
+    -0.032500f, 0.120000f, -0.056292f, bark_color,
+    -0.075000f, 0.050000f, 0.000000f, bark_color,
+
+    0.032500f, 0.120000f, -0.056292f, bark_color,
+    0.037500f, 0.050000f, -0.064952f, bark_color,
+    -0.037500f, 0.050000f, -0.064952f, bark_color,
+
+    -0.032500f, 0.120000f, -0.056292f, bark_color,
+    0.032500f, 0.120000f, -0.056292f, bark_color,
+    -0.037500f, 0.050000f, -0.064952f, bark_color,
+
+    0.065000f, 0.120000f, 0.000000f, bark_color,
+    0.075000f, 0.050000f, 0.000000f, bark_color,
+    0.037500f, 0.050000f, -0.064952f, bark_color,
+
+    0.032500f, 0.120000f, -0.056292f, bark_color,
+    0.065000f, 0.120000f, 0.000000f, bark_color,
+    0.037500f, 0.050000f, -0.064952f, bark_color,
+
+
+    // top leaf
+    // 1
+    0.00000f, 0.40000f, 0.000000f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+
+    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+    0.032500f, 0.120000f, 0.056292f, leaf_color,
+    0.065000f, 0.120000f, 0.000000f, leaf_color,
+
+    0.065000f, 0.120000f, 0.000000f, leaf_color,
+    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+
+    // 2
+    0.00000f, 0.40000f, 0.000000f,leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+
+    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+    -0.032500f, 0.120000f, 0.056292f, leaf_color,
+    0.032500f, 0.120000f, 0.056292f, leaf_color,
+
+    0.032500f, 0.120000f, 0.056292f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+
+    // 3
+    0.00000f, 0.40000f, 0.000000f, leaf_color,
+    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+
+    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+    -0.065000f, 0.120000f, 0.000000f, leaf_color,
+    -0.032500f, 0.120000f, 0.056292f, leaf_color,
+
+    -0.032500f, 0.120000f, 0.056292f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+
+    // 4
+    0.00000f, 0.40000f, 0.000000f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+
+    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+    -0.032500f, 0.120000f, -0.056292f, leaf_color,
+    -0.065000f, 0.120000f, 0.000000f, leaf_color,
+
+    -0.065000f, 0.120000f, 0.000000f, leaf_color,
+    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+
+    // 5
+    0.00000f, 0.40000f, 0.00000f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+
+    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+    0.032500f, 0.120000f, -0.056292f, leaf_color,
+    -0.032500f, 0.120000f, -0.056292f, leaf_color,
+
+    -0.032500f, 0.120000f, -0.056292f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+
+
+    // 6
+    0.00000f, 0.40000f, 0.00000f, leaf_color,
+    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+
+    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+    0.065000f, 0.120000f, 0.000000f, leaf_color,
+    0.032500f, 0.120000f, -0.056292f, leaf_color,
+
+    0.032500f, 0.120000f, -0.056292f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+
+
+};
+float x = 0;
+float y = 0;
+float z = 0;
+float tree_with_var[] {
+    // first bark section
+    // bottom face
+    0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+    0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
+    0.000000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+
+    0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
+    -0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
+    0.000000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+
+    -0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
+    -0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+    0.000000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+
+    -0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+    -0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
+    0.000000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+
+    -0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
+    0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
+    0.000000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+
+    0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
+    0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+    0.000000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+
+    // no top face
+    0.047500f + x, -0.500000f + y, 0.082272f + z, bark_color,
+    0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
+    0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+
+    0.095000f + x, -0.500000f + y, 0.000000f + z, bark_color,
+    0.047500f + x, -0.500000f + y, 0.082272f + z, bark_color,
+    0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+
+    -0.047500f + x, -0.500000f + y, 0.082272f + z, bark_color,
+    -0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
+    0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
+
+    0.047500f + x, -0.500000f + y, 0.082272f + z, bark_color,
+    -0.047500f + x, -0.500000f + y, 0.082272f + z, bark_color,
+    0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
+
+    -0.095000f + x, -0.500000f + y, 0.000000f + z, bark_color,
+    -0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+    -0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
+
+    -0.047500f + x, -0.500000f + y, 0.082272f + z, bark_color,
+    -0.095000f + x, -0.500000f + y, 0.000000f + z, bark_color,
+    -0.060000f + x, -1.000000f + y, 0.103923f + z, bark_color,
+
+    -0.047500f + x, -0.500000f + y, -0.082272f + z, bark_color,
+    -0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
+    -0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+
+    -0.095000f + x, -0.500000f + y, 0.000000f + z, bark_color,
+    -0.047500f + x, -0.500000f + y, -0.082272f + z, bark_color,
+    -0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+
+    0.047500f + x, -0.500000f + y, -0.082272f + z, bark_color,
+    0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
+    -0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
+
+    -0.047500f + x, -0.500000f + y, -0.082272f + z, bark_color,
+    0.047500f + x, -0.500000f + y, -0.082272f + z, bark_color,
+    -0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
+
+    0.095000f + x, -0.500000f + y, 0.000000f + z, bark_color,
+    0.120000f + x, -1.000000f + y, 0.000000f + z, bark_color,
+    0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
+
+    0.047500f + x, -0.500000f + y, -0.082272f + z, bark_color,
+    0.095000f + x, -0.500000f + y, 0.000000f + z, bark_color,
+    0.060000f + x, -1.000000f + y, -0.103923f + z, bark_color,
+
+
+    // first leaf section
+
+    // 1
+    0.095000f + x, -0.250000f + y, 0.000000f + z, leaf_color,
+    0.047500f + x, -0.250000f + y, 0.082272f + z, leaf_color,
+    0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
+
+    0.095000f + x, -0.250000f + y, 0.000000f + z, leaf_color,
+    0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
+    0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
+    0.047500f + x, -0.500000f + y, 0.082272f + z, leaf_color,
+    0.095000f + x, -0.500000f + y, 0.000000f + z, leaf_color,
+
+    0.095000f + x, -0.500000f + y, 0.000000f + z, leaf_color,
+    0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
+
+    // 2
+    0.047500f + x, -0.250000f + y, 0.082272f + z, leaf_color,
+    -0.047500f + x, -0.250000f + y, 0.082272f + z, leaf_color,
+    -0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
+
+    0.047500f + x, -0.250000f + y, 0.082272f + z, leaf_color,
+    -0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
+    0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
+
+    -0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
+    -0.047500f + x, -0.500000f + y, 0.082272f + z, leaf_color,
+    0.047500f + x, -0.500000f + y, 0.082272f + z, leaf_color,
+
+    0.047500f + x, -0.500000f + y, 0.082272f + z, leaf_color,
+    0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
+    -0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
+
+    // 3
+    -0.047500f + x, -0.250000f + y, 0.082272f + z, leaf_color,
+    -0.095000f + x, -0.250000f + y, 0.000000f + z, leaf_color,
+    -0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    -0.047500f + x, -0.250000f + y, 0.082272f + z, leaf_color,
+    -0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    -0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
+
+    -0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    -0.095000f + x, -0.500000f + y, 0.000000f + z, leaf_color,
+    -0.047500f + x, -0.500000f + y, 0.082272f + z, leaf_color,
+
+    -0.047500f + x, -0.500000f + y, 0.082272f + z, leaf_color,
+    -0.375000f + x, -0.500000f+leaf_dip + y, 0.649519f + z, leaf_color,
+    -0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    // 4
+    -0.095000f + x, -0.250000f + y, 0.000000f + z, leaf_color,
+    -0.047500f + x, -0.250000f + y, -0.082272f + z, leaf_color,
+    -0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
+
+    -0.095000f + x, -0.250000f + y, 0.000000f + z, leaf_color,
+    -0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
+    -0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    -0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
+    -0.047500f + x, -0.500000f + y, -0.082272f + z, leaf_color,
+    -0.095000f + x, -0.500000f + y, 0.000000f + z, leaf_color,
+
+    -0.095000f + x, -0.500000f + y, 0.000000f + z, leaf_color,
+    -0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    -0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
+
+    // 5
+    -0.047500f + x, -0.250000f + y, -0.082272f + z, leaf_color,
+    0.047500f + x, -0.250000f + y, -0.082272f + z, leaf_color,
+    0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
+
+    -0.047500f + x, -0.250000f + y, -0.082272f + z, leaf_color,
+    0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
+    -0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
+
+    0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
+    0.047500f + x, -0.500000f + y, -0.082272f + z, leaf_color,
+    -0.047500f + x, -0.500000f + y, -0.082272f + z, leaf_color,
+
+    -0.047500f + x, -0.500000f + y, -0.082272f + z, leaf_color,
+    -0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
+    0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
+
+
+    // 6
+    0.047500f + x, -0.250000f + y, -0.082272f + z, leaf_color,
+    0.095000f + x, -0.250000f + y, 0.000000f + z, leaf_color,
+    0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    0.047500f + x, -0.250000f + y, -0.082272f + z, leaf_color,
+    0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
+
+    0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    0.095000f + x, -0.500000f + y, 0.000000f + z, leaf_color,
+    0.047500f + x, -0.500000f + y, -0.082272f + z, leaf_color,
+
+    0.047500f + x, -0.500000f + y, -0.082272f + z, leaf_color,
+    0.375000f + x, -0.500000f+leaf_dip + y, -0.649519f + z, leaf_color,
+    0.750000f + x, -0.500000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    // second bark section
+    0.037500f + x, -0.150000f + y, 0.064952f + z, bark_color,
+    0.047500f + x, -0.250000f + y, 0.082272f + z, bark_color,
+    0.095000f + x, -0.250000f + y, 0.000000f + z, bark_color,
+
+    0.075000f + x, -0.150000f + y, 0.000000f + z, bark_color,
+    0.037500f + x, -0.150000f + y, 0.064952f + z, bark_color,
+    0.095000f + x, -0.250000f + y, 0.000000f + z, bark_color,
+
+    -0.037500f + x, -0.150000f + y, 0.064952f + z, bark_color,
+    -0.047500f + x, -0.250000f + y, 0.082272f + z, bark_color,
+    0.047500f + x, -0.250000f + y, 0.082272f + z, bark_color,
+
+    0.037500f + x, -0.150000f + y, 0.064952f + z, bark_color,
+    -0.037500f + x, -0.150000f + y, 0.064952f + z, bark_color,
+    0.047500f + x, -0.250000f + y, 0.082272f + z, bark_color,
+
+    -0.075000f + x, -0.150000f + y, 0.000000f + z, bark_color,
+    -0.095000f + x, -0.250000f + y, 0.000000f + z, bark_color,
+    -0.047500f + x, -0.250000f + y, 0.082272f + z, bark_color,
+
+    -0.037500f + x, -0.150000f + y, 0.064952f + z, bark_color,
+    -0.075000f + x, -0.150000f + y, 0.000000f + z, bark_color,
+    -0.047500f + x, -0.250000f + y, 0.082272f + z, bark_color,
+
+    -0.037500f + x, -0.150000f + y, -0.064952f + z, bark_color,
+    -0.047500f + x, -0.250000f + y, -0.082272f + z, bark_color,
+    -0.095000f + x, -0.250000f + y, 0.000000f + z, bark_color,
+
+    -0.075000f + x, -0.150000f + y, 0.000000f + z, bark_color,
+    -0.037500f + x, -0.150000f + y, -0.064952f + z, bark_color,
+    -0.095000f + x, -0.250000f + y, 0.000000f + z, bark_color,
+
+    0.037500f + x, -0.150000f + y, -0.064952f + z, bark_color,
+    0.047500f + x, -0.250000f + y, -0.082272f + z, bark_color,
+    -0.047500f + x, -0.250000f + y, -0.082272f + z, bark_color,
+
+    -0.037500f + x, -0.150000f + y, -0.064952f + z, bark_color,
+    0.037500f + x, -0.150000f + y, -0.064952f + z, bark_color,
+    -0.047500f + x, -0.250000f + y, -0.082272f + z, bark_color,
+
+    0.075000f + x, -0.150000f + y, 0.000000f + z, bark_color,
+    0.095000f + x, -0.250000f + y, 0.000000f + z, bark_color,
+    0.047500f + x, -0.250000f + y, -0.082272f + z, bark_color,
+
+    0.037500f + x, -0.150000f + y, -0.064952f + z, bark_color,
+    0.075000f + x, -0.150000f + y, 0.000000f + z, bark_color,
+    0.047500f + x, -0.250000f + y, -0.082272f + z, bark_color,
+
+
+    // second leaf section
+    // length = 0.5
+    // 1
+    0.075000f + x, 0.050000f + y, 0.000000f + z, leaf_color,
+    0.037500f + x, 0.050000f + y, 0.064952f + z, leaf_color,
+    0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
+
+    0.075000f + x, 0.050000f + y, 0.000000f + z, leaf_color,
+    0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
+    0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
+    0.037500f + x, -0.150000f + y, 0.064952f + z, leaf_color,
+    0.075000f + x, -0.150000f + y, 0.000000f + z, leaf_color,
+
+    0.075000f + x, -0.150000f + y, 0.000000f + z, leaf_color,
+    0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
+
+    // 2
+    0.037500f + x, 0.050000f + y, 0.064952f + z, leaf_color,
+    -0.037500f + x, 0.050000f + y, 0.064952f + z, leaf_color,
+    -0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
+
+    0.037500f + x, 0.050000f + y, 0.064952f + z, leaf_color,
+    -0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
+    0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
+
+    -0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
+    -0.037500f + x, -0.150000f + y, 0.064952f + z, leaf_color,
+    0.037500f + x, -0.150000f + y, 0.064952f + z, leaf_color,
+
+    0.037500f + x, -0.150000f + y, 0.064952f + z, leaf_color,
+    0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
+    -0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
+
+    // 3
+    -0.037500f + x, 0.050000f + y, 0.064952f + z, leaf_color,
+    -0.075000f + x, 0.050000f + y, 0.000000f + z, leaf_color,
+    -0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    -0.037500f + x, 0.050000f + y, 0.064952f + z, leaf_color,
+    -0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    -0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
+
+    -0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    -0.075000f + x, -0.150000f + y, 0.000000f + z, leaf_color,
+    -0.037500f + x, -0.150000f + y, 0.064952f + z, leaf_color,
+
+    -0.037500f + x, -0.150000f + y, 0.064952f + z, leaf_color,
+    -0.250000f + x, -0.150000f+leaf_dip + y, 0.433013f + z, leaf_color,
+    -0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    //4
+    -0.075000f + x, 0.050000f + y, 0.000000f + z, leaf_color,
+    -0.037500f + x, 0.050000f + y, -0.064952f + z, leaf_color,
+    -0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
+
+    -0.075000f + x, 0.050000f + y, 0.000000f + z, leaf_color,
+    -0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
+    -0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    -0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
+    -0.037500f + x, -0.150000f + y, -0.064952f + z, leaf_color,
+    -0.075000f + x, -0.150000f + y, -0.000000f + z, leaf_color,
+
+    -0.075000f + x, -0.150000f + y, -0.000000f + z, leaf_color,
+    -0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    -0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
+
+    // 5
+    -0.037500f + x, 0.050000f + y, -0.064952f + z, leaf_color,
+    0.037500f + x, 0.050000f + y, -0.064952f + z, leaf_color,
+    0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
+
+    -0.037500f + x, 0.050000f + y, -0.064952f + z, leaf_color,
+    0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
+    -0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
+
+    0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
+    0.037500f + x, -0.150000f + y, -0.064952f + z, leaf_color,
+    -0.037500f + x, -0.150000f + y, -0.064952f + z, leaf_color,
+
+    -0.037500f + x, -0.150000f + y, -0.064952f + z, leaf_color,
+    -0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
+    0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
+
+
+    // 6
+    0.037500f + x, 0.050000f + y, -0.064952f + z, leaf_color,
+    0.075000f + x, 0.050000f + y, 0.000000f + z, leaf_color,
+    0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    0.037500f + x, 0.050000f + y, -0.064952f + z, leaf_color,
+    0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
+
+    0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    0.075000f + x, -0.150000f + y, 0.000000f + z, leaf_color,
+    0.037500f + x, -0.150000f + y, -0.064952f + z, leaf_color,
+
+    0.037500f + x, -0.150000f + y, -0.064952f + z, leaf_color,
+    0.250000f + x, -0.150000f+leaf_dip + y, -0.433013f + z, leaf_color,
+    0.500000f + x, -0.150000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+
+    // third bark section
+    0.032500f + x, 0.120000f + y, 0.056292f + z, bark_color,
+    0.037500f + x, 0.050000f + y, 0.064952f + z, bark_color,
+    0.075000f + x, 0.050000f + y, 0.000000f + z, bark_color,
+
+    0.065000f + x, 0.120000f + y, 0.000000f + z, bark_color,
+    0.032500f + x, 0.120000f + y, 0.056292f + z, bark_color,
+    0.075000f + x, 0.050000f + y, 0.000000f + z, bark_color,
+
+    -0.032500f + x, 0.120000f + y, 0.056292f + z, bark_color,
+    -0.037500f + x, 0.050000f + y, 0.064952f + z, bark_color,
+    0.037500f + x, 0.050000f + y, 0.064952f + z, bark_color,
+
+    0.032500f + x, 0.120000f + y, 0.056292f + z, bark_color,
+    -0.032500f + x, 0.120000f + y, 0.056292f + z, bark_color,
+    0.037500f + x, 0.050000f + y, 0.064952f + z, bark_color,
+
+    -0.065000f + x, 0.120000f + y, 0.000000f + z, bark_color,
+    -0.075000f + x, 0.050000f + y, 0.000000f + z, bark_color,
+    -0.037500f + x, 0.050000f + y, 0.064952f + z, bark_color,
+
+    -0.032500f + x, 0.120000f + y, 0.056292f + z, bark_color,
+    -0.065000f + x, 0.120000f + y, 0.000000f + z, bark_color,
+    -0.037500f + x, 0.050000f + y, 0.064952f + z, bark_color,
+
+    -0.032500f + x, 0.120000f + y, -0.056292f + z, bark_color,
+    -0.037500f + x, 0.050000f + y, -0.064952f + z, bark_color,
+    -0.075000f + x, 0.050000f + y, 0.000000f + z, bark_color,
+
+    -0.065000f + x, 0.120000f + y, 0.000000f + z, bark_color,
+    -0.032500f + x, 0.120000f + y, -0.056292f + z, bark_color,
+    -0.075000f + x, 0.050000f + y, 0.000000f + z, bark_color,
+
+    0.032500f + x, 0.120000f + y, -0.056292f + z, bark_color,
+    0.037500f + x, 0.050000f + y, -0.064952f + z, bark_color,
+    -0.037500f + x, 0.050000f + y, -0.064952f + z, bark_color,
+
+    -0.032500f + x, 0.120000f + y, -0.056292f + z, bark_color,
+    0.032500f + x, 0.120000f + y, -0.056292f + z, bark_color,
+    -0.037500f + x, 0.050000f + y, -0.064952f + z, bark_color,
+
+    0.065000f + x, 0.120000f + y, 0.000000f + z, bark_color,
+    0.075000f + x, 0.050000f + y, 0.000000f + z, bark_color,
+    0.037500f + x, 0.050000f + y, -0.064952f + z, bark_color,
+
+    0.032500f + x, 0.120000f + y, -0.056292f + z, bark_color,
+    0.065000f + x, 0.120000f + y, 0.000000f + z, bark_color,
+    0.037500f + x, 0.050000f + y, -0.064952f + z, bark_color,
+
+
+    // top leaf
+    // 1
+    0.00000f + x, 0.40000f + y, 0.000000f + z, leaf_color,
+    0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
+    0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
+    0.032500f + x, 0.120000f + y, 0.056292f + z, leaf_color,
+    0.065000f + x, 0.120000f + y, 0.000000f + z, leaf_color,
+
+    0.065000f + x, 0.120000f + y, 0.000000f + z, leaf_color,
+    0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
+
+    // 2
+    0.00000f + x, 0.40000f + y, 0.000000f + z, leaf_color,
+    -0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
+    0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
+
+    -0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
+    -0.032500f + x, 0.120000f + y, 0.056292f + z, leaf_color,
+    0.032500f + x, 0.120000f + y, 0.056292f + z, leaf_color,
+
+    0.032500f + x, 0.120000f + y, 0.056292f + z, leaf_color,
+    0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
+    -0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
+
+    // 3
+    0.00000f + x, 0.40000f + y, 0.000000f + z, leaf_color,
+    -0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    -0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
+
+    -0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    -0.065000f + x, 0.120000f + y, 0.000000f + z, leaf_color,
+    -0.032500f + x, 0.120000f + y, 0.056292f + z, leaf_color,
+
+    -0.032500f + x, 0.120000f + y, 0.056292f + z, leaf_color,
+    -0.150000f + x, 0.120000f+leaf_dip + y, 0.259808f + z, leaf_color,
+    -0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    // 4
+    0.00000f + x, 0.40000f + y, 0.000000f + z, leaf_color,
+    -0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
+    -0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
+    -0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
+    -0.032500f + x, 0.120000f + y, -0.056292f + z, leaf_color,
+    -0.065000f + x, 0.120000f + y, 0.000000f + z, leaf_color,
+
+    -0.065000f + x, 0.120000f + y, 0.000000f + z, leaf_color,
+    -0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    -0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
+
+    // 5
+    0.00000f + x, 0.40000f + y, 0.00000f + z, leaf_color,
+    0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
+    -0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
+
+    0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
+    0.032500f + x, 0.120000f + y, -0.056292f + z, leaf_color,
+    -0.032500f + x, 0.120000f + y, -0.056292f + z, leaf_color,
+
+    -0.032500f + x, 0.120000f + y, -0.056292f + z, leaf_color,
+    -0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
+    0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
+
+
+    // 6
+    0.00000f + x, 0.40000f + y, 0.00000f + z, leaf_color,
+    0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
+
+    0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
+    0.065000f + x, 0.120000f + y, 0.000000f + z, leaf_color,
+    0.032500f + x, 0.120000f + y, -0.056292f + z, leaf_color,
+
+    0.032500f + x, 0.120000f + y, -0.056292f + z, leaf_color,
+    0.150000f + x, 0.120000f+leaf_dip + y, -0.259808f + z, leaf_color,
+    0.300000f + x, 0.120000f+leaf_dip + y, 0.000000f + z, leaf_color,
+
 };
 
 std::vector<float> final_vertices;
+
 
 
 float bounding_box[] = 
@@ -558,6 +1152,7 @@ float bounding_box[] =
     1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
     -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
 };
+
 
 // define OpenGL object IDs to represent the vertex array and the shader program in the GPU
 GLuint vao;         // vertex array object (stores the render state for our vertex array)
@@ -659,7 +1254,7 @@ void render()
 
     // using our shader program...
     glUseProgram(shader);
-    // glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST); // enable OpenGL's hidden surface removal
     glm::mat4 projview;
     glm::mat4 view = glm::mat4(1.0f);
@@ -690,8 +1285,6 @@ void render()
     glUniform3f(glGetUniformLocation(shader, "lightColor"), lightBrightness, lightBrightness, lightBrightness);
     glUniform1f(glGetUniformLocation(shader, "s"), specular);
 
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "eye"),
-    //                     1, GL_FALSE, glm::value_ptr());
 
     glUniform3f(glGetUniformLocation(shader, "eye"), cameraPos.x, cameraPos.y, cameraPos.z);
 
@@ -735,117 +1328,11 @@ void render()
     glDrawArrays(GL_TRIANGLES, 0, (final_vertices.size() * sizeof(float)) / (9 * sizeof(float)));
 
 
-    // matrix = matrix * glm::inverse(model);
-    // model = prev_model;
-    // model = glm::rotate(model, glm::radians(t * rot_speed * -1.0f), glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)));
-    // // matrix = matrix * model;
-    // normalM = glm::transpose(glm::inverse(model));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "projview"),
-    // 1, GL_FALSE, glm::value_ptr(projview));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "model"),
-    //     1, GL_FALSE, glm::value_ptr(model));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "normalM"),
-    //     1, GL_FALSE, glm::value_ptr(normalM));  
 
 
     glUniform1f(glGetUniformLocation(shader, "is_border"), 1.0f);
     glBindVertexArray(bounding_box_vao);
     glDrawArrays(GL_LINES, 0, sizeof(bounding_box) / (6 * sizeof(float)));
-
-    // // matrix = matrix * glm::inverse(model);
-    // model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
-    // model = glm::rotate(model, glm::radians(t * rot_speed), glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
-    // prev_model = model;
-    // model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f) + glm::vec3(0.0f, 1.0f, 0.0f) * clamp_t);
-    // // matrix = matrix * model;
-
-    // normalM = glm::transpose(glm::inverse(model));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "projview"),
-    // 1, GL_FALSE, glm::value_ptr(projview));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "model"),
-    //     1, GL_FALSE, glm::value_ptr(model));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "normalM"),
-    //     1, GL_FALSE, glm::value_ptr(normalM));  
-
-    // glBindVertexArray(vao);
-    // glUniform1f(glGetUniformLocation(shader, "is_border"), 0);
-    // glDrawArrays(GL_TRIANGLES, 0, (final_vertices.size() * sizeof(float)) / (9 * sizeof(float)));
-
-    
-    // // matrix = matrix * glm::inverse(model);
-    // model = prev_model;
-    // model = glm::rotate(model, glm::radians(t * rot_speed * -1.0f), glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
-    // // matrix = matrix * model;
-    // normalM = glm::transpose(glm::inverse(model));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "projview"),
-    // 1, GL_FALSE, glm::value_ptr(projview));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "model"),
-    //     1, GL_FALSE, glm::value_ptr(model));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "normalM"),
-    //     1, GL_FALSE, glm::value_ptr(normalM));  
-
-    // glUniform1f(glGetUniformLocation(shader, "is_border"), 1.0f);
-    // glBindVertexArray(bounding_box_vao);
-    // glDrawArrays(GL_LINES, 0, sizeof(bounding_box) / (6 * sizeof(float)));
-
-    // // matrix = matrix * glm::inverse(model);
-    // model = glm::translate(model, glm::vec3(-4.0f, 0.0f, 0.0f));
-    // model = glm::rotate(model, glm::radians(t * rot_speed), glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)));
-    // prev_model = model;
-    // model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f) + glm::vec3(0.0f, 0.0f, 3.0f) * clamp_t);
-    // // matrix = matrix * model;
-    // normalM = glm::transpose(glm::inverse(model));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "projview"),
-    // 1, GL_FALSE, glm::value_ptr(projview));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "model"),
-    //     1, GL_FALSE, glm::value_ptr(model));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "normalM"),
-    //     1, GL_FALSE, glm::value_ptr(normalM));  
-
-    // glBindVertexArray(vao);
-    // glUniform1f(glGetUniformLocation(shader, "is_border"), 0.0f);
-    // glDrawArrays(GL_TRIANGLES, 0, (final_vertices.size() * sizeof(float)) / (9 * sizeof(float)));
-
-    // // matrix = matrix * glm::inverse(model);
-    // model = prev_model;
-    // model = glm::rotate(model, glm::radians(t * rot_speed * -1.0f), glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)));
-    // // matrix = matrix * model;
-    // normalM = glm::transpose(glm::inverse(model));
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "projview"),
-    // 1, GL_FALSE, glm::value_ptr(projview));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "model"),
-    //     1, GL_FALSE, glm::value_ptr(model));
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "normalM"),
-    //     1, GL_FALSE, glm::value_ptr(normalM));  
-    
-    // glUniform1f(glGetUniformLocation(shader, "is_border"), 1.0f);
-    // glBindVertexArray(bounding_box_vao);
-    // glDrawArrays(GL_LINES, 0, sizeof(bounding_box) / (6 * sizeof(float)));
-
-
-    // glBindVertexArray(ico_sphere_vao);
-    // model = glm::mat4(1.0f);
-    // model = glm::translate(model, lightPosition);
-
-    // glUniform1i(glGetUniformLocation(shader, "is_light"), 1);
-
-    // glUniformMatrix4fv(glGetUniformLocation(shader, "model"),
-    //     1, GL_FALSE, glm::value_ptr(model));
-    // glDrawArrays(GL_TRIANGLES, 0, (sizeof(icosphere) / (3 * sizeof(float))));
 
 }
 
