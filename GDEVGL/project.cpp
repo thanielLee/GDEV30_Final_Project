@@ -165,7 +165,8 @@ float icosphere[] = {
 };
 
 float leaf_dip = -0.05f;
-float leaf_h = 0.25;
+
+
 float vertices[] = 
 {
     // first bark section
@@ -637,6 +638,478 @@ float vertices[] =
 
 
 };
+
+const std::vector<float> tree_data ={
+    // position (x, y, z) color (r, g, b)
+
+    // first bark section
+    // bottom face
+    0.120000f, -1.000000f, 0.000000f, bark_color,
+    0.060000f, -1.000000f, 0.103923f, bark_color,
+    0.000000f, -1.000000f, 0.000000f, bark_color,
+
+    0.060000f, -1.000000f, 0.103923f, bark_color,
+    -0.060000f, -1.000000f, 0.103923f, bark_color,
+    0.000000f, -1.000000f, 0.000000f, bark_color,
+
+    -0.060000f, -1.000000f, 0.103923f, bark_color,
+    -0.120000f, -1.000000f, 0.000000f, bark_color,
+    0.000000f, -1.000000f, 0.000000f, bark_color,
+
+    -0.120000f, -1.000000f, 0.000000f, bark_color,
+    -0.060000f, -1.000000f, -0.103923f, bark_color,
+    0.000000f, -1.000000f, 0.000000f, bark_color,
+
+    -0.060000f, -1.000000f, -0.103923f, bark_color,
+    0.060000f, -1.000000f, -0.103923f, bark_color,
+    0.000000f, -1.000000f, 0.000000f, bark_color,
+
+    0.060000f, -1.000000f, -0.103923f, bark_color,
+    0.120000f, -1.000000f, 0.000000f, bark_color,
+    0.000000f, -1.000000f, 0.000000f, bark_color,
+
+    // no top face
+    0.047500f, -0.500000f, 0.082272f, bark_color,
+    0.060000f, -1.000000f, 0.103923f, bark_color,
+    0.120000f, -1.000000f, 0.000000f, bark_color,
+
+    0.095000f, -0.500000f, 0.000000f, bark_color,
+    0.047500f, -0.500000f, 0.082272f, bark_color,
+    0.120000f, -1.000000f, 0.000000f, bark_color,
+
+    -0.047500f, -0.500000f, 0.082272f, bark_color,
+    -0.060000f, -1.000000f, 0.103923f, bark_color,
+    0.060000f, -1.000000f, 0.103923f, bark_color,
+
+    0.047500f, -0.500000f, 0.082272f, bark_color,
+    -0.047500f, -0.500000f, 0.082272f, bark_color,
+    0.060000f, -1.000000f, 0.103923f, bark_color,
+
+    -0.095000f, -0.500000f, 0.000000f, bark_color,
+    -0.120000f, -1.000000f, 0.000000f, bark_color,
+    -0.060000f, -1.000000f, 0.103923f, bark_color,
+
+    -0.047500f, -0.500000f, 0.082272f, bark_color,
+    -0.095000f, -0.500000f, 0.000000f, bark_color,
+    -0.060000f, -1.000000f, 0.103923f, bark_color,
+
+    -0.047500f, -0.500000f, -0.082272f, bark_color,
+    -0.060000f, -1.000000f, -0.103923f, bark_color,
+    -0.120000f, -1.000000f, 0.000000f, bark_color,
+
+    -0.095000f, -0.500000f, 0.000000f, bark_color,
+    -0.047500f, -0.500000f, -0.082272f, bark_color,
+    -0.120000f, -1.000000f, 0.000000f, bark_color,
+
+    0.047500f, -0.500000f, -0.082272f, bark_color,
+    0.060000f, -1.000000f, -0.103923f, bark_color,
+    -0.060000f, -1.000000f, -0.103923f, bark_color,
+
+    -0.047500f, -0.500000f, -0.082272f, bark_color,
+    0.047500f, -0.500000f, -0.082272f, bark_color,
+    -0.060000f, -1.000000f, -0.103923f, bark_color,
+
+    0.095000f, -0.500000f, 0.000000f, bark_color,
+    0.120000f, -1.000000f, 0.000000f, bark_color,
+    0.060000f, -1.000000f, -0.103923f, bark_color,
+
+    0.047500f, -0.500000f, -0.082272f, bark_color,
+    0.095000f, -0.500000f, 0.000000f, bark_color,
+    0.060000f, -1.000000f, -0.103923f, bark_color,
+
+
+    // first leaf section
+
+    // 1
+    0.095000f, -0.250000f, 0.000000f, leaf_color,
+    0.047500f, -0.250000f, 0.082272f, leaf_color,
+    0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
+
+    0.095000f, -0.250000f, 0.000000f, leaf_color,
+    0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
+    0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
+
+    0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
+    0.047500f, -0.500000f, 0.082272f, leaf_color,
+    0.095000f, -0.500000f, 0.000000f, leaf_color,
+
+    0.095000f, -0.500000f, 0.000000f, leaf_color,
+    0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
+    0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
+
+    // 2
+    0.047500f, -0.250000f, 0.082272f, leaf_color,
+    -0.047500f, -0.250000f, 0.082272f, leaf_color,
+    -0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
+
+    0.047500f, -0.250000f, 0.082272f, leaf_color,
+    -0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
+    0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
+
+    -0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
+    -0.047500f, -0.500000f, 0.082272f, leaf_color,
+    0.047500f, -0.500000f, 0.082272f, leaf_color,
+
+    0.047500f, -0.500000f, 0.082272f, leaf_color,
+    0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
+    -0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
+
+    // 3
+    -0.047500f, -0.250000f, 0.082272f, leaf_color,
+    -0.095000f, -0.250000f, 0.000000f, leaf_color,
+    -0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
+
+    -0.047500f, -0.250000f, 0.082272f, leaf_color,
+    -0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
+    -0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
+
+    -0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
+    -0.095000f, -0.500000f, 0.000000f, leaf_color,
+    -0.047500f, -0.500000f, 0.082272f, leaf_color,
+
+    -0.047500f, -0.500000f, 0.082272f, leaf_color,
+    -0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
+    -0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
+
+    // 4
+    -0.095000f, -0.250000f, 0.000000f, leaf_color,
+    -0.047500f, -0.250000f, -0.082272f, leaf_color,
+    -0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
+
+    -0.095000f, -0.250000f, 0.000000f, leaf_color,
+    -0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
+    -0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
+
+    -0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
+    -0.047500f, -0.500000f, -0.082272f, leaf_color,
+    -0.095000f, -0.500000f, 0.000000f, leaf_color,
+
+    -0.095000f, -0.500000f, 0.000000f, leaf_color,
+    -0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
+    -0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
+
+    // 5
+    -0.047500f, -0.250000f, -0.082272f, leaf_color,
+    0.047500f, -0.250000f, -0.082272f, leaf_color,
+    0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
+
+    -0.047500f, -0.250000f, -0.082272f, leaf_color,
+    0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
+    -0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
+
+    0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
+    0.047500f, -0.500000f, -0.082272f, leaf_color,
+    -0.047500f, -0.500000f, -0.082272f, leaf_color,
+
+    -0.047500f, -0.500000f, -0.082272f, leaf_color,
+    -0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
+    0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
+
+
+    // 6
+    0.047500f, -0.250000f, -0.082272f, leaf_color,
+    0.095000f, -0.250000f, 0.000000f, leaf_color,
+    0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
+
+    0.047500f, -0.250000f, -0.082272f, leaf_color,
+    0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
+    0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
+
+    0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
+    0.095000f, -0.500000f, 0.000000f, leaf_color,
+    0.047500f, -0.500000f, -0.082272f, leaf_color,
+
+    0.047500f, -0.500000f, -0.082272f, leaf_color,
+    0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
+    0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
+
+    // second bark section
+    0.037500f, -0.150000f, 0.064952f, bark_color,
+    0.047500f, -0.250000f, 0.082272f, bark_color,
+    0.095000f, -0.250000f, 0.000000f, bark_color,
+
+    0.075000f, -0.150000f, 0.000000f, bark_color,
+    0.037500f, -0.150000f, 0.064952f, bark_color,
+    0.095000f, -0.250000f, 0.000000f, bark_color,
+
+    -0.037500f, -0.150000f, 0.064952f, bark_color,
+    -0.047500f, -0.250000f, 0.082272f, bark_color,
+    0.047500f, -0.250000f, 0.082272f, bark_color,
+
+    0.037500f, -0.150000f, 0.064952f, bark_color,
+    -0.037500f, -0.150000f, 0.064952f, bark_color,
+    0.047500f, -0.250000f, 0.082272f, bark_color,
+
+    -0.075000f, -0.150000f, 0.000000f, bark_color,
+    -0.095000f, -0.250000f, 0.000000f, bark_color,
+    -0.047500f, -0.250000f, 0.082272f, bark_color,
+
+    -0.037500f, -0.150000f, 0.064952f, bark_color,
+    -0.075000f, -0.150000f, 0.000000f, bark_color,
+    -0.047500f, -0.250000f, 0.082272f, bark_color,
+
+    -0.037500f, -0.150000f, -0.064952f, bark_color,
+    -0.047500f, -0.250000f, -0.082272f, bark_color,
+    -0.095000f, -0.250000f, 0.000000f, bark_color,
+
+    -0.075000f, -0.150000f, 0.000000f, bark_color,
+    -0.037500f, -0.150000f, -0.064952f, bark_color,
+    -0.095000f, -0.250000f, 0.000000f, bark_color,
+
+    0.037500f, -0.150000f, -0.064952f, bark_color,
+    0.047500f, -0.250000f, -0.082272f, bark_color,
+    -0.047500f, -0.250000f, -0.082272f, bark_color,
+
+    -0.037500f, -0.150000f, -0.064952f, bark_color,
+    0.037500f, -0.150000f, -0.064952f, bark_color,
+    -0.047500f, -0.250000f, -0.082272f, bark_color,
+
+    0.075000f, -0.150000f, 0.000000f, bark_color,
+    0.095000f, -0.250000f, 0.000000f, bark_color,
+    0.047500f, -0.250000f, -0.082272f, bark_color,
+
+    0.037500f, -0.150000f, -0.064952f, bark_color,
+    0.075000f, -0.150000f, 0.000000f, bark_color,
+    0.047500f, -0.250000f, -0.082272f, bark_color,
+
+
+    // second leaf section
+    // length = 0.5
+    // 1
+    0.075000f, 0.050000f, 0.000000f, leaf_color,
+    0.037500f, 0.050000f, 0.064952f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
+
+    0.075000f, 0.050000f, 0.000000f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
+    0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
+
+    0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
+    0.037500f, -0.150000f, 0.064952f, leaf_color,
+    0.075000f, -0.150000f, 0.000000f, leaf_color,
+
+    0.075000f, -0.150000f, 0.000000f, leaf_color,
+    0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
+
+    // 2
+    0.037500f, 0.050000f, 0.064952f, leaf_color,
+    -0.037500f, 0.050000f, 0.064952f, leaf_color,
+    -0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
+
+    0.037500f, 0.050000f, 0.064952f, leaf_color,
+    -0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
+
+    -0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
+    -0.037500f, -0.150000f, 0.064952f, leaf_color,
+    0.037500f, -0.150000f, 0.064952f, leaf_color,
+
+    0.037500f, -0.150000f, 0.064952f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
+    -0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
+
+    // 3
+    -0.037500f, 0.050000f, 0.064952f, leaf_color,
+    -0.075000f, 0.050000f, 0.000000f, leaf_color,
+    -0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
+
+    -0.037500f, 0.050000f, 0.064952f, leaf_color,
+    -0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
+    -0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
+
+    -0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
+    -0.075000f, -0.150000f, 0.000000f, leaf_color,
+    -0.037500f, -0.150000f, 0.064952f, leaf_color,
+
+    -0.037500f, -0.150000f, 0.064952f, leaf_color,
+    -0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
+    -0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
+
+    //4
+    -0.075000f, 0.050000f, 0.000000f, leaf_color,
+    -0.037500f, 0.050000f, -0.064952f, leaf_color,
+    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+
+    -0.075000f, 0.050000f, 0.000000f, leaf_color,
+    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+    -0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
+
+    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+    -0.037500f, -0.150000f, -0.064952f, leaf_color,
+    -0.075000f, -0.150000f, -0.000000f, leaf_color,
+
+    -0.075000f, -0.150000f, -0.000000f, leaf_color,
+    -0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
+    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+
+    // 5
+    -0.037500f, 0.050000f, -0.064952f, leaf_color,
+    0.037500f, 0.050000f, -0.064952f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+
+    -0.037500f, 0.050000f, -0.064952f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+
+    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+    0.037500f, -0.150000f, -0.064952f, leaf_color,
+    -0.037500f, -0.150000f, -0.064952f, leaf_color,
+
+    -0.037500f, -0.150000f, -0.064952f, leaf_color,
+    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+
+
+    // 6
+    0.037500f, 0.050000f, -0.064952f, leaf_color,
+    0.075000f, 0.050000f, 0.000000f, leaf_color,
+    0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
+
+    0.037500f, 0.050000f, -0.064952f, leaf_color,
+    0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+
+    0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
+    0.075000f, -0.150000f, 0.000000f, leaf_color,
+    0.037500f, -0.150000f, -0.064952f, leaf_color,
+
+    0.037500f, -0.150000f, -0.064952f, leaf_color,
+    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
+    0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
+
+
+    // third bark section
+    0.032500f, 0.120000f, 0.056292f, bark_color,
+    0.037500f, 0.050000f, 0.064952f, bark_color,
+    0.075000f, 0.050000f, 0.000000f, bark_color,
+
+    0.065000f, 0.120000f, 0.000000f, bark_color,
+    0.032500f, 0.120000f, 0.056292f, bark_color,
+    0.075000f, 0.050000f, 0.000000f, bark_color,
+
+    -0.032500f, 0.120000f, 0.056292f, bark_color,
+    -0.037500f, 0.050000f, 0.064952f, bark_color,
+    0.037500f, 0.050000f, 0.064952f, bark_color,
+
+    0.032500f, 0.120000f, 0.056292f, bark_color,
+    -0.032500f, 0.120000f, 0.056292f, bark_color,
+    0.037500f, 0.050000f, 0.064952f, bark_color,
+
+    -0.065000f, 0.120000f, 0.000000f, bark_color,
+    -0.075000f, 0.050000f, 0.000000f, bark_color,
+    -0.037500f, 0.050000f, 0.064952f, bark_color,
+
+    -0.032500f, 0.120000f, 0.056292f, bark_color,
+    -0.065000f, 0.120000f, 0.000000f, bark_color,
+    -0.037500f, 0.050000f, 0.064952f, bark_color,
+
+    -0.032500f, 0.120000f, -0.056292f, bark_color,
+    -0.037500f, 0.050000f, -0.064952f, bark_color,
+    -0.075000f, 0.050000f, 0.000000f, bark_color,
+
+    -0.065000f, 0.120000f, 0.000000f, bark_color,
+    -0.032500f, 0.120000f, -0.056292f, bark_color,
+    -0.075000f, 0.050000f, 0.000000f, bark_color,
+
+    0.032500f, 0.120000f, -0.056292f, bark_color,
+    0.037500f, 0.050000f, -0.064952f, bark_color,
+    -0.037500f, 0.050000f, -0.064952f, bark_color,
+
+    -0.032500f, 0.120000f, -0.056292f, bark_color,
+    0.032500f, 0.120000f, -0.056292f, bark_color,
+    -0.037500f, 0.050000f, -0.064952f, bark_color,
+
+    0.065000f, 0.120000f, 0.000000f, bark_color,
+    0.075000f, 0.050000f, 0.000000f, bark_color,
+    0.037500f, 0.050000f, -0.064952f, bark_color,
+
+    0.032500f, 0.120000f, -0.056292f, bark_color,
+    0.065000f, 0.120000f, 0.000000f, bark_color,
+    0.037500f, 0.050000f, -0.064952f, bark_color,
+
+
+    // top leaf
+    // 1
+    0.00000f, 0.40000f, 0.000000f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+
+    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+    0.032500f, 0.120000f, 0.056292f, leaf_color,
+    0.065000f, 0.120000f, 0.000000f, leaf_color,
+
+    0.065000f, 0.120000f, 0.000000f, leaf_color,
+    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+
+    // 2
+    0.00000f, 0.40000f, 0.000000f,leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+
+    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+    -0.032500f, 0.120000f, 0.056292f, leaf_color,
+    0.032500f, 0.120000f, 0.056292f, leaf_color,
+
+    0.032500f, 0.120000f, 0.056292f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+
+    // 3
+    0.00000f, 0.40000f, 0.000000f, leaf_color,
+    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+
+    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+    -0.065000f, 0.120000f, 0.000000f, leaf_color,
+    -0.032500f, 0.120000f, 0.056292f, leaf_color,
+
+    -0.032500f, 0.120000f, 0.056292f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
+    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+
+    // 4
+    0.00000f, 0.40000f, 0.000000f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+
+    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+    -0.032500f, 0.120000f, -0.056292f, leaf_color,
+    -0.065000f, 0.120000f, 0.000000f, leaf_color,
+
+    -0.065000f, 0.120000f, 0.000000f, leaf_color,
+    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+
+    // 5
+    0.00000f, 0.40000f, 0.00000f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+
+    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+    0.032500f, 0.120000f, -0.056292f, leaf_color,
+    -0.032500f, 0.120000f, -0.056292f, leaf_color,
+
+    -0.032500f, 0.120000f, -0.056292f, leaf_color,
+    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+
+
+    // 6
+    0.00000f, 0.40000f, 0.00000f, leaf_color,
+    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+
+    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+    0.065000f, 0.120000f, 0.000000f, leaf_color,
+    0.032500f, 0.120000f, -0.056292f, leaf_color,
+
+    0.032500f, 0.120000f, -0.056292f, leaf_color,
+    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
+    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
+};
+
 float x = 0;
 float y = 0;
 float z = 0;
@@ -1110,6 +1583,30 @@ float tree_with_var[] {
 
 };
 
+
+std::vector<float> generate_tree(const glm::vec3& origin, float scale = 1.0f) {
+    std::vector<float> vertices;
+
+    for (size_t i = 0; i < tree_data.size(); i += 6) {
+        float y = tree_data[i+1];
+
+        // keep base at original y level
+        float scaled_y = (y - (-1.0f)) * scale + (-1.0f); // pivot around y = -1
+
+        vertices.push_back(tree_data[i] * scale + origin.x);
+        vertices.push_back(scaled_y + origin.y);
+        vertices.push_back(tree_data[i+2] * scale + origin.z);
+
+        vertices.push_back(tree_data[i+3]);
+        vertices.push_back(tree_data[i+4]);
+        vertices.push_back(tree_data[i+5]);
+
+    }
+
+    return vertices;
+}
+
+
 std::vector<float> final_vertices;
 
 
@@ -1519,46 +2016,89 @@ int main(int argc, char** argv)
         current_normal /= cur_set.size();
         point_to_normal[cur_vec] = current_normal;
     }
+    
+    // ADD OBJECTS
+    std::vector<float> objects; 
+    std::vector<float> tree1 = generate_tree({0.0f, 0.0f, 0.0f}, 0.75);
+    std::vector<float> tree2 = generate_tree({1.0f, 0.0f, 1.0f}, 0.5f);
+
+    objects.insert(objects.end(), tree1.begin(), tree1.end());
+    objects.insert(objects.end(), tree2.begin(), tree2.end());
+
+    // generate trees at random spots (keeps it between -1, 1)
+    int num_trees = 8;
+    int xz_range = 20;
+    // int y_range = 5;
+    // for (int i = 0; i < num_trees; i++) {
+    //     // float x = (rand() % (xz_range*2) - xz_range) / xz_range;
+    //     float x = float(rand() % xz_range*2 - xz_range)/float(xz_range);
+    //     float z = float(rand() % xz_range*2 - xz_range)/float(xz_range);
+    //     float s = float(rand() % xz_range+1)/float(xz_range); // 0.0 to 1.0 inclusive
+       
+    //     std::cout << "x:" << x << ", z:" << z << ", s:" << s << std::endl;
+       
+    //     std::vector<float> tree = generate_tree({x, 0.0f, z}, 0.5);
+    //     objects.insert(objects.end(), tree.begin(), tree.end());
+    // }
 
 
+    
+    for (size_t i = 0; i < objects.size(); i += 6*3) { // 6 floats for 1 vertex, 3 vertex for 1 triangle
+        glm::vec3 a = glm::vec3(objects[i+6]-objects[i+0], objects[i+7]-objects[i+1],objects[i+8]-objects[i+2]);
+        glm::vec3 b = glm::vec3(objects[i+12]-objects[i+0], objects[i+13]-objects[i+1],objects[i+14]-objects[i+2]);
 
-    for (int i = 0; i < (sizeof(vertices)/sizeof(float)/6.0f/3.0f); i++) {
-        int cur = i*6*3;
-
-        
-
-        glm::vec3 a = glm::vec3(vertices[cur+6]-vertices[cur+0], vertices[cur+7]-vertices[cur+1],vertices[cur+8]-vertices[cur+2]);
-        glm::vec3 b = glm::vec3(vertices[cur+12]-vertices[cur+0], vertices[cur+13]-vertices[cur+1],vertices[cur+14]-vertices[cur+2]);
-
-        
         glm::vec3 normal = calculate_normal(a, b);
+        
+        // std::cout << "(" << normal.x << ", " << normal.y << ", " << normal.z << ")" << std::endl;
 
         std::vector<float> cur_triangle = {
-            vertices[cur+0], vertices[cur+1], vertices[cur+2], vertices[cur+3], vertices[cur+4], vertices[cur+5], normal.x, normal.y, normal.z, 
-            vertices[cur+6], vertices[cur+7], vertices[cur+8], vertices[cur+9], vertices[cur+10], vertices[cur+11], normal.x, normal.y, normal.z,
-            vertices[cur+12], vertices[cur+13], vertices[cur+14], vertices[cur+15], vertices[cur+16], vertices[cur+17], normal.x, normal.y, normal.z,
+            objects[i+0], objects[i+1], objects[i+2], objects[i+3], objects[i+4], objects[i+5], normal.x, normal.y, normal.z, 
+            objects[i+6], objects[i+7], objects[i+8], objects[i+9], objects[i+10], objects[i+11], normal.x, normal.y, normal.z,
+            objects[i+12], objects[i+13], objects[i+14], objects[i+15], objects[i+16], objects[i+17], normal.x, normal.y, normal.z,
         };
 
         final_vertices.insert(final_vertices.end(), cur_triangle.begin(), cur_triangle.end());
-
-
-        // glm::vec3 first = glm::vec3(vertices[cur+0], vertices[cur+1], vertices[cur+2]);
-        // glm::vec3 second = glm::vec3(vertices[cur+6], vertices[cur+7], vertices[cur+8]);
-        // glm::vec3 third = glm::vec3(vertices[cur+12], vertices[cur+13], vertices[cur+14]);
-
-        // glm::vec3 normal1 = point_to_normal[first];
-        // glm::vec3 normal2 = point_to_normal[second];
-        // glm::vec3 normal3 = point_to_normal[third];
-
-        // std::vector<float> cur_triangle = {
-        //     vertices[cur+0], vertices[cur+1], vertices[cur+2], vertices[cur+3], vertices[cur+4], vertices[cur+5], normal1.x, normal1.y, normal1.z, 
-        //     vertices[cur+6], vertices[cur+7], vertices[cur+8], vertices[cur+9], vertices[cur+10], vertices[cur+11], normal2.x, normal2.y, normal2.z,
-        //     vertices[cur+12], vertices[cur+13], vertices[cur+14], vertices[cur+15], vertices[cur+16], vertices[cur+17], normal3.x, normal3.y, normal3.z,
-        // };
-
-        // final_vertices.insert(final_vertices.end(), cur_triangle.begin(), cur_triangle.end());
         
     }
+
+
+
+    // adding vertices to vertex buffer
+    // for (int i = 0; i < (sizeof(vertices)/sizeof(float)/6.0f/3.0f); i++) {
+    //     int cur = i*6*3;
+
+    //     glm::vec3 a = glm::vec3(vertices[cur+6]-vertices[cur+0], vertices[cur+7]-vertices[cur+1],vertices[cur+8]-vertices[cur+2]);
+    //     glm::vec3 b = glm::vec3(vertices[cur+12]-vertices[cur+0], vertices[cur+13]-vertices[cur+1],vertices[cur+14]-vertices[cur+2]);
+
+        
+    //     glm::vec3 normal = calculate_normal(a, b);
+
+    //     std::vector<float> cur_triangle = {
+    //         vertices[cur+0], vertices[cur+1], vertices[cur+2], vertices[cur+3], vertices[cur+4], vertices[cur+5], normal.x, normal.y, normal.z, 
+    //         vertices[cur+6], vertices[cur+7], vertices[cur+8], vertices[cur+9], vertices[cur+10], vertices[cur+11], normal.x, normal.y, normal.z,
+    //         vertices[cur+12], vertices[cur+13], vertices[cur+14], vertices[cur+15], vertices[cur+16], vertices[cur+17], normal.x, normal.y, normal.z,
+    //     };
+
+    //     final_vertices.insert(final_vertices.end(), cur_triangle.begin(), cur_triangle.end());
+
+
+    //     // glm::vec3 first = glm::vec3(vertices[cur+0], vertices[cur+1], vertices[cur+2]);
+    //     // glm::vec3 second = glm::vec3(vertices[cur+6], vertices[cur+7], vertices[cur+8]);
+    //     // glm::vec3 third = glm::vec3(vertices[cur+12], vertices[cur+13], vertices[cur+14]);
+
+    //     // glm::vec3 normal1 = point_to_normal[first];
+    //     // glm::vec3 normal2 = point_to_normal[second];
+    //     // glm::vec3 normal3 = point_to_normal[third];
+
+    //     // std::vector<float> cur_triangle = {
+    //     //     vertices[cur+0], vertices[cur+1], vertices[cur+2], vertices[cur+3], vertices[cur+4], vertices[cur+5], normal1.x, normal1.y, normal1.z, 
+    //     //     vertices[cur+6], vertices[cur+7], vertices[cur+8], vertices[cur+9], vertices[cur+10], vertices[cur+11], normal2.x, normal2.y, normal2.z,
+    //     //     vertices[cur+12], vertices[cur+13], vertices[cur+14], vertices[cur+15], vertices[cur+16], vertices[cur+17], normal3.x, normal3.y, normal3.z,
+    //     // };
+
+    //     // final_vertices.insert(final_vertices.end(), cur_triangle.begin(), cur_triangle.end());
+        
+    // }
 
 
     // initialize GLFW and ask for OpenGL 3.3 core
