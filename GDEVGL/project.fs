@@ -69,20 +69,20 @@ void main()
     // fragmentColor = vec4(colorFinal * grayscale, 1.0f);
     fragmentColor = vec4(colorFinal * grayscale, 1.0f);
 
-    float k = focalPlane-focalRadius;
-    float j = focalPlane+focalRadius;
-    float z = gl_FragCoord.z;
-    if (z <= k) {
-        fragmentColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
-    } else if (k <= z && z <= focalPlane) {
-        float lerpStren = (z)/(k-focalPlane) + (-focalPlane)/(k-focalPlane);
-        fragmentColor = vec4(mix(vec3(0.0f), vec3(1.0f, 0.0f, 0.0f), lerpStren), 1.0f);
-    } else if (focalPlane <= z && z <= j) {
-        float lerpStren = (z)/(j-focalPlane) + (-focalPlane)/(j-focalPlane);
-        fragmentColor = vec4(mix(vec3(0.0f), vec3(0.0f, 1.0f, 0.0f), lerpStren), 1.0f);
-    } else {
-        fragmentColor = vec4(0.0f, 1.0f, 0.0f, 1.0f);
-    }
+    // float k = focalPlane-focalRadius;
+    // float j = focalPlane+focalRadius;
+    // float z = gl_FragCoord.z;
+    // if (z <= k) {
+    //     fragmentColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+    // } else if (k <= z && z <= focalPlane) {
+    //     float lerpStren = (z)/(k-focalPlane) + (-focalPlane)/(k-focalPlane);
+    //     fragmentColor = vec4(mix(vec3(0.0f), vec3(1.0f, 0.0f, 0.0f), lerpStren), 1.0f);
+    // } else if (focalPlane <= z && z <= j) {
+    //     float lerpStren = (z)/(j-focalPlane) + (-focalPlane)/(j-focalPlane);
+    //     fragmentColor = vec4(mix(vec3(0.0f), vec3(0.0f, 1.0f, 0.0f), lerpStren), 1.0f);
+    // } else {
+    //     fragmentColor = vec4(0.0f, 1.0f, 0.0f, 1.0f);
+    // }
 
     // outlines
     // if ((barycoord.x <= 0.0075f || barycoord.y <= 0.0075f || barycoord.z <= 0.0075f) && is_border == 0.0f) {
