@@ -30,6 +30,8 @@ GLFWwindow *pWindow;
 GLuint barkTexture;
 GLuint leafTexture;
 GLuint groundTexture;
+GLuint wallTexture;
+GLuint frameTexture;
 
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 2.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -39,8 +41,8 @@ float lightHeight = 2.0f;
 float lightSpeed = 1.0f;
 // float lightBrightness = 1.0f;
 float lightBrightness = 0.75f;
-float specular = 128.0f;
-// float specular = 16.0f;
+// float specular = 128.0f;
+float specular = 2.0f;
 float prev_time = 0.0f;
 float current_time = 0.0f;
 float cur = 0.0f;
@@ -54,10 +56,11 @@ float lastY = WINDOW_HEIGHT/2.0f;
 bool firstMouse = true;
 
 
-#define tree_width 0.15
 #define bark_color 0.41f, 0.29f, 0.21f
 #define leaf_color 0.51f, 0.61f, 0.41f 
 #define grass_color 0.49f, 0.98f, 0.0f 
+#define frame_color 0.82f, 0.82f, 0.82f 
+#define wall_color 0.66f, 0.29f, 0.26f 
 
 const int TERRAIN_WIDTH = 21; // odd for absolute center
 const int TERRAIN_LENGTH = 21;
@@ -1092,6 +1095,294 @@ const std::vector<float> tree_data ={
     0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
 };
 
+const std::vector<float> window_data = {
+    // // front 
+    // 0.000000f, -0.500000f, 0.000000f, frame_color,
+    // -0.050000f, -0.450000f, 0.000000f, frame_color,
+    // -0.450000f, -0.450000f, 0.000000f, frame_color,
+    // 0.000000f, -0.500000f, 0.000000f, frame_color,
+    // -0.450000f, -0.450000f, 0.000000f, frame_color,
+    // -0.500000f, -0.500000f, 0.000000f, frame_color,
+    // 0.000000f, 0.000000f, 0.000000f, frame_color,
+    // -0.050000f, -0.050000f, 0.000000f, frame_color,
+    // -0.050000f, -0.450000f, 0.000000f, frame_color,
+    // 0.000000f, 0.000000f, 0.000000f, frame_color,
+    // -0.050000f, -0.450000f, 0.000000f, frame_color,
+    // 0.000000f, -0.500000f, 0.000000f, frame_color,
+    // -0.500000f, 0.000000f, 0.000000f, frame_color,
+    // -0.450000f, -0.050000f, 0.000000f, frame_color,
+    // -0.050000f, -0.050000f, 0.000000f, frame_color,
+    // -0.500000f, 0.000000f, 0.000000f, frame_color,
+    // -0.050000f, -0.050000f, 0.000000f, frame_color,
+    // 0.000000f, 0.000000f, 0.000000f, frame_color,
+    // -0.500000f, -0.500000f, 0.000000f, frame_color,
+    // -0.450000f, -0.450000f, 0.000000f, frame_color,
+    // -0.450000f, -0.050000f, 0.000000f, frame_color,
+    // -0.500000f, -0.500000f, 0.000000f, frame_color,
+    // -0.450000f, -0.050000f, 0.000000f, frame_color,
+    // -0.500000f, 0.000000f, 0.000000f, frame_color,
+
+    // // back
+    // -0.500000f, -0.500000f, -0.050000f, frame_color,
+    // -0.450000f, -0.450000f, -0.050000f, frame_color,
+    // -0.050000f, -0.450000f, -0.050000f, frame_color,
+    // -0.500000f, -0.500000f, -0.050000f, frame_color,
+    // -0.050000f, -0.450000f, -0.050000f, frame_color,
+    // 0.000000f, -0.500000f, -0.050000f, frame_color,
+    // 0.000000f, -0.500000f, -0.050000f, frame_color,
+    // -0.050000f, -0.450000f, -0.050000f, frame_color,
+    // -0.050000f, -0.050000f, -0.050000f, frame_color,
+    // 0.000000f, -0.500000f, -0.050000f, frame_color,
+    // -0.050000f, -0.050000f, -0.050000f, frame_color,
+    // 0.000000f, 0.000000f, -0.050000f, frame_color,
+    // 0.000000f, 0.000000f, -0.050000f, frame_color,
+    // -0.050000f, -0.050000f, -0.050000f, frame_color,
+    // -0.450000f, -0.050000f, -0.050000f, frame_color,
+    // 0.000000f, 0.000000f, -0.050000f, frame_color,
+    // -0.450000f, -0.050000f, -0.050000f, frame_color,
+    // -0.500000f, 0.000000f, -0.050000f, frame_color,
+    // -0.500000f, 0.000000f, -0.050000f, frame_color,
+    // -0.450000f, -0.050000f, -0.050000f, frame_color,
+    // -0.450000f, -0.450000f, -0.050000f, frame_color,
+    // -0.500000f, 0.000000f, -0.050000f, frame_color,
+    // -0.450000f, -0.450000f, -0.050000f, frame_color,
+    // -0.500000f, -0.500000f, -0.050000f, frame_color,
+
+    // // top facing
+    // -0.450000f, -0.450000f, -0.050000f, frame_color,
+    // -0.450000f, -0.450000f, 0.000000f, frame_color,
+    // -0.050000f, -0.450000f, 0.000000f, frame_color,
+    // -0.450000f, -0.450000f, -0.050000f, frame_color,
+    // -0.050000f, -0.450000f, 0.000000f, frame_color,
+    // -0.050000f, -0.450000f, -0.050000f, frame_color,
+    // -0.500000f, 0.000000f, -0.050000f, frame_color,
+    // -0.500000f, 0.000000f, 0.000000f, frame_color,
+    // 0.000000f, 0.000000f, 0.000000f, frame_color,
+    // -0.500000f, 0.000000f, -0.050000f, frame_color,
+    // 0.000000f, 0.000000f, 0.000000f, frame_color,
+    // 0.000000f, 0.000000f, -0.050000f, frame_color,
+
+    // // bottom facing
+    // -0.450000f, -0.050000f, 0.000000f, frame_color,
+    // -0.450000f, -0.050000f, -0.050000f, frame_color,
+    // -0.050000f, -0.050000f, -0.050000f, frame_color,
+    // -0.450000f, -0.050000f, 0.000000f, frame_color,
+    // -0.050000f, -0.050000f, -0.050000f, frame_color,
+    // -0.050000f, -0.050000f, 0.000000f, frame_color,
+    // -0.500000f, -0.500000f, 0.000000f, frame_color,
+    // -0.500000f, -0.500000f, -0.050000f, frame_color,
+    // 0.000000f, -0.500000f, -0.050000f, frame_color,
+    // -0.500000f, -0.500000f, 0.000000f, frame_color,
+    // 0.000000f, -0.500000f, -0.050000f, frame_color,
+    // 0.000000f, -0.500000f, 0.000000f, frame_color,
+
+    // // +x facing
+    // 0.000000f, 0.000000f, -0.050000f, frame_color,
+    // 0.000000f, 0.000000f, 0.000000f, frame_color,
+    // 0.000000f, -0.500000f, 0.000000f, frame_color,
+    // 0.000000f, 0.000000f, -0.050000f, frame_color,
+    // 0.000000f, -0.500000f, 0.000000f, frame_color,
+    // 0.000000f, -0.500000f, -0.050000f, frame_color,
+    // -0.450000f, -0.050000f, -0.050000f, frame_color,
+    // -0.450000f, -0.050000f, 0.000000f, frame_color,
+    // -0.450000f, -0.450000f, 0.000000f, frame_color,
+    // -0.450000f, -0.050000f, -0.050000f, frame_color,
+    // -0.450000f, -0.450000f, 0.000000f, frame_color,
+    // -0.450000f, -0.450000f, -0.050000f, frame_color,
+
+    // // -x facing
+    // -0.500000f, 0.000000f, 0.000000f, frame_color,
+    // -0.500000f, 0.000000f, -0.050000f, frame_color,
+    // -0.500000f, -0.500000f, -0.050000f, frame_color,
+    // -0.500000f, 0.000000f, 0.000000f, frame_color,
+    // -0.500000f, -0.500000f, -0.050000f, frame_color,
+    // -0.500000f, -0.500000f, 0.000000f, frame_color,
+    // -0.050000f, -0.050000f, 0.000000f, frame_color,
+    // -0.050000f, -0.050000f, -0.050000f, frame_color,
+    // -0.050000f, -0.450000f, -0.050000f, frame_color,
+    // -0.050000f, -0.050000f, 0.000000f, frame_color,
+    // -0.050000f, -0.450000f, -0.050000f, frame_color,
+    // -0.050000f, -0.450000f, 0.000000f, frame_color,
+
+    0.100000f, -0.500000f, 0.000000f, frame_color,
+    0.050000f, -0.450000f, 0.000000f, frame_color,
+    -0.450000f, -0.450000f, 0.000000f, frame_color,
+    0.100000f, -0.500000f, 0.000000f, frame_color,
+    -0.450000f, -0.450000f, 0.000000f, frame_color,
+    -0.500000f, -0.500000f, 0.000000f, frame_color,
+    0.100000f, 0.300000f, 0.000000f, frame_color,
+    0.050000f, 0.250000f, 0.000000f, frame_color,
+    0.050000f, -0.450000f, 0.000000f, frame_color,
+    0.100000f, 0.300000f, 0.000000f, frame_color,
+    0.050000f, -0.450000f, 0.000000f, frame_color,
+    0.100000f, -0.500000f, 0.000000f, frame_color,
+    -0.500000f, 0.300000f, 0.000000f, frame_color,
+    -0.450000f, 0.250000f, 0.000000f, frame_color,
+    0.050000f, 0.250000f, 0.000000f, frame_color,
+    -0.500000f, 0.300000f, 0.000000f, frame_color,
+    0.050000f, 0.250000f, 0.000000f, frame_color,
+    0.100000f, 0.300000f, 0.000000f, frame_color,
+    -0.500000f, -0.500000f, 0.000000f, frame_color,
+    -0.450000f, -0.450000f, 0.000000f, frame_color,
+    -0.450000f, 0.250000f, 0.000000f, frame_color,
+    -0.500000f, -0.500000f, 0.000000f, frame_color,
+    -0.450000f, 0.250000f, 0.000000f, frame_color,
+    -0.500000f, 0.300000f, 0.000000f, frame_color,
+    -0.500000f, -0.500000f, -0.100000f, frame_color,
+    -0.450000f, -0.450000f, -0.100000f, frame_color,
+    0.050000f, -0.450000f, -0.100000f, frame_color,
+    -0.500000f, -0.500000f, -0.100000f, frame_color,
+    0.050000f, -0.450000f, -0.100000f, frame_color,
+    0.100000f, -0.500000f, -0.100000f, frame_color,
+    0.100000f, -0.500000f, -0.100000f, frame_color,
+    0.050000f, -0.450000f, -0.100000f, frame_color,
+    0.050000f, 0.250000f, -0.100000f, frame_color,
+    0.100000f, -0.500000f, -0.100000f, frame_color,
+    0.050000f, 0.250000f, -0.100000f, frame_color,
+    0.100000f, 0.300000f, -0.100000f, frame_color,
+    0.100000f, 0.300000f, -0.100000f, frame_color,
+    0.050000f, 0.250000f, -0.100000f, frame_color,
+    -0.450000f, 0.250000f, -0.100000f, frame_color,
+    0.100000f, 0.300000f, -0.100000f, frame_color,
+    -0.450000f, 0.250000f, -0.100000f, frame_color,
+    -0.500000f, 0.300000f, -0.100000f, frame_color,
+    -0.500000f, 0.300000f, -0.100000f, frame_color,
+    -0.450000f, 0.250000f, -0.100000f, frame_color,
+    -0.450000f, -0.450000f, -0.100000f, frame_color,
+    -0.500000f, 0.300000f, -0.100000f, frame_color,
+    -0.450000f, -0.450000f, -0.100000f, frame_color,
+    -0.500000f, -0.500000f, -0.100000f, frame_color,
+    -0.450000f, -0.450000f, -0.100000f, frame_color,
+    -0.450000f, -0.450000f, 0.000000f, frame_color,
+    0.050000f, -0.450000f, 0.000000f, frame_color,
+    -0.450000f, -0.450000f, -0.100000f, frame_color,
+    0.050000f, -0.450000f, 0.000000f, frame_color,
+    0.050000f, -0.450000f, -0.100000f, frame_color,
+    -0.500000f, 0.300000f, -0.100000f, frame_color,
+    -0.500000f, 0.300000f, 0.000000f, frame_color,
+    0.100000f, 0.300000f, 0.000000f, frame_color,
+    -0.500000f, 0.300000f, -0.100000f, frame_color,
+    0.100000f, 0.300000f, 0.000000f, frame_color,
+    0.100000f, 0.300000f, -0.100000f, frame_color,
+    -0.450000f, 0.250000f, 0.000000f, frame_color,
+    -0.450000f, 0.250000f, -0.100000f, frame_color,
+    0.050000f, 0.250000f, -0.100000f, frame_color,
+    -0.450000f, 0.250000f, 0.000000f, frame_color,
+    0.050000f, 0.250000f, -0.100000f, frame_color,
+    0.050000f, 0.250000f, 0.000000f, frame_color,
+    -0.500000f, -0.500000f, 0.000000f, frame_color,
+    -0.500000f, -0.500000f, -0.100000f, frame_color,
+    0.100000f, -0.500000f, -0.100000f, frame_color,
+    -0.500000f, -0.500000f, 0.000000f, frame_color,
+    0.100000f, -0.500000f, -0.100000f, frame_color,
+    0.100000f, -0.500000f, 0.000000f, frame_color,
+    0.100000f, 0.300000f, -0.100000f, frame_color,
+    0.100000f, 0.300000f, 0.000000f, frame_color,
+    0.100000f, -0.500000f, 0.000000f, frame_color,
+    0.100000f, 0.300000f, -0.100000f, frame_color,
+    0.100000f, -0.500000f, 0.000000f, frame_color,
+    0.100000f, -0.500000f, -0.100000f, frame_color,
+    -0.450000f, 0.250000f, -0.100000f, frame_color,
+    -0.450000f, 0.250000f, 0.000000f, frame_color,
+    -0.450000f, -0.450000f, 0.000000f, frame_color,
+    -0.450000f, 0.250000f, -0.100000f, frame_color,
+    -0.450000f, -0.450000f, 0.000000f, frame_color,
+    -0.450000f, -0.450000f, -0.100000f, frame_color,
+    -0.500000f, 0.300000f, 0.000000f, frame_color,
+    -0.500000f, 0.300000f, -0.100000f, frame_color,
+    -0.500000f, -0.500000f, -0.100000f, frame_color,
+    -0.500000f, 0.300000f, 0.000000f, frame_color,
+    -0.500000f, -0.500000f, -0.100000f, frame_color,
+    -0.500000f, -0.500000f, 0.000000f, frame_color,
+    0.050000f, 0.250000f, 0.000000f, frame_color,
+    0.050000f, 0.250000f, -0.100000f, frame_color,
+    0.050000f, -0.450000f, -0.100000f, frame_color,
+    0.050000f, 0.250000f, 0.000000f, frame_color,
+    0.050000f, -0.450000f, -0.100000f, frame_color,
+    0.050000f, -0.450000f, 0.000000f, frame_color,
+
+};
+
+const std::vector<float> wall_data = {
+    // front
+    1.900000f, -1.000000f, -0.010000f, wall_color,
+    0.100000f, -0.500000f, -0.010000f, wall_color,
+    -0.500000f, -0.500000f, -0.010000f, wall_color,
+    1.900000f, -1.000000f, -0.010000f, wall_color,
+    -0.500000f, -0.500000f, -0.010000f, wall_color,
+    -2.300000f, -1.000000f, -0.010000f, wall_color,
+    1.900000f, 0.800000f, -0.010000f, wall_color,
+    0.100000f, 0.300000f, -0.010000f, wall_color,
+    0.100000f, -0.500000f, -0.010000f, wall_color,
+    1.900000f, 0.800000f, -0.010000f, wall_color,
+    0.100000f, -0.500000f, -0.010000f, wall_color,
+    1.900000f, -1.000000f, -0.010000f, wall_color,
+    -2.300000f, 0.800000f, -0.010000f, wall_color,
+    -0.500000f, 0.300000f, -0.010000f, wall_color,
+    0.100000f, 0.300000f, -0.010000f, wall_color,
+    -2.300000f, 0.800000f, -0.010000f, wall_color,
+    0.100000f, 0.300000f, -0.010000f, wall_color,
+    1.900000f, 0.800000f, -0.010000f, wall_color,
+    -2.300000f, -1.000000f, -0.010000f, wall_color,
+    -0.500000f, -0.500000f, -0.010000f, wall_color,
+    -0.500000f, 0.300000f, -0.010000f, wall_color,
+    -2.300000f, -1.000000f, -0.010000f, wall_color,
+    -0.500000f, 0.300000f, -0.010000f, wall_color,
+    -2.300000f, 0.800000f, -0.010000f, wall_color,
+
+    // back
+    -2.300000f, -1.000000f, -0.090000f, wall_color,
+    -0.500000f, -0.500000f, -0.090000f, wall_color,
+    0.100000f, -0.500000f, -0.090000f, wall_color,
+    -2.300000f, -1.000000f, -0.090000f, wall_color,
+    0.100000f, -0.500000f, -0.090000f, wall_color,
+    1.900000f, -1.000000f, -0.090000f, wall_color,
+    1.900000f, -1.000000f, -0.090000f, wall_color,
+    0.100000f, -0.500000f, -0.090000f, wall_color,
+    0.100000f, 0.300000f, -0.090000f, wall_color,
+    1.900000f, -1.000000f, -0.090000f, wall_color,
+    0.100000f, 0.300000f, -0.090000f, wall_color,
+    1.900000f, 0.800000f, -0.090000f, wall_color,
+    1.900000f, 0.800000f, -0.090000f, wall_color,
+    0.100000f, 0.300000f, -0.090000f, wall_color,
+    -0.500000f, 0.300000f, -0.090000f, wall_color,
+    1.900000f, 0.800000f, -0.090000f, wall_color,
+    -0.500000f, 0.300000f, -0.090000f, wall_color,
+    -2.300000f, 0.800000f, -0.090000f, wall_color,
+    -2.300000f, 0.800000f, -0.090000f, wall_color,
+    -0.500000f, 0.300000f, -0.090000f, wall_color,
+    -0.500000f, -0.500000f, -0.090000f, wall_color,
+    -2.300000f, 0.800000f, -0.090000f, wall_color,
+    -0.500000f, -0.500000f, -0.090000f, wall_color,
+    -2.300000f, -1.000000f, -0.090000f, wall_color,
+
+    // sides
+    -2.300000f, 0.800000f, -0.090000f, wall_color,
+    -2.300000f, 0.800000f, -0.010000f, wall_color,
+    1.900000f, 0.800000f, -0.010000f, wall_color,
+    -2.300000f, 0.800000f, -0.090000f, wall_color,
+    1.900000f, 0.800000f, -0.010000f, wall_color,
+    1.900000f, 0.800000f, -0.090000f, wall_color,
+    1.900000f, -1.000000f, -0.090000f, wall_color,
+    1.900000f, -1.000000f, -0.010000f, wall_color,
+    -2.300000f, -1.000000f, -0.010000f, wall_color,
+    1.900000f, -1.000000f, -0.090000f, wall_color,
+    -2.300000f, -1.000000f, -0.010000f, wall_color,
+    -2.300000f, -1.000000f, -0.090000f, wall_color,
+    1.900000f, 0.800000f, -0.090000f, wall_color,
+    1.900000f, 0.800000f, -0.010000f, wall_color,
+    1.900000f, -1.000000f, -0.010000f, wall_color,
+    1.900000f, 0.800000f, -0.090000f, wall_color,
+    1.900000f, -1.000000f, -0.010000f, wall_color,
+    1.900000f, -1.000000f, -0.090000f, wall_color,
+    -2.300000f, -1.000000f, -0.090000f, wall_color,
+    -2.300000f, -1.000000f, -0.010000f, wall_color,
+    -2.300000f, 0.800000f, -0.010000f, wall_color,
+    -2.300000f, -1.000000f, -0.090000f, wall_color,
+    -2.300000f, 0.800000f, -0.010000f, wall_color,
+    -2.300000f, 0.800000f, -0.090000f, wall_color,
+};
+
 std::vector<float> generate_tree(const glm::vec3& origin, float scale = 1.0f) {
     std::vector<float> vertices;
 
@@ -1112,6 +1403,28 @@ std::vector<float> generate_tree(const glm::vec3& origin, float scale = 1.0f) {
     }
 
     return vertices;
+}
+
+void generate_object(std::vector<float>& list,const std::vector<float>& object_data, const glm::vec3& origin, float scale = 1.0f) {
+    std::vector<float> vertices;
+
+    for (size_t i = 0; i < object_data.size(); i += 6) {
+        float y = object_data[i+1];
+
+        // keep base at original y level
+        float scaled_y = (y - (-1.0f)) * scale + (-0.5f); // pivot around y = -0.5
+
+        vertices.push_back(object_data[i] * scale + origin.x);
+        vertices.push_back(scaled_y + origin.y);
+        vertices.push_back(object_data[i+2] * scale + origin.z);
+
+        vertices.push_back(object_data[i+3]);
+        vertices.push_back(object_data[i+4]);
+        vertices.push_back(object_data[i+5]);
+
+    }
+
+    list.insert(list.end(), vertices.begin(), vertices.end());
 }
 
 std::vector<float> final_vertices;
@@ -1251,7 +1564,6 @@ void generate_terrain_data() {
 
 
 
-
 // define OpenGL object IDs to represent the vertex array and the shader program in the GPU
 GLuint vao;         // vertex array object (stores the render state for our vertex array)
 GLuint vbo;         // vertex buffer object (reserves GPU memory for our vertex array)
@@ -1321,7 +1633,6 @@ bool setup()
 
     glEnableVertexAttribArray(0);
 
-    generate_terrain_data();
     glBindVertexArray(terrain_vao);
 
     glBindBuffer(GL_ARRAY_BUFFER, terrain_vbo);
@@ -1349,7 +1660,10 @@ bool setup()
     if (! leafTexture) return false;
     groundTexture = gdevLoadTexture("grass_tex.jpg", GL_REPEAT, true, true);
     if (! groundTexture) return false;
-    
+    wallTexture = gdevLoadTexture("brick.jpg", GL_REPEAT, true, true);
+    if (! wallTexture) return false;
+    frameTexture = gdevLoadTexture("frame.jpg", GL_REPEAT, true, true);
+    if (! frameTexture) return false;
 
     // load our shader program
     shader = gdevLoadShader("project.vs", "project.fs");
@@ -1364,9 +1678,6 @@ glm::vec3 calculate_normal(glm::vec3 a, glm::vec3 b){
 }
 
 
-void initialize_objects() {
-
-}
 
 // called by the main function to do rendering per frame
 void render()
@@ -1381,7 +1692,7 @@ void render()
 
     // using our shader program...
     glUseProgram(shader);
-    // glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST); // enable OpenGL's hidden surface removal
     glm::mat4 projview;
     glm::mat4 view = glm::mat4(1.0f);
@@ -1445,35 +1756,39 @@ void render()
     glBindTexture(GL_TEXTURE_2D, leafTexture);
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, groundTexture);
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, wallTexture);
+    glActiveTexture(GL_TEXTURE4);
+    glBindTexture(GL_TEXTURE_2D, frameTexture);
 
     // then connect each texture unit to a sampler2D in the fragment shader
     glUniform1i(glGetUniformLocation(shader,"barkTex"), 0);
     glUniform1i(glGetUniformLocation(shader,"leafTex"), 1);
     glUniform1i(glGetUniformLocation(shader,"groundTex"), 2);
+    glUniform1i(glGetUniformLocation(shader,"wallTex"), 3);
+    glUniform1i(glGetUniformLocation(shader,"frameTex"), 4);
     
     
     // ... draw our triangles
+    // objects
     glBindVertexArray(vao);
-    glUniform1f(glGetUniformLocation(shader, "is_border"), 0.0f);
+    glUniform1i(glGetUniformLocation(shader, "state"), 0); // 0 = objects, 1 = terrain
     glDrawArrays(GL_TRIANGLES, 0, (final_vertices.size() * sizeof(float)) / (9 * sizeof(float)));
 
-
-
-
-    glUniform1f(glGetUniformLocation(shader, "is_border"), 1.0f);
-    glBindVertexArray(bounding_box_vao);
-    glDrawArrays(GL_LINES, 0, sizeof(bounding_box) / (6 * sizeof(float)));
-
-
-    glUniform1f(glGetUniformLocation(shader, "is_border"), 2.0f);
+    // terrain
+    glUniform1i(glGetUniformLocation(shader, "state"), 1);
     glBindVertexArray(terrain_vbo);
     glDrawElements(GL_TRIANGLES, ground_indices.size(), GL_UNSIGNED_INT, 0);
 
+    // bounding box
+    glUniform1i(glGetUniformLocation(shader, "is_light"), 1);
+    glBindVertexArray(bounding_box_vao);
+    glDrawArrays(GL_LINES, 0, sizeof(bounding_box) / (6 * sizeof(float)));
+
+    // icosphere
     glBindVertexArray(ico_sphere_vao);
     model = glm::mat4(1.0f);
     model = glm::translate(model, lightPosition);
-
-    glUniform1i(glGetUniformLocation(shader, "is_light"), 1);
 
     glUniformMatrix4fv(glGetUniformLocation(shader, "model"),
         1, GL_FALSE, glm::value_ptr(model));
@@ -1622,32 +1937,29 @@ std::map<glm::vec3, glm::vec3, decltype(cmp1)> point_to_normal(cmp1);
 // main function
 int main(int argc, char** argv)
 {
+    generate_terrain_data();
+
     // ADD OBJECTS
     std::vector<float> objects; 
-    std::vector<float> tree2 = generate_tree({1.0f, 0.0f, 1.0f}, 0.4f);
-
-    objects.insert(objects.end(), tree2.begin(), tree2.end());
-
-    // generate trees at random spots (keeps it between -1, 1)
+    generate_object(objects, window_data, {0, 0, 0}, 0.3f);
+    generate_object(objects, wall_data, {0, 0, 0}, 0.3f);
+    generate_object(objects, tree_data, {-1, 0, -1}, 0.7f);
+    
+    
     // srand(time(0));
     // srand(1747578212); // random generated seed
     // srand(1747578678);
     srand(1747578808);
-    // std::cout << "seed: " << time(0) << std::endl;
+    // tree generator lol
     int num_trees = 24;
     int xz_range = 20; // 0 to 20 divided by 20 // higher number, more precise floats
-    // int y_range = 5;
     int s_range = 10;
     for (int i = 0; i < num_trees; i++) {
-        // float x = (rand() % (xz_range*2) - xz_range) / xz_range;
         float x = float(rand() % xz_range*2 - xz_range)/float(xz_range)*2;
         float z = float(rand() % xz_range*2 - xz_range)/float(xz_range)*2;
         float s = float(rand() % s_range+1)/float(s_range*10) + 0.2f; // 0.2 to 0.3 inclusive
        
-        // std::cout << "x:" << x << ", z:" << z << ", s:" << s << std::endl;
-       
-        std::vector<float> tree = generate_tree({x, 0.0f, z}, s);
-        objects.insert(objects.end(), tree.begin(), tree.end());
+        generate_object(objects, tree_data, {x, 0, z}, s);
     }
 
 
@@ -1658,7 +1970,6 @@ int main(int argc, char** argv)
 
         glm::vec3 normal = calculate_normal(a, b);
         
-        // std::cout << "(" << normal.x << ", " << normal.y << ", " << normal.z << ")" << std::endl;
 
         std::vector<float> cur_triangle = {
             objects[i+0], objects[i+1], objects[i+2], objects[i+3], objects[i+4], objects[i+5], normal.x, normal.y, normal.z, 

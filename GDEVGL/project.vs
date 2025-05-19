@@ -15,7 +15,6 @@ uniform mat4 projview;
 uniform mat4 model;
 uniform mat4 normalM;
 uniform int is_light;
-uniform float is_border;
 
 out vec3 barycoord;
 out vec3 normal;
@@ -38,16 +37,8 @@ void main()
     
     gl_Position = projview * vec4(worldSpacePosition, 1.0f);
 
-    // vec3 absNormal = abs(norm);
-    // if (absNormal.z > absNormal.x && absNormal.z > absNormal.y) {
-    //     shaderTexCoord = vertexPosition.xy*2;
-    // } else if (absNormal.x > absNormal.y) {
-    //     shaderTexCoord = vertexPosition.yz*2;
-    // } else {
-    //     shaderTexCoord = vertexPosition.xz*2;
-    // }
 
-    // get blend weights using world normal
+    // get triplanar weights using world normal
     blendWeights = normalize(abs(worldSpaceNorm));
     blendWeights = pow(blendWeights, vec3(4.0)); // control sharpness (higher value, sharper transition betw axes )
     blendWeights /= (blendWeights.x + blendWeights.y + blendWeights.z);
