@@ -68,6 +68,18 @@ void main()
 
     // fragmentColor = vec4(colorFinal * grayscale, 1.0f);
     fragmentColor = vec4(colorFinal * grayscale, 1.0f);
+    //fragmentColor = vec4(vec3(gl_FragCoord.z), 1.0f);
+
+    float z_ndc = gl_FragCoord.z * 2.0 - 1.0;
+
+
+    // float near = 0.1f;
+    // float far = 100.0f;
+    // float depth_test = (2.0 * near * far) / (far + near - z_ndc * (far - near));
+    // depth_test /= far;
+
+    // fragmentColor = vec4(vec3(depth_test), 1.0f);
+
 
     // float k = focalPlane-focalRadius;
     // float j = focalPlane+focalRadius;
