@@ -48,10 +48,12 @@ float fov = 90.0f;
 
 float lastX = WINDOW_WIDTH/2.0f;
 float lastY = WINDOW_HEIGHT/2.0f;
+float is_visualization = 0.0f;
 bool firstMouse = true;
 
 float focalPlane = 0.07500f;
 float focalRadius = 0.300f;
+bool p_pressed = false;
 
 glm::vec3 staff_center = glm::vec3(0.0f, -0.8f, 0.0f);
 
@@ -937,6 +939,7 @@ void render()
     glUniform1f(glGetUniformLocation(shader, "focalPlane"), focalPlane);
     glUniform1f(glGetUniformLocation(shader, "focalRadius"), focalRadius);
     
+    
 
     std::cout << focalPlane << " " << focalRadius << std::endl;
 
@@ -1105,6 +1108,7 @@ void render()
 
     glUniform1f(glGetUniformLocation(fb_shader, "focalPlane"), focalPlane);
     glUniform1f(glGetUniformLocation(fb_shader, "focalRadius"), focalRadius);
+    glUniform1f(glGetUniformLocation(fb_shader, "is_vis"), is_visualization);
 
     // glEnable(GL_STENCIL_TEST);
     // glActiveTexture(GL_TEXTURE2);
@@ -1202,6 +1206,22 @@ void processInput(GLFWwindow *pWindow, float deltaTime) {
     if (glfwGetKey(pWindow, GLFW_KEY_L) == GLFW_PRESS) {
         focalRadius -= 0.0005f;
         focalRadius = std::max(focalRadius, 0.0f);
+    }
+
+    if (glfwGetKey(pWindow, GLFW_KEY_P) == GLFW_PRESS) {
+        std::cout << p_pressed << std::endl;
+        if (!p_pressed) {
+            if (is_visualization == 1.0f) {
+            is_visualization = 0.0f;
+            } else {
+                is_visualization = 1.0f;
+            }
+            p_pressed = true;
+        }
+    }
+
+    if (glfwGetKey(pWindow, GLFW_KEY_P) == GLFW_RELEASE) {
+        p_pressed = false;
     }
 
 

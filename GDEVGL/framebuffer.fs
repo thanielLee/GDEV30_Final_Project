@@ -8,7 +8,7 @@ uniform sampler2D depthTexture;
 uniform sampler2D stencilTexture;
 uniform float focalPlane;
 uniform float focalRadius;
-
+uniform float is_vis;
 
 const vec2 offsets[48] = vec2[48](
 	2.0f * vec2(1.000000f, 0.000000f),
@@ -152,4 +152,14 @@ void main(){
 
     // fragmentColor = vec4(far_field_stren * texture(screenTexture, texCoords).rgb, 1.0f);
     // fragmentColor = vec4(fartexture(screenTexture, texCoords).rgb, 1.0f);
+
+    if (is_vis == 1.0f) {
+        if (far_field_stren >= 0.001f && near_field_stren <= 0.001f) {
+            fragmentColor = mix(vec4(vec3(0.0f), 1.0f), vec4(vec3(0.0f, 1.0f, 0.0f), 1.0f), far_field_stren);
+        } else if (far_field_stren <= 0.001f && near_field_stren >= 0.001f) {
+            fragmentColor = mix(vec4(vec3(0.0f), 1.0f), vec4(vec3(1.0f, 0.0f, 0.0f), 1.0f), near_field_stren);
+        } else {
+            fragmentColor = vec4(vec3(0.0f), 1.0f);
+        }
+    }
 }
