@@ -36,15 +36,44 @@ uniform vec3 eye;
 
 in vec3 blendWeights;
 
+uniform float timeOfDay;
+
+vec3 ambientLight = vec3(0.3, 0.3, 0.5);
+float lightIntensity = 0.2;
+
 // for texturing via color
-const vec3 bark_color = vec3(0.41, 0.29, 0.21);
-const vec3 leaf_color = vec3(0.51, 0.61, 0.41);
-const vec3 grass_color = vec3(0.49, 0.98, 0.0);
-const vec3 frame_color = vec3(0.82, 0.82, 0.82);
-const vec3 wall_color = vec3(0.66, 0.29, 0.26);
+const vec3 barkColor = vec3(0.41, 0.29, 0.21);
+const vec3 leafColor = vec3(0.51, 0.61, 0.41);
+const vec3 grassColor = vec3(0.49, 0.98, 0.0);
+const vec3 frameColor = vec3(0.82, 0.82, 0.82);
+const vec3 wallColor = vec3(0.66, 0.29, 0.26);
 
 bool matchColor(vec3 a, vec3 b, float tolerance) {
     return all(lessThan(abs(a - b), vec3(tolerance)));
+}
+
+float getDayPhase(float t) {
+    return smoothstep(0.0, 0.1, t) - smoothstep(0.9, 1.0, t); // 1 = day, 0 = night
+}
+
+float isNight = 1.0 - getDayPhase(timeOfDay);
+
+vec3 getSkyColor(float t) {
+    vec3 dawnColor  = vec3(0.3, 0.2, 0.5);  // purple
+    vec3 dayColor   = vec3(0.5, 0.7, 1.0);  // sky blue
+    vec3 duskColor  = vec3(0.8, 0.3, 0.1);  // orange
+    vec3 nightColor = vec3(0.01, 0.02, 0.1);// dark blue
+
+    if (t < 0.25) return mix(dawnColor, dayColor, t * 4.0);
+    else if (t < 0.5) return mix(dayColor, duskColor, (t - 0.25) * 4.0);
+    else if (t < 0.75) return mix(duskColor, nightColor, (t - 0.5) * 4.0);
+    else return mix(nightColor, dawnColor, (t - 0.75) * 4.0);
+}
+
+vec3 getLightColor(float t) {
+    vec3 sunlight = vec3(1.0, 0.9, 0.7);  // warm
+    vec3 moonlight = vec3(0.3, 0.3, 0.5); // cool
+    return mix(moonlight, sunlight, getDayPhase(t));
 }
 
 void main()
@@ -52,8 +81,8 @@ void main()
     float gray_strength = 1;
     float tol = 0.02;
 
-    if (is_light == 1) {
-        fragmentColor = vec4(lightColor, 1.0f);
+    if (state == 1) {
+        fragmentColor = vec4(getLightColor(timeOfDay), 1.0f);
         return;
     }
 
@@ -71,27 +100,27 @@ void main()
 
     // use right texture for specific object using new uvs
     // if (state == 0){ 
-    if (matchColor(objectColor, bark_color, tol)) {
+    if (matchColor(objectColor, barkColor, tol)) {
         texX = texture(barkTex, uvX);
         texY = texture(barkTex, uvY);
         texZ = texture(barkTex, uvZ);
     }
-    else if (matchColor(objectColor, leaf_color, tol)) {
+    else if (matchColor(objectColor, leafColor, tol)) {
         texX = texture(leafTex, uvX);
         texY = texture(leafTex, uvY);
         texZ = texture(leafTex, uvZ);
     }
-    else if (matchColor(objectColor, frame_color, tol)) {
+    else if (matchColor(objectColor, frameColor, tol)) {
         texX = texture(frameTex, uvX);
         texY = texture(frameTex, uvY);
         texZ = texture(frameTex, uvZ);
     }
-    else if (matchColor(objectColor, wall_color, tol)){
+    else if (matchColor(objectColor, wallColor, tol)){
         texX = texture(wallTex, uvX);
         texY = texture(wallTex, uvY);
         texZ = texture(wallTex, uvZ);
     }
-    else if (matchColor(objectColor, grass_color, tol)) {
+    else if (matchColor(objectColor, grassColor, tol)) {
         texX = texture(groundTex, uvX);
         texY = texture(groundTex, uvY);
         texZ = texture(groundTex, uvZ);
@@ -100,12 +129,19 @@ void main()
     // triplanar blending for all sampled textures
     vec4 texColor = texX * blendWeights.x + texY * blendWeights.y + texZ * blendWeights.z;
 
-    // diffuse and ambient lighting
+    // day-night cycle
+    vec3 skyColor = getSkyColor(timeOfDay);
+    vec3 dynamicLightColor = getLightColor(timeOfDay);
+
+
+    // diffuse lighting
     vec3 lightVector = normalize(lightPosition - worldSpacePosition);
-
-
-    vec3 colorDiffuse = clamp(dot(lightVector, normalVector), 0, 1) * lightColor;
-    vec3 colorAmbient = objectColor * 0.50f;
+    // vec3 colorDiffuse = clamp(dot(lightVector, normalVector), 0, 1) * lightColor;
+    vec3 colorDiffuse = clamp(dot(lightVector, normalVector), 0, 1) * dynamicLightColor ;
+    
+    // ambient lighting based on time
+    // vec3 colorAmbient = objectColor * 0.50f;
+    vec3 colorAmbient = dynamicLightColor * lightIntensity;
 
     // phong specular lighting
     vec3 reflectionVector = normalize(reflect(-lightVector, normalVector));
@@ -113,7 +149,6 @@ void main()
 
     vec3 colorFinal = objectColor * (colorDiffuse + colorAmbient) + colorSpecular;
 
-    // fragmentColor = vec4(colorFinal * grayscale, 1.0f);
     fragmentColor = vec4(colorFinal, 1.0f) * texColor * gray_strength;
 
     // outlines

@@ -24,7 +24,7 @@
 // change this to your desired window attributes
 #define WINDOW_WIDTH  1600
 #define WINDOW_HEIGHT 900
-#define WINDOW_TITLE  "Hello Frieren"
+#define WINDOW_TITLE  "Arborial Skies"
 GLFWwindow *pWindow;
 
 GLuint barkTexture;
@@ -36,9 +36,10 @@ GLuint frameTexture;
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 2.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-glm::vec3 lightPosition;
+glm::vec3 lightPosition(0.0f, 10.0f, 0.0f);
 float lightHeight = 2.0f;
 float lightSpeed = 1.0f;
+float sunDist = 8.0f;
 // float lightBrightness = 1.0f;
 float lightBrightness = 0.75f;
 // float specular = 128.0f;
@@ -152,477 +153,6 @@ float icosphere[] = {
 };
 
 float leaf_dip = -0.05f;
-float vertices[] = 
-{
-    // first bark section
-    // bottom face
-    0.120000f, -1.000000f, 0.000000f, bark_color,
-    0.060000f, -1.000000f, 0.103923f, bark_color,
-    0.000000f, -1.000000f, 0.000000f, bark_color,
-
-    0.060000f, -1.000000f, 0.103923f, bark_color,
-    -0.060000f, -1.000000f, 0.103923f, bark_color,
-    0.000000f, -1.000000f, 0.000000f, bark_color,
-
-    -0.060000f, -1.000000f, 0.103923f, bark_color,
-    -0.120000f, -1.000000f, 0.000000f, bark_color,
-    0.000000f, -1.000000f, 0.000000f, bark_color,
-
-    -0.120000f, -1.000000f, 0.000000f, bark_color,
-    -0.060000f, -1.000000f, -0.103923f, bark_color,
-    0.000000f, -1.000000f, 0.000000f, bark_color,
-
-    -0.060000f, -1.000000f, -0.103923f, bark_color,
-    0.060000f, -1.000000f, -0.103923f, bark_color,
-    0.000000f, -1.000000f, 0.000000f, bark_color,
-
-    0.060000f, -1.000000f, -0.103923f, bark_color,
-    0.120000f, -1.000000f, 0.000000f, bark_color,
-    0.000000f, -1.000000f, 0.000000f, bark_color,
-
-    // no top face
-    0.047500f, -0.500000f, 0.082272f, bark_color,
-    0.060000f, -1.000000f, 0.103923f, bark_color,
-    0.120000f, -1.000000f, 0.000000f, bark_color,
-
-    0.095000f, -0.500000f, 0.000000f, bark_color,
-    0.047500f, -0.500000f, 0.082272f, bark_color,
-    0.120000f, -1.000000f, 0.000000f, bark_color,
-
-    -0.047500f, -0.500000f, 0.082272f, bark_color,
-    -0.060000f, -1.000000f, 0.103923f, bark_color,
-    0.060000f, -1.000000f, 0.103923f, bark_color,
-
-    0.047500f, -0.500000f, 0.082272f, bark_color,
-    -0.047500f, -0.500000f, 0.082272f, bark_color,
-    0.060000f, -1.000000f, 0.103923f, bark_color,
-
-    -0.095000f, -0.500000f, 0.000000f, bark_color,
-    -0.120000f, -1.000000f, 0.000000f, bark_color,
-    -0.060000f, -1.000000f, 0.103923f, bark_color,
-
-    -0.047500f, -0.500000f, 0.082272f, bark_color,
-    -0.095000f, -0.500000f, 0.000000f, bark_color,
-    -0.060000f, -1.000000f, 0.103923f, bark_color,
-
-    -0.047500f, -0.500000f, -0.082272f, bark_color,
-    -0.060000f, -1.000000f, -0.103923f, bark_color,
-    -0.120000f, -1.000000f, 0.000000f, bark_color,
-
-    -0.095000f, -0.500000f, 0.000000f, bark_color,
-    -0.047500f, -0.500000f, -0.082272f, bark_color,
-    -0.120000f, -1.000000f, 0.000000f, bark_color,
-
-    0.047500f, -0.500000f, -0.082272f, bark_color,
-    0.060000f, -1.000000f, -0.103923f, bark_color,
-    -0.060000f, -1.000000f, -0.103923f, bark_color,
-
-    -0.047500f, -0.500000f, -0.082272f, bark_color,
-    0.047500f, -0.500000f, -0.082272f, bark_color,
-    -0.060000f, -1.000000f, -0.103923f, bark_color,
-
-    0.095000f, -0.500000f, 0.000000f, bark_color,
-    0.120000f, -1.000000f, 0.000000f, bark_color,
-    0.060000f, -1.000000f, -0.103923f, bark_color,
-
-    0.047500f, -0.500000f, -0.082272f, bark_color,
-    0.095000f, -0.500000f, 0.000000f, bark_color,
-    0.060000f, -1.000000f, -0.103923f, bark_color,
-
-
-    // first leaf section
-
-    // 1
-    0.095000f, -0.250000f, 0.000000f, leaf_color,
-    0.047500f, -0.250000f, 0.082272f, leaf_color,
-    0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
-
-    0.095000f, -0.250000f, 0.000000f, leaf_color,
-    0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
-    0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
-
-    0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
-    0.047500f, -0.500000f, 0.082272f, leaf_color,
-    0.095000f, -0.500000f, 0.000000f, leaf_color,
-
-    0.095000f, -0.500000f, 0.000000f, leaf_color,
-    0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
-    0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
-
-    // 2
-    0.047500f, -0.250000f, 0.082272f, leaf_color,
-    -0.047500f, -0.250000f, 0.082272f, leaf_color,
-    -0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
-
-    0.047500f, -0.250000f, 0.082272f, leaf_color,
-    -0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
-    0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
-
-    -0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
-    -0.047500f, -0.500000f, 0.082272f, leaf_color,
-    0.047500f, -0.500000f, 0.082272f, leaf_color,
-
-    0.047500f, -0.500000f, 0.082272f, leaf_color,
-    0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
-    -0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
-
-    // 3
-    -0.047500f, -0.250000f, 0.082272f, leaf_color,
-    -0.095000f, -0.250000f, 0.000000f, leaf_color,
-    -0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
-
-    -0.047500f, -0.250000f, 0.082272f, leaf_color,
-    -0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
-    -0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
-
-    -0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
-    -0.095000f, -0.500000f, 0.000000f, leaf_color,
-    -0.047500f, -0.500000f, 0.082272f, leaf_color,
-
-    -0.047500f, -0.500000f, 0.082272f, leaf_color,
-    -0.375000f, -0.500000f+leaf_dip, 0.649519f, leaf_color,
-    -0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
-
-    // 4
-    -0.095000f, -0.250000f, 0.000000f, leaf_color,
-    -0.047500f, -0.250000f, -0.082272f, leaf_color,
-    -0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
-
-    -0.095000f, -0.250000f, 0.000000f, leaf_color,
-    -0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
-    -0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
-
-    -0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
-    -0.047500f, -0.500000f, -0.082272f, leaf_color,
-    -0.095000f, -0.500000f, 0.000000f, leaf_color,
-
-    -0.095000f, -0.500000f, 0.000000f, leaf_color,
-    -0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
-    -0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
-
-    // 5
-    -0.047500f, -0.250000f, -0.082272f, leaf_color,
-    0.047500f, -0.250000f, -0.082272f, leaf_color,
-    0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
-
-    -0.047500f, -0.250000f, -0.082272f, leaf_color,
-    0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
-    -0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
-
-    0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
-    0.047500f, -0.500000f, -0.082272f, leaf_color,
-    -0.047500f, -0.500000f, -0.082272f, leaf_color,
-
-    -0.047500f, -0.500000f, -0.082272f, leaf_color,
-    -0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
-    0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
-
-
-    // 6
-    0.047500f, -0.250000f, -0.082272f, leaf_color,
-    0.095000f, -0.250000f, 0.000000f, leaf_color,
-    0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
-
-    0.047500f, -0.250000f, -0.082272f, leaf_color,
-    0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
-    0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
-
-    0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
-    0.095000f, -0.500000f, 0.000000f, leaf_color,
-    0.047500f, -0.500000f, -0.082272f, leaf_color,
-
-    0.047500f, -0.500000f, -0.082272f, leaf_color,
-    0.375000f, -0.500000f+leaf_dip, -0.649519f, leaf_color,
-    0.750000f, -0.500000f+leaf_dip, 0.000000f, leaf_color,
-
-    // second bark section
-    0.037500f, -0.150000f, 0.064952f, bark_color,
-    0.047500f, -0.250000f, 0.082272f, bark_color,
-    0.095000f, -0.250000f, 0.000000f, bark_color,
-
-    0.075000f, -0.150000f, 0.000000f, bark_color,
-    0.037500f, -0.150000f, 0.064952f, bark_color,
-    0.095000f, -0.250000f, 0.000000f, bark_color,
-
-    -0.037500f, -0.150000f, 0.064952f, bark_color,
-    -0.047500f, -0.250000f, 0.082272f, bark_color,
-    0.047500f, -0.250000f, 0.082272f, bark_color,
-
-    0.037500f, -0.150000f, 0.064952f, bark_color,
-    -0.037500f, -0.150000f, 0.064952f, bark_color,
-    0.047500f, -0.250000f, 0.082272f, bark_color,
-
-    -0.075000f, -0.150000f, 0.000000f, bark_color,
-    -0.095000f, -0.250000f, 0.000000f, bark_color,
-    -0.047500f, -0.250000f, 0.082272f, bark_color,
-
-    -0.037500f, -0.150000f, 0.064952f, bark_color,
-    -0.075000f, -0.150000f, 0.000000f, bark_color,
-    -0.047500f, -0.250000f, 0.082272f, bark_color,
-
-    -0.037500f, -0.150000f, -0.064952f, bark_color,
-    -0.047500f, -0.250000f, -0.082272f, bark_color,
-    -0.095000f, -0.250000f, 0.000000f, bark_color,
-
-    -0.075000f, -0.150000f, 0.000000f, bark_color,
-    -0.037500f, -0.150000f, -0.064952f, bark_color,
-    -0.095000f, -0.250000f, 0.000000f, bark_color,
-
-    0.037500f, -0.150000f, -0.064952f, bark_color,
-    0.047500f, -0.250000f, -0.082272f, bark_color,
-    -0.047500f, -0.250000f, -0.082272f, bark_color,
-
-    -0.037500f, -0.150000f, -0.064952f, bark_color,
-    0.037500f, -0.150000f, -0.064952f, bark_color,
-    -0.047500f, -0.250000f, -0.082272f, bark_color,
-
-    0.075000f, -0.150000f, 0.000000f, bark_color,
-    0.095000f, -0.250000f, 0.000000f, bark_color,
-    0.047500f, -0.250000f, -0.082272f, bark_color,
-
-    0.037500f, -0.150000f, -0.064952f, bark_color,
-    0.075000f, -0.150000f, 0.000000f, bark_color,
-    0.047500f, -0.250000f, -0.082272f, bark_color,
-
-
-    // second leaf section
-    // length = 0.5
-    // 1
-    0.075000f, 0.050000f, 0.000000f, leaf_color,
-    0.037500f, 0.050000f, 0.064952f, leaf_color,
-    0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
-
-    0.075000f, 0.050000f, 0.000000f, leaf_color,
-    0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
-    0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
-
-    0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
-    0.037500f, -0.150000f, 0.064952f, leaf_color,
-    0.075000f, -0.150000f, 0.000000f, leaf_color,
-
-    0.075000f, -0.150000f, 0.000000f, leaf_color,
-    0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
-    0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
-
-    // 2
-    0.037500f, 0.050000f, 0.064952f, leaf_color,
-    -0.037500f, 0.050000f, 0.064952f, leaf_color,
-    -0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
-
-    0.037500f, 0.050000f, 0.064952f, leaf_color,
-    -0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
-    0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
-
-    -0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
-    -0.037500f, -0.150000f, 0.064952f, leaf_color,
-    0.037500f, -0.150000f, 0.064952f, leaf_color,
-
-    0.037500f, -0.150000f, 0.064952f, leaf_color,
-    0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
-    -0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
-
-    // 3
-    -0.037500f, 0.050000f, 0.064952f, leaf_color,
-    -0.075000f, 0.050000f, 0.000000f, leaf_color,
-    -0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
-
-    -0.037500f, 0.050000f, 0.064952f, leaf_color,
-    -0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
-    -0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
-
-    -0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
-    -0.075000f, -0.150000f, 0.000000f, leaf_color,
-    -0.037500f, -0.150000f, 0.064952f, leaf_color,
-
-    -0.037500f, -0.150000f, 0.064952f, leaf_color,
-    -0.250000f, -0.150000f+leaf_dip, 0.433013f, leaf_color,
-    -0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
-
-    //4
-    -0.075000f, 0.050000f, 0.000000f, leaf_color,
-    -0.037500f, 0.050000f, -0.064952f, leaf_color,
-    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-
-    -0.075000f, 0.050000f, 0.000000f, leaf_color,
-    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-    -0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
-
-    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-    -0.037500f, -0.150000f, -0.064952f, leaf_color,
-    -0.075000f, -0.150000f, -0.000000f, leaf_color,
-
-    -0.075000f, -0.150000f, -0.000000f, leaf_color,
-    -0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
-    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-
-    // 5
-    -0.037500f, 0.050000f, -0.064952f, leaf_color,
-    0.037500f, 0.050000f, -0.064952f, leaf_color,
-    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-
-    -0.037500f, 0.050000f, -0.064952f, leaf_color,
-    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-
-    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-    0.037500f, -0.150000f, -0.064952f, leaf_color,
-    -0.037500f, -0.150000f, -0.064952f, leaf_color,
-
-    -0.037500f, -0.150000f, -0.064952f, leaf_color,
-    -0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-
-
-    // 6
-    0.037500f, 0.050000f, -0.064952f, leaf_color,
-    0.075000f, 0.050000f, 0.000000f, leaf_color,
-    0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
-
-    0.037500f, 0.050000f, -0.064952f, leaf_color,
-    0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
-    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-
-    0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
-    0.075000f, -0.150000f, 0.000000f, leaf_color,
-    0.037500f, -0.150000f, -0.064952f, leaf_color,
-
-    0.037500f, -0.150000f, -0.064952f, leaf_color,
-    0.250000f, -0.150000f+leaf_dip, -0.433013f, leaf_color,
-    0.500000f, -0.150000f+leaf_dip, 0.000000f, leaf_color,
-
-
-    // third bark section
-    0.032500f, 0.120000f, 0.056292f, bark_color,
-    0.037500f, 0.050000f, 0.064952f, bark_color,
-    0.075000f, 0.050000f, 0.000000f, bark_color,
-
-    0.065000f, 0.120000f, 0.000000f, bark_color,
-    0.032500f, 0.120000f, 0.056292f, bark_color,
-    0.075000f, 0.050000f, 0.000000f, bark_color,
-
-    -0.032500f, 0.120000f, 0.056292f, bark_color,
-    -0.037500f, 0.050000f, 0.064952f, bark_color,
-    0.037500f, 0.050000f, 0.064952f, bark_color,
-
-    0.032500f, 0.120000f, 0.056292f, bark_color,
-    -0.032500f, 0.120000f, 0.056292f, bark_color,
-    0.037500f, 0.050000f, 0.064952f, bark_color,
-
-    -0.065000f, 0.120000f, 0.000000f, bark_color,
-    -0.075000f, 0.050000f, 0.000000f, bark_color,
-    -0.037500f, 0.050000f, 0.064952f, bark_color,
-
-    -0.032500f, 0.120000f, 0.056292f, bark_color,
-    -0.065000f, 0.120000f, 0.000000f, bark_color,
-    -0.037500f, 0.050000f, 0.064952f, bark_color,
-
-    -0.032500f, 0.120000f, -0.056292f, bark_color,
-    -0.037500f, 0.050000f, -0.064952f, bark_color,
-    -0.075000f, 0.050000f, 0.000000f, bark_color,
-
-    -0.065000f, 0.120000f, 0.000000f, bark_color,
-    -0.032500f, 0.120000f, -0.056292f, bark_color,
-    -0.075000f, 0.050000f, 0.000000f, bark_color,
-
-    0.032500f, 0.120000f, -0.056292f, bark_color,
-    0.037500f, 0.050000f, -0.064952f, bark_color,
-    -0.037500f, 0.050000f, -0.064952f, bark_color,
-
-    -0.032500f, 0.120000f, -0.056292f, bark_color,
-    0.032500f, 0.120000f, -0.056292f, bark_color,
-    -0.037500f, 0.050000f, -0.064952f, bark_color,
-
-    0.065000f, 0.120000f, 0.000000f, bark_color,
-    0.075000f, 0.050000f, 0.000000f, bark_color,
-    0.037500f, 0.050000f, -0.064952f, bark_color,
-
-    0.032500f, 0.120000f, -0.056292f, bark_color,
-    0.065000f, 0.120000f, 0.000000f, bark_color,
-    0.037500f, 0.050000f, -0.064952f, bark_color,
-
-
-    // top leaf
-    // 1
-    0.00000f, 0.40000f, 0.000000f, leaf_color,
-    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
-    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
-
-    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
-    0.032500f, 0.120000f, 0.056292f, leaf_color,
-    0.065000f, 0.120000f, 0.000000f, leaf_color,
-
-    0.065000f, 0.120000f, 0.000000f, leaf_color,
-    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
-    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
-
-    // 2
-    0.00000f, 0.40000f, 0.000000f,leaf_color,
-    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
-    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
-
-    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
-    -0.032500f, 0.120000f, 0.056292f, leaf_color,
-    0.032500f, 0.120000f, 0.056292f, leaf_color,
-
-    0.032500f, 0.120000f, 0.056292f, leaf_color,
-    0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
-    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
-
-    // 3
-    0.00000f, 0.40000f, 0.000000f, leaf_color,
-    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
-    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
-
-    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
-    -0.065000f, 0.120000f, 0.000000f, leaf_color,
-    -0.032500f, 0.120000f, 0.056292f, leaf_color,
-
-    -0.032500f, 0.120000f, 0.056292f, leaf_color,
-    -0.150000f, 0.120000f+leaf_dip, 0.259808f, leaf_color,
-    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
-
-    // 4
-    0.00000f, 0.40000f, 0.000000f, leaf_color,
-    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
-    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
-
-    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
-    -0.032500f, 0.120000f, -0.056292f, leaf_color,
-    -0.065000f, 0.120000f, 0.000000f, leaf_color,
-
-    -0.065000f, 0.120000f, 0.000000f, leaf_color,
-    -0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
-    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
-
-    // 5
-    0.00000f, 0.40000f, 0.00000f, leaf_color,
-    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
-    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
-
-    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
-    0.032500f, 0.120000f, -0.056292f, leaf_color,
-    -0.032500f, 0.120000f, -0.056292f, leaf_color,
-
-    -0.032500f, 0.120000f, -0.056292f, leaf_color,
-    -0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
-    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
-
-
-    // 6
-    0.00000f, 0.40000f, 0.00000f, leaf_color,
-    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
-    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
-
-    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
-    0.065000f, 0.120000f, 0.000000f, leaf_color,
-    0.032500f, 0.120000f, -0.056292f, leaf_color,
-
-    0.032500f, 0.120000f, -0.056292f, leaf_color,
-    0.150000f, 0.120000f+leaf_dip, -0.259808f, leaf_color,
-    0.300000f, 0.120000f+leaf_dip, 0.000000f, leaf_color,
-
-
-};
 
 const std::vector<float> tree_data ={
     // position (x, y, z) color (r, g, b)
@@ -1677,6 +1207,29 @@ glm::vec3 calculate_normal(glm::vec3 a, glm::vec3 b){
     return glm::normalize(cross(a, b));
 }
 
+glm::vec3 calculateSkyColor(float timeOfDay) {
+    const glm::vec3 dawnColor(0.3f, 0.2f, 0.5f);   // Purple
+    const glm::vec3 dayColor(0.5f, 0.7f, 1.0f);    // Sky blue
+    const glm::vec3 duskColor(0.8f, 0.3f, 0.1f);   // Orange
+    const glm::vec3 nightColor(0.01f, 0.02f, 0.1f);// Dark blue
+
+    // wrap time to 0-1 cycle
+    timeOfDay = std::fmod(timeOfDay, 1.0f);
+
+    // blend between phases (same logic as shader)
+    if (timeOfDay < 0.25f) {
+        return glm::mix(dawnColor, dayColor, timeOfDay * 4.0f);
+    } 
+    else if (timeOfDay < 0.5f) {
+        return glm::mix(dayColor, duskColor, (timeOfDay - 0.25f) * 4.0f);
+    }
+    else if (timeOfDay < 0.75f) {
+        return glm::mix(duskColor, nightColor, (timeOfDay - 0.5f) * 4.0f);
+    }
+    else {
+        return glm::mix(nightColor, dawnColor, (timeOfDay - 0.75f) * 4.0f);
+    }
+}
 
 
 // called by the main function to do rendering per frame
@@ -1684,10 +1237,9 @@ void render()
 {
     // clear the whole frame
     // glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // black
-    // glClearColor(0.05f, 0.05f, 0.05f, 1.0f); // very dark gray
-    // glClearColor(0.02f, 0.02f, 0.08f, 1.0f); // dark blue
     // glClearColor(0.03f, 0.06f, 0.05f, 1.0f); // dark desaturated green
-    glClearColor(0.53f, 0.81f, 0.92f, 1.0f); // sky blue
+    // glClearColor(0.53f, 0.81f, 0.92f, 1.0f); // sky blue
+    glClearColor(0.03f, 0.05f, 0.1f, 1.0f); // dark blue-black
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // using our shader program...
@@ -1706,16 +1258,25 @@ void render()
     float t = glfwGetTime();
     prev_time = current_time;
     current_time = t;
-    cur += lightSpeed * (current_time-prev_time);
+    cur += lightSpeed * (current_time-prev_time); // accumulated time
 
     // float clamp_t = ((sin(t) + 1.0f)/2.0f);
     float clamp_t = 1.0f;
     // float rot_speed = 50.0f;
     float rot_speed = 0.0f;
+    float time_of_day = fmod(cur / 24.0, 1.0); // 24-second cycle
 
+    // sky 
+    glm::vec3 sky_color = calculateSkyColor(time_of_day);
+    glClearColor(sky_color.r, sky_color.g, sky_color.b, 1.0f); 
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glm::vec2 circ = glm::normalize(lightSpeed * glm::vec2(cos(cur/4.0f), sin(cur/4.0f)));
-    lightPosition = glm::vec3(3.0f * circ.x, 0, 3.0f * circ.y);
+    // for dynamic shader lighting
+    glUniform1f(glGetUniformLocation(shader, "timeOfDay"), time_of_day);
+
+    // moving sun
+    glm::vec2 sunPath = glm::normalize(glm::vec2(cos(time_of_day * 2.0f * glm::pi<float>()), sin(time_of_day * 2.0f * glm::pi<float>())));
+    lightPosition = glm::vec3(sunDist * sunPath, 0);
 
 
     glUniform1i(glGetUniformLocation(shader, "is_light"), 0.0f);
@@ -1772,28 +1333,28 @@ void render()
     // ... draw our triangles
     // objects
     glBindVertexArray(vao);
-    glUniform1i(glGetUniformLocation(shader, "state"), 0); // 0 = objects, 1 = terrain
+    glUniform1i(glGetUniformLocation(shader, "state"), 0); // 0 = objects
     glDrawArrays(GL_TRIANGLES, 0, (final_vertices.size() * sizeof(float)) / (9 * sizeof(float)));
 
     // terrain
-    glUniform1i(glGetUniformLocation(shader, "state"), 1);
     glBindVertexArray(terrain_vbo);
     glDrawElements(GL_TRIANGLES, ground_indices.size(), GL_UNSIGNED_INT, 0);
 
-    // bounding box
-    glUniform1i(glGetUniformLocation(shader, "is_light"), 1);
-    glBindVertexArray(bounding_box_vao);
-    glDrawArrays(GL_LINES, 0, sizeof(bounding_box) / (6 * sizeof(float)));
-
     // icosphere
+    glUniform1i(glGetUniformLocation(shader, "state"), 1); // 1 = sun
     glBindVertexArray(ico_sphere_vao);
     model = glm::mat4(1.0f);
     model = glm::translate(model, lightPosition);
+    model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 
     glUniformMatrix4fv(glGetUniformLocation(shader, "model"),
         1, GL_FALSE, glm::value_ptr(model));
     glDrawArrays(GL_TRIANGLES, 0, (sizeof(icosphere) / (3 * sizeof(float))));
-
+    
+    // // bounding box
+    // glUniform1i(glGetUniformLocation(shader, "is_light"), 1);
+    // glBindVertexArray(bounding_box_vao);
+    // glDrawArrays(GL_LINES, 0, sizeof(bounding_box) / (6 * sizeof(float)));
 }
 
 
@@ -1951,12 +1512,12 @@ int main(int argc, char** argv)
     // srand(1747578678);
     srand(1747578808);
     // tree generator lol
-    int num_trees = 24;
-    int xz_range = 20; // 0 to 20 divided by 20 // higher number, more precise floats
+    int num_trees = 100;
+    int xz_range = 49; // 0 to 20 divided by 20 // higher number, more precise floats
     int s_range = 10;
     for (int i = 0; i < num_trees; i++) {
-        float x = float(rand() % xz_range*2 - xz_range)/float(xz_range)*2;
-        float z = float(rand() % xz_range*2 - xz_range)/float(xz_range)*2;
+        float x = float(rand() % xz_range*2 - xz_range)/float(xz_range)*3;
+        float z = float(rand() % xz_range*2 - xz_range)/float(xz_range)*3;
         float s = float(rand() % s_range+1)/float(s_range*10) + 0.2f; // 0.2 to 0.3 inclusive
        
         generate_object(objects, tree_data, {x, 0, z}, s);
