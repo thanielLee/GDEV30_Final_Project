@@ -32,38 +32,53 @@ uniform float s;
 
 uniform vec3 eye;
 
+in vec3 blendWeights;
+
 void main()
 {
-    float grayscale;
     float gray_strength = 0.7;
-
-    if (is_border > 1.0f) {
-        vec4 ground = texture(groundTex, shaderTexCoord);
-        fragmentColor = ground;
-        return;
-    }
 
     if (is_light == 1) {
         fragmentColor = vec4(lightColor, 1.0f);
         return;
     }
 
-    // texturing
+    vec3 normalVector = normalize(worldSpaceNorm);
+
+    // tripalanar mapping
+    // get uvs for each axis in world pos
+    vec2 uvX = worldSpacePosition.zy;
+    vec2 uvY = worldSpacePosition.xz;
+    vec2 uvZ = worldSpacePosition.xy;
+
+    // use right texture for specific object using new uvs
+    vec4 texX;
+    vec4 texY;
+    vec4 texZ;    
     if (objectColor.y < 0.5f) {
-        vec4 bark = texture(barkTex, shaderTexCoord);
-        grayscale = mix(1.0f, bark.r, gray_strength);
+        texX = texture(barkTex, uvX);
+        texY = texture(barkTex, uvY);
+        texZ = texture(barkTex, uvZ);
     } else {
-        vec4 leaf = texture(leafTex, shaderTexCoord);
-        grayscale = mix(1.0f, leaf.r, gray_strength);
+        texX = texture(leafTex, uvX);
+        texY = texture(leafTex, uvY);
+        texZ = texture(leafTex, uvZ);
+    }
+    if (is_border > 1.0f){
+        texX = texture(groundTex, uvX);
+        texY = texture(groundTex, uvY);
+        texZ = texture(groundTex, uvZ);
     }
 
+    // triplanar blending for all sampled textures
+    vec4 texColor = texX * blendWeights.x + texY * blendWeights.y + texZ * blendWeights.z;
 
     // diffuse and ambient lighting
     vec3 lightVector = normalize(lightPosition - worldSpacePosition);
-    vec3 normalVector = normalize(worldSpaceNorm);
+
 
     vec3 colorDiffuse = clamp(dot(lightVector, normalVector), 0, 1) * lightColor;
-    vec3 colorAmbient = objectColor * 0.60f;
+    vec3 colorAmbient = objectColor * 0.50f;
 
     // phong specular lighting
     vec3 reflectionVector = normalize(reflect(-lightVector, normalVector));
@@ -72,7 +87,7 @@ void main()
     vec3 colorFinal = objectColor * (colorDiffuse + colorAmbient) + colorSpecular;
 
     // fragmentColor = vec4(colorFinal * grayscale, 1.0f);
-    fragmentColor = vec4(colorFinal * grayscale, 1.0f);
+    fragmentColor = vec4(colorFinal, 1.0f) * texColor * gray_strength;
 
     // outlines
     // if ((barycoord.x <= 0.0075f || barycoord.y <= 0.0075f || barycoord.z <= 0.0075f) && is_border == 0.0f) {

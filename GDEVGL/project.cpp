@@ -57,6 +57,13 @@ bool firstMouse = true;
 #define tree_width 0.15
 #define bark_color 0.41f, 0.29f, 0.21f
 #define leaf_color 0.51f, 0.61f, 0.41f 
+#define grass_color 0.49f, 0.98f, 0.0f 
+
+const int TERRAIN_WIDTH = 21; // odd for absolute center
+const int TERRAIN_LENGTH = 21;
+const float TERRAIN_HEIGHT = 0.5f; // height scale
+const float TERRAIN_SCALE = 0.5f; // width and length scale
+const float BASE_Y_LEVEL = -0.415f;
 
 float icosphere[] = {
     -0.0438109, 0.0708876, 0,  
@@ -1092,7 +1099,7 @@ std::vector<float> generate_tree(const glm::vec3& origin, float scale = 1.0f) {
         float y = tree_data[i+1];
 
         // keep base at original y level
-        float scaled_y = (y - (-1.0f)) * scale + (-1.0f); // pivot around y = -1
+        float scaled_y = (y - (-1.0f)) * scale + (-0.5f); // pivot around y = -0.5
 
         vertices.push_back(tree_data[i] * scale + origin.x);
         vertices.push_back(scaled_y + origin.y);
@@ -1108,6 +1115,9 @@ std::vector<float> generate_tree(const glm::vec3& origin, float scale = 1.0f) {
 }
 
 std::vector<float> final_vertices;
+
+std::vector<float> ground_vertices;
+std::vector<unsigned int> ground_indices;
 
 float bounding_box[] = 
 {
@@ -1148,27 +1158,111 @@ float bounding_box[] =
     -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
 };
 
-float ground_data[] = {
-    10.00f, -1.00f, 10.00f, 1.0f, 1.0f, 1.0f,
-    10.00f, -1.00f, -10.00f, 1.0f, 1.0f, 1.0f,
-    -10.00f, -1.00f, -10.00f, 1.0f, 1.0f, 1.0f,
+// arbitrary get height function and can specify middle y-level
+float get_height(float x, float z, float base_height = BASE_Y_LEVEL) {
+    // normalize coords -1 to 1 
+    float nx = (x - TERRAIN_WIDTH/2.0f) / (TERRAIN_WIDTH/2.0f);
+    float nz = (z - TERRAIN_LENGTH/2.0f) / (TERRAIN_LENGTH/2.0f);
 
-    -10.00f, -1.00f, -10.00f, 1.0f, 1.0f, 1.0f,
-    -10.00f, -1.00f, 10.00f, 1.0f, 1.0f, 1.0f,
-    10.00f, -1.00f, 10.00f, 1.0f, 1.0f, 1.0f,
-};
+    // arbitrary values. waves lessen in intensity 
+    float wave1 = sin(nx * 3.0f) * 0.3f;
+    float wave2 = cos(nz * 4.0f) * 0.2f;
+    float wave3 = sin(nx * 10.0f + nz * 12.0f) * 0.1f;
+
+    return base_height + (wave1 + wave2 + wave3) * TERRAIN_HEIGHT;
+}
+
+glm::vec3 calculate_terrain_norm(int x, int z, const std::vector<float>& heights) {
+    float left = heights[std::max(x-1, 0) + z * TERRAIN_WIDTH];
+    float right = heights[std::min(x+1, TERRAIN_WIDTH-1) + z * TERRAIN_WIDTH];
+    float down = heights[x + std::max(z-1, 0) * TERRAIN_WIDTH];
+    float up = heights[x + std::min(z+1, TERRAIN_LENGTH-1) * TERRAIN_WIDTH];
+
+    glm::vec3 tangent(2.0f * TERRAIN_SCALE, (right - left) * TERRAIN_HEIGHT, 0.0f);
+    glm::vec3 bitangent(0.0f, (up - down) * TERRAIN_HEIGHT, 2.0f * TERRAIN_SCALE);
+    return glm::normalize(cross(bitangent, tangent));
+}
+
+void generate_terrain_data() {
+    // for centering at (0, 0, 0)
+    float half_width = (TERRAIN_WIDTH - 1) * TERRAIN_SCALE * 0.5f;
+    float half_length = (TERRAIN_LENGTH - 1) * TERRAIN_SCALE * 0.5f;
+    
+    // get heights
+    std::vector<float> heights(TERRAIN_WIDTH * TERRAIN_LENGTH);
+    for (int z = 0; z < TERRAIN_LENGTH; z++) {
+        for (int x = 0; x < TERRAIN_WIDTH; x++) {
+            heights[x + z * TERRAIN_WIDTH] = get_height(x, z, BASE_Y_LEVEL); 
+        }
+    }
+
+    // then calculate normals
+    std::vector<glm::vec3> normals;
+    for (int z = 0; z < TERRAIN_LENGTH; z++) {
+        for (int x = 0; x < TERRAIN_WIDTH; x++) {
+            normals.push_back(calculate_terrain_norm(x, z, heights));
+        }
+    }
+    
+    // build vertices
+    for (int z = 0; z < TERRAIN_LENGTH; z++) {
+        for (int x = 0; x < TERRAIN_WIDTH; x++) {
+            float xpos = x * TERRAIN_SCALE - half_width;
+            float zpos = z * TERRAIN_SCALE - half_length;
+            float ypos = heights[x + z * TERRAIN_WIDTH];
+
+            ground_vertices.push_back(xpos);
+            ground_vertices.push_back(ypos);
+            ground_vertices.push_back(zpos);
+            
+            // temporary color
+            ground_vertices.push_back(0.49f);
+            ground_vertices.push_back(0.98f);
+            ground_vertices.push_back(0.0f);
+
+            // normals
+            glm::vec3 normal = normals[x + z * TERRAIN_WIDTH];
+            ground_vertices.push_back(normal.x);
+            ground_vertices.push_back(normal.y);
+            ground_vertices.push_back(normal.z);
+            // std::cout << normal.x << ", " << normal.y << ", " << normal.z << std::endl;
+        }
+    }
+    // make triangles via indices
+    ground_indices.clear();
+
+    for (int z = 0; z < TERRAIN_LENGTH - 1; z++) {
+        for (int x = 0; x < TERRAIN_WIDTH - 1; x++) {
+            int current = z * TERRAIN_WIDTH + x;
+            int next = (z + 1) * TERRAIN_WIDTH + x;
+            
+            // first triangle (top-left, bottom-left, top-right)
+            ground_indices.push_back(current);
+            ground_indices.push_back(next);
+            ground_indices.push_back(current + 1);
+            
+            // second triangle (top-right, bottom-left, bottom-right)
+            ground_indices.push_back(current + 1);
+            ground_indices.push_back(next);
+            ground_indices.push_back(next + 1);
+        }
+    }
+}
+
+
 
 
 // define OpenGL object IDs to represent the vertex array and the shader program in the GPU
 GLuint vao;         // vertex array object (stores the render state for our vertex array)
 GLuint vbo;         // vertex buffer object (reserves GPU memory for our vertex array)
 GLuint shader;      // combined vertex and fragment shader
-GLuint bounding_box_vbo;
 GLuint bounding_box_vao;
-GLuint ico_sphere_vbo;
+GLuint bounding_box_vbo;
 GLuint ico_sphere_vao;
-GLuint terrain_vbo;
+GLuint ico_sphere_vbo;
 GLuint terrain_vao;
+GLuint terrain_vbo;
+GLuint terrain_ebo; // element buffer object using indices
 
 // called by the main function to do initial setup, such as uploading vertex
 // arrays, shader programs, etc.; returns true if successful, false otherwise
@@ -1183,6 +1277,7 @@ bool setup()
     glGenBuffers(1, &ico_sphere_vbo);
     glGenVertexArrays(1, &terrain_vao);
     glGenBuffers(1, &terrain_vbo);
+    glGenBuffers(1, &terrain_ebo);
 
     // bind the newly-created VAO to make it the current one that OpenGL will apply state changes to
     glBindVertexArray(vao);
@@ -1226,16 +1321,23 @@ bool setup()
 
     glEnableVertexAttribArray(0);
 
+    generate_terrain_data();
     glBindVertexArray(terrain_vao);
 
     glBindBuffer(GL_ARRAY_BUFFER, terrain_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(ground_data), ground_data, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, ground_vertices.size() * sizeof(float), ground_vertices.data(), GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) 0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) (3 * sizeof(float)));
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrain_ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, ground_indices.size() * sizeof(unsigned int), ground_indices.data(), GL_STATIC_DRAW);
+
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*) 0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*) (3 * sizeof(float)));
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*) (6 * sizeof(float)));
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
 
     // important: if you have more vertex arrays to draw, make sure you separately define them
     // with unique VAO and VBO IDs, and follow the same process above to upload them to the GPU
@@ -1261,6 +1363,11 @@ glm::vec3 calculate_normal(glm::vec3 a, glm::vec3 b){
     return glm::normalize(cross(a, b));
 }
 
+
+void initialize_objects() {
+
+}
+
 // called by the main function to do rendering per frame
 void render()
 {
@@ -1274,7 +1381,7 @@ void render()
 
     // using our shader program...
     glUseProgram(shader);
-    glEnable(GL_CULL_FACE);
+    // glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST); // enable OpenGL's hidden surface removal
     glm::mat4 projview;
     glm::mat4 view = glm::mat4(1.0f);
@@ -1360,7 +1467,17 @@ void render()
 
     glUniform1f(glGetUniformLocation(shader, "is_border"), 2.0f);
     glBindVertexArray(terrain_vbo);
-    glDrawArrays(GL_TRIANGLES, 0, sizeof(ground_data) / (6 * sizeof(float)));
+    glDrawElements(GL_TRIANGLES, ground_indices.size(), GL_UNSIGNED_INT, 0);
+
+    glBindVertexArray(ico_sphere_vao);
+    model = glm::mat4(1.0f);
+    model = glm::translate(model, lightPosition);
+
+    glUniform1i(glGetUniformLocation(shader, "is_light"), 1);
+
+    glUniformMatrix4fv(glGetUniformLocation(shader, "model"),
+        1, GL_FALSE, glm::value_ptr(model));
+    glDrawArrays(GL_TRIANGLES, 0, (sizeof(icosphere) / (3 * sizeof(float))));
 
 }
 
@@ -1507,10 +1624,8 @@ int main(int argc, char** argv)
 {
     // ADD OBJECTS
     std::vector<float> objects; 
-    // std::vector<float> tree1 = generate_tree({0.0f, 0.0f, 0.0f}, 0.75);
     std::vector<float> tree2 = generate_tree({1.0f, 0.0f, 1.0f}, 0.4f);
 
-    // objects.insert(objects.end(), tree1.begin(), tree1.end());
     objects.insert(objects.end(), tree2.begin(), tree2.end());
 
     // generate trees at random spots (keeps it between -1, 1)
@@ -1521,7 +1636,7 @@ int main(int argc, char** argv)
     // std::cout << "seed: " << time(0) << std::endl;
     int num_trees = 24;
     int xz_range = 20; // 0 to 20 divided by 20 // higher number, more precise floats
-    int y_range = 5;
+    // int y_range = 5;
     int s_range = 10;
     for (int i = 0; i < num_trees; i++) {
         // float x = (rand() % (xz_range*2) - xz_range) / xz_range;
@@ -1554,6 +1669,9 @@ int main(int argc, char** argv)
         final_vertices.insert(final_vertices.end(), cur_triangle.begin(), cur_triangle.end());
         
     }
+
+
+
 
     // adding vertices to vertex buffer
     // for (int i = 0; i < (sizeof(vertices)/sizeof(float)/6.0f/3.0f); i++) {
