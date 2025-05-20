@@ -31,6 +31,8 @@ uniform vec3 lightPosition;
 uniform vec3 lightColor;
 uniform int is_light;
 uniform float s;
+uniform float focalPlane;
+uniform float focalRadius;
 
 uniform vec3 eye;
 
@@ -150,6 +152,36 @@ void main()
     vec3 colorFinal = objectColor * (colorDiffuse + colorAmbient) + colorSpecular;
 
     fragmentColor = vec4(colorFinal, 1.0f) * texColor * gray_strength;
+    
+    // fragmentColor = vec4(colorFinal * grayscale, 1.0f);
+    // fragmentColor = vec4(colorFinal * grayscale, 1.0f);
+    //fragmentColor = vec4(vec3(gl_FragCoord.z), 1.0f);
+
+    float z_ndc = gl_FragCoord.z * 2.0 - 1.0;
+
+
+    // float near = 0.1f;
+    // float far = 100.0f;
+    // float depth_test = (2.0 * near * far) / (far + near - z_ndc * (far - near));
+    // depth_test /= far;
+
+    // fragmentColor = vec4(vec3(depth_test), 1.0f);
+
+
+    // float k = focalPlane-focalRadius;
+    // float j = focalPlane+focalRadius;
+    // float z = gl_FragCoord.z;
+    // if (z <= k) {
+    //     fragmentColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+    // } else if (k <= z && z <= focalPlane) {
+    //     float lerpStren = (z)/(k-focalPlane) + (-focalPlane)/(k-focalPlane);
+    //     fragmentColor = vec4(mix(vec3(0.0f), vec3(1.0f, 0.0f, 0.0f), lerpStren), 1.0f);
+    // } else if (focalPlane <= z && z <= j) {
+    //     float lerpStren = (z)/(j-focalPlane) + (-focalPlane)/(j-focalPlane);
+    //     fragmentColor = vec4(mix(vec3(0.0f), vec3(0.0f, 1.0f, 0.0f), lerpStren), 1.0f);
+    // } else {
+    //     fragmentColor = vec4(0.0f, 1.0f, 0.0f, 1.0f);
+    // }
 
     // outlines
     // if ((barycoord.x <= 0.0075f || barycoord.y <= 0.0075f || barycoord.z <= 0.0075f) && state == 0.0f) {
