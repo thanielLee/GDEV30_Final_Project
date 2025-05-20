@@ -27,6 +27,8 @@ out vec3 worldSpacePosition;
 out vec3 worldSpaceNorm;
 out vec3 objectColor;
 
+out vec3 blendWeights;
+
 void main()
 {
     worldSpacePosition = (model * vec4(vertexPosition, 1.0f)).xyz;
@@ -34,35 +36,11 @@ void main()
     objectColor = vertexColor;
     
     gl_Position = projview * vec4(worldSpacePosition, 1.0f);
-    // fragPos = vec3(model * vec4(vertexPosition, 1.0f));
-    // final_light_pos = vec3(model * vec4(lightPos, 1.0f));
 
-    // scale_factor = sqrt(model[0][0]*model[0][0] + model[1][1]*model[1][1] + model[2][2]*model[2][2]);
-    
 
-    // if ((gl_VertexID%3) == 0) {
-    //     barycoord = vec3(1.0f, 0.0f, 0.0f);
-    // } else if ((gl_VertexID%3) == 1) {
-    //     barycoord = vec3(0.0f, 1.0f, 0.0f);
-    // } else {
-    //     barycoord = vec3(0.0f, 0.0f, 1.0f);
-    // }
-    
-    // rotate[0] = model[0].xyz;
-    // rotate[1] = model[1].xyz;
-    // rotate[2] = model[2].xyz;
-    // trans = vec3(model[0][3], model[1][3], model[2][3]);
-    // normal = normalize(rotate * norm);
-
-    vec3 absNormal = abs(norm);
-    if (absNormal.z > absNormal.x && absNormal.z > absNormal.y) {
-        shaderTexCoord = vertexPosition.xy;
-    } else if (absNormal.x > absNormal.y) {
-        shaderTexCoord = vertexPosition.yz;
-    } else {
-        shaderTexCoord = vertexPosition.xz;
-    }
-
-    shaderTexCoord = vec2(0.0f, 0.0f);
+    // get triplanar weights using world normal
+    blendWeights = normalize(abs(worldSpaceNorm));
+    blendWeights = pow(blendWeights, vec3(4.0)); // control sharpness (higher value, sharper transition betw axes )
+    blendWeights /= (blendWeights.x + blendWeights.y + blendWeights.z);
 }
 
