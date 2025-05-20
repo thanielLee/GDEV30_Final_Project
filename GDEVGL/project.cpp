@@ -55,6 +55,8 @@ float focalPlane = 0.07500f;
 float focalRadius = 0.300f;
 bool p_pressed = false;
 
+const int samples = 8;
+
 glm::vec3 staff_center = glm::vec3(0.0f, -0.8f, 0.0f);
 
 #define red_color 0.58f, 0.02f, 0.02f
@@ -720,6 +722,8 @@ GLuint fb_shader;
 GLuint rbo;
 GLuint depth_texture;
 GLuint stencil_texture;
+GLuint msaa_texture;
+GLuint msaa_fbo;
 
 
 // called by the main function to do initial setup, such as uploading vertex
@@ -777,10 +781,23 @@ bool setup()
 
     glEnableVertexAttribArray(0);
 
-    glGenFramebuffers(1, &fbo);
-    
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+    glGenFramebuffers(1, &msaa_fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, msaa_fbo);
 
+
+    glGenTextures(1, &msaa_texture);
+    glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, msaa_texture);
+    glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, GL_RGB, WINDOW_WIDTH, WINDOW_HEIGHT, GL_TRUE);
+    glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, msaa_texture, 0);
+
+    glGenRenderbuffers(1, &rbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+    glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH24_STENCIL8, WINDOW_WIDTH, WINDOW_HEIGHT);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
 
     // glGenTextures(1, &stencil_texture);
     // glBindTexture(GL_TEXTURE_2D, stencil_texture);
@@ -792,6 +809,10 @@ bool setup()
     // glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_STENCIL_TEXTURE_MODE, GL_STENCIL_INDEX);
 
     // glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, stencil_texture, 0);
+
+    glGenFramebuffers(1, &fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
 
     glGenTextures(1, &depth_texture);
     glBindTexture(GL_TEXTURE_2D, depth_texture);
@@ -894,7 +915,7 @@ void render()
     
 
     glUseProgram(fb_shader);
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, msaa_fbo);
     glClearColor(0.00f, 0.00f, 0.00f, 1.0f); // dark desaturated green
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
@@ -1103,6 +1124,10 @@ void render()
     // glDrawArrays(GL_TRIANGLES, 0, (sizeof(icosphere) / (3 * sizeof(float))));
     //glClear(GL_COLOR_BUFFER_BIT);
 
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, msaa_fbo);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
+    glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glUseProgram(fb_shader);
 
@@ -1223,8 +1248,6 @@ void processInput(GLFWwindow *pWindow, float deltaTime) {
     if (glfwGetKey(pWindow, GLFW_KEY_P) == GLFW_RELEASE) {
         p_pressed = false;
     }
-
-
 }
 
 /*****************************************************************************/
