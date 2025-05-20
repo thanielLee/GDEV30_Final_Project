@@ -62,5 +62,7 @@ void main()
     } else {
         shaderTexCoord = vertexPosition.xz;
     }
+
+    shaderTexCoord = vec2(0.0f, 0.0f);
 }
 
