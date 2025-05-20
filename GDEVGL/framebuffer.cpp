@@ -53,6 +53,7 @@ bool firstMouse = true;
 
 float focalPlane = 0.07500f;
 float focalRadius = 0.300f;
+float maxFilterStren = 1.0f;
 bool p_pressed = false;
 
 const int samples = 8;
@@ -1142,8 +1143,6 @@ void render()
     //glDepthMask(GL_TRUE);
     glEnable(GL_DEPTH_TEST);
     glActiveTexture(GL_TEXTURE1);
-
-    //glClear(GL_COLOR_BUFFER_BIT);
     glBindTexture(GL_TEXTURE_2D, depth_texture);
     glUniform1i(glGetUniformLocation(fb_shader, "depthTexture"), 1);
 
@@ -1152,9 +1151,12 @@ void render()
     glBindVertexArray(rect_vao);
     glDisable(GL_DEPTH_TEST);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, fb_texture);
     glUniform1i(glGetUniformLocation(fb_shader, "screenTexture"), 0);
+
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
     

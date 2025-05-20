@@ -9,6 +9,7 @@ uniform sampler2D stencilTexture;
 uniform float focalPlane;
 uniform float focalRadius;
 uniform float is_vis;
+uniform float maxFilterStren;
 
 const vec2 offsets[48] = vec2[48](
 	2.0f * vec2(1.000000f, 0.000000f),
@@ -63,6 +64,14 @@ const vec2 offsets[48] = vec2[48](
 	6.0f * vec2(0.965926f, -0.258818f)
 );
 
+const vec2 max_offsets[25] = vec2[25](
+    vec2(-2.0f, -2.0f), vec2(-1.0f, -2.0f), vec2(0.0f, -2.0f), vec2(1.0f, -2.0f), vec2(2.0f, -2.0f),
+    vec2(-2.0f, -1.0f), vec2(-1.0f, -1.0f), vec2(0.0f, -1.0f), vec2(1.0f, -1.0f), vec2(2.0f, -1.0f),
+    vec2(-2.0f, 0.0f),  vec2(-1.0f, 0.0f),  vec2(0.0f, 0.0f),  vec2(1.0f, 0.0f),  vec2(2.0f, 0.0f),
+    vec2(-2.0f, 1.0f),  vec2(-1.0f, 1.0f),  vec2(0.0f, 1.0f),  vec2(1.0f, 1.0f),  vec2(2.0f, 1.0f),
+    vec2(-2.0f, 2.0f),  vec2(-1.0f, 2.0f),  vec2(0.0f, 2.0f),  vec2(1.0f, 2.0f),  vec2(2.0f, 2.0f)
+);
+
 float get_far_field_stren(float depth) {
     float z_ndc = depth * 2.0 - 1.0f;
     float near = 0.1f;
@@ -70,8 +79,8 @@ float get_far_field_stren(float depth) {
     float linear_depth = (2.0 * near * far) / (far + near - z_ndc * (far - near));
     float k = focalPlane-focalRadius;
     float j = focalPlane+focalRadius;
-    float z = linear_depth / far;
-
+    //float z = depth / far;
+    float z = depth;
     return min(max((z)/(j-focalPlane) + (-focalPlane)/(j-focalPlane), 0.0), 1.0);
 }
 
@@ -82,9 +91,24 @@ float get_near_field_stren(float depth) {
     float linear_depth = (2.0 * near * far) / (far + near - z_ndc * (far - near));
     float k = focalPlane-focalRadius;
     float j = focalPlane+focalRadius;
-    float z = linear_depth / far;
+    //float z = depth / far;
+    float z = depth;
 
     return min(max((z)/(k-focalPlane) - (focalPlane)/(k-focalPlane), 0.0), 1.0);
+}
+
+float get_final_near_field_stren(vec2 current_pos) {
+    float cur_near_field_stren = get_near_field_stren(texture(depthTexture, current_pos).r);
+
+    for (int i = 0; i < 25; i++) {
+        vec2 cur_offset = maxFilterStren * max_offsets[i];
+        cur_offset = vec2(cur_offset.x/1600.0, cur_offset.y/900.0);
+        float d = texture(depthTexture, current_pos + cur_offset).r;
+
+        cur_near_field_stren = max(cur_near_field_stren, get_near_field_stren(d));
+    }
+
+    return cur_near_field_stren;
 }
 
 
@@ -101,7 +125,8 @@ void main(){
     //fragmentColor = vec4(vec3(linear_depth / far), 1.0f);
     float k = focalPlane-focalRadius;
     float j = focalPlane+focalRadius;
-    float z = linear_depth / far;
+    //float z = depthValue / far;
+    float z = depthValue;
     float far_field_stren = min(max((z)/(j-focalPlane) + (-focalPlane)/(j-focalPlane), 0.0), 1.0);
 
     vec3 total_color = texture(screenTexture, texCoords).rgb;
@@ -120,29 +145,29 @@ void main(){
         vec2 new_offset = vec2(cur_offset.x/1600.0, cur_offset.y/900.0);
         float temp_depth = texture(depthTexture, texCoords + new_offset).r;
         float temp_stren = get_far_field_stren(temp_depth);
-        far_field_color += temp_stren * texture(screenTexture, texCoords + new_offset).rgb;
+        far_field_color += texture(screenTexture, texCoords + new_offset).rgb;
     }
 
     for (int i = 0; i < 48; i++) {
         vec2 cur_offset = offsets[i];
         vec2 new_offset = vec2(cur_offset.x/1600.0, cur_offset.y/900.0);
         float temp_depth = texture(depthTexture, texCoords + new_offset).r;
-        float temp_stren = get_far_field_stren(temp_depth);
+        float temp_stren = get_final_near_field_stren(texCoords + new_offset);
         near_field_color += texture(screenTexture, texCoords + new_offset).rgb;
     }
 
 
     far_field_color /= 49.0;
     near_field_color /= 49.0;
-    float near_field_stren = get_near_field_stren(depthValue);
+    float near_field_stren = get_final_near_field_stren(texCoords);
     vec4 far_color = mix(vec4(texture(screenTexture, texCoords).rgb, 1.0f), vec4(far_field_color, 1.0f), far_field_stren);
     vec4 near_color = mix(vec4(texture(screenTexture, texCoords).rgb, 1.0f), vec4(near_field_color, 1.0f), near_field_stren);
     vec4 main_color = vec4(texture(screenTexture, texCoords).rgb, 1.0f);
 
-    if (far_field_stren >= 0.001f && near_field_stren <= 0.001f) {
-        fragmentColor = far_color;
-    } else if (far_field_stren <= 0.001f && near_field_stren >= 0.001f) {
+    if (near_field_stren >= 0.001f) {
         fragmentColor = near_color;
+    } else if (far_field_stren >= 0.001f) {
+        fragmentColor = far_color;
     } else {
         fragmentColor = main_color;
     }
@@ -154,10 +179,10 @@ void main(){
     // fragmentColor = vec4(fartexture(screenTexture, texCoords).rgb, 1.0f);
 
     if (is_vis == 1.0f) {
-        if (far_field_stren >= 0.001f && near_field_stren <= 0.001f) {
-            fragmentColor = mix(vec4(vec3(0.0f), 1.0f), vec4(vec3(0.0f, 1.0f, 0.0f), 1.0f), far_field_stren);
-        } else if (far_field_stren <= 0.001f && near_field_stren >= 0.001f) {
+        if (near_field_stren >= 0.0001f) {
             fragmentColor = mix(vec4(vec3(0.0f), 1.0f), vec4(vec3(1.0f, 0.0f, 0.0f), 1.0f), near_field_stren);
+        } else if (far_field_stren >= 0.0001f) {
+            fragmentColor = mix(vec4(vec3(0.0f), 1.0f), vec4(vec3(0.0f, 1.0f, 0.0f), 1.0f), far_field_stren);
         } else {
             fragmentColor = vec4(vec3(0.0f), 1.0f);
         }

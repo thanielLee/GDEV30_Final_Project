@@ -56,10 +56,11 @@ float lastX = WINDOW_WIDTH/2.0f;
 float lastY = WINDOW_HEIGHT/2.0f;
 bool firstMouse = true;
 
-float focalPlane = 0.07500f;
-float focalRadius = 0.300f;
+float focalPlane = 0.900f;
+float focalRadius = 0.1100f;
 float is_visualization = 0.0f;
 bool p_pressed = false;
+float maxFilterStren = 1.0f;
 
 #define bark_color 0.41f, 0.29f, 0.21f
 #define leaf_color 0.51f, 0.61f, 0.41f 
@@ -1403,6 +1404,7 @@ void render()
 
     // moving sun
     glm::vec2 sunPath = glm::normalize(glm::vec2(cos(time_of_day * 2.0f * glm::pi<float>()), sin(time_of_day * 2.0f * glm::pi<float>())));
+    //sunPath = glm::normalize(glm::vec2(cos(0.0f * 2.0f * glm::pi<float>()), sin(0.0f * 2.0f * glm::pi<float>())));
     lightPosition = glm::vec3(sunDist * sunPath, 0);
 
 
@@ -1493,7 +1495,9 @@ void render()
 
     glUniform1f(glGetUniformLocation(fb_shader, "focalPlane"), focalPlane);
     glUniform1f(glGetUniformLocation(fb_shader, "focalRadius"), focalRadius);
+    glUniform1f(glGetUniformLocation(fb_shader, "maxFilterStren"), maxFilterStren);
     glUniform1f(glGetUniformLocation(fb_shader, "is_vis"), is_visualization);
+    std::cout << focalPlane << " " << focalRadius << " " << maxFilterStren << std::endl;
 
     // glEnable(GL_STENCIL_TEST);
     // glActiveTexture(GL_TEXTURE2);
@@ -1603,6 +1607,14 @@ void processInput(GLFWwindow *pWindow, float deltaTime) {
 
     if (glfwGetKey(pWindow, GLFW_KEY_P) == GLFW_RELEASE) {
         p_pressed = false;
+    }
+
+    if (glfwGetKey(pWindow, GLFW_KEY_1) == GLFW_PRESS) {
+        maxFilterStren += 0.001f;
+    }
+
+    if (glfwGetKey(pWindow, GLFW_KEY_2) == GLFW_PRESS) {
+        maxFilterStren -= 0.001f;
     }
 }
 
