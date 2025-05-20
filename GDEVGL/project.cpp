@@ -56,6 +56,10 @@ float lastX = WINDOW_WIDTH/2.0f;
 float lastY = WINDOW_HEIGHT/2.0f;
 bool firstMouse = true;
 
+float focalPlane = 0.07500f;
+float focalRadius = 0.300f;
+float is_visualization = 0.0f;
+bool p_pressed = false;
 
 #define bark_color 0.41f, 0.29f, 0.21f
 #define leaf_color 0.51f, 0.61f, 0.41f 
@@ -1092,6 +1096,16 @@ void generate_terrain_data() {
     }
 }
 
+float fb_rect[] = {
+    // (x, y)    // (s, t)
+    1.0f, -1.0f, 1.0f, 0.0f,
+    -1.0f, -1.0f, 0.0f, 0.0f,
+    -1.0f, 1.0f, 0.0f, 1.0f,
+
+    1.0f, 1.0f, 1.0f, 1.0f,
+    1.0f, -1.0f, 1.0f, 0.0f,
+    -1.0f, 1.0f, 0.0f, 1.0f
+};
 
 
 // define OpenGL object IDs to represent the vertex array and the shader program in the GPU
@@ -1105,6 +1119,18 @@ GLuint ico_sphere_vbo;
 GLuint terrain_vao;
 GLuint terrain_vbo;
 GLuint terrain_ebo; // element buffer object using indices
+GLuint fbo;
+GLuint fb_texture;
+GLuint rect_vao;
+GLuint rect_vbo;
+GLuint fb_shader;
+GLuint rbo;
+GLuint depth_texture;
+GLuint stencil_texture;
+GLuint msaa_texture;
+GLuint msaa_fbo;
+
+const int samples = 8;
 
 // called by the main function to do initial setup, such as uploading vertex
 // arrays, shader programs, etc.; returns true if successful, false otherwise
@@ -1180,6 +1206,91 @@ bool setup()
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
 
+
+    glGenFramebuffers(1, &msaa_fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, msaa_fbo);
+
+
+    glGenTextures(1, &msaa_texture);
+    glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, msaa_texture);
+    glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, GL_RGB, WINDOW_WIDTH, WINDOW_HEIGHT, GL_TRUE);
+    glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, msaa_texture, 0);
+
+    glGenRenderbuffers(1, &rbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+    glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH24_STENCIL8, WINDOW_WIDTH, WINDOW_HEIGHT);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+
+    // glGenTextures(1, &stencil_texture);
+    // glBindTexture(GL_TEXTURE_2D, stencil_texture);
+    // glTexImage2D(GL_TEXTURE_2D, 0, GL_STENCIL, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_STENCIL, GL_UNSIGNED_INT, NULL);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_STENCIL_TEXTURE_MODE, GL_STENCIL_INDEX);
+
+    // glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, stencil_texture, 0);
+
+    glGenFramebuffers(1, &fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+
+    glGenTextures(1, &depth_texture);
+    glBindTexture(GL_TEXTURE_2D, depth_texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE_ARB);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depth_texture, 0);
+    // glDrawBuffer(GL_NONE);
+    // glReadBuffer(GL_NONE);
+    // glBindFramebuffer(GL_FRAMEBUFFER, 0);  
+
+    glGenTextures(1, &fb_texture);
+    glBindTexture(GL_TEXTURE_2D, fb_texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fb_texture, 0);
+
+
+
+    // glDrawBuffer(GL_NONE);
+    // glReadBuffer(GL_NONE);
+    // glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    
+    // glGenRenderbuffers(1, &rbo);
+    // glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+    // glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, WINDOW_WIDTH, WINDOW_HEIGHT);
+    // glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+    
+
+
+    glGenVertexArrays(1, &rect_vao);
+    glGenBuffers(1, &rect_vbo);
+    glBindVertexArray(rect_vao);
+    glBindBuffer(GL_ARRAY_BUFFER, rect_vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(fb_rect), &fb_rect, GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*) (2 * sizeof(float)));
+
+
+
     // important: if you have more vertex arrays to draw, make sure you separately define them
     // with unique VAO and VBO IDs, and follow the same process above to upload them to the GPU
 
@@ -1194,6 +1305,11 @@ bool setup()
     if (! wallTexture) return false;
     frameTexture = gdevLoadTexture("frame.jpg", GL_REPEAT, true, true);
     if (! frameTexture) return false;
+
+
+    fb_shader = gdevLoadShader("framebuffer.vs", "framebuffer.fs");
+    glUniform1i(glGetUniformLocation(fb_shader, "screenTexture"), 0);
+    glUniform1i(glGetUniformLocation(fb_shader, "depthTexture"), 1);
 
     // load our shader program
     shader = gdevLoadShader("project.vs", "project.fs");
@@ -1235,12 +1351,23 @@ glm::vec3 calculateSkyColor(float timeOfDay) {
 // called by the main function to do rendering per frame
 void render()
 {
+
+
+
+
+
+    
     // clear the whole frame
     // glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // black
     // glClearColor(0.03f, 0.06f, 0.05f, 1.0f); // dark desaturated green
     // glClearColor(0.53f, 0.81f, 0.92f, 1.0f); // sky blue
+
+    glUseProgram(fb_shader);
+    glBindFramebuffer(GL_FRAMEBUFFER, msaa_fbo);
     glClearColor(0.03f, 0.05f, 0.1f, 1.0f); // dark blue-black
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
 
     // using our shader program...
     glUseProgram(shader);
@@ -1310,24 +1437,25 @@ void render()
     glUniformMatrix4fv(glGetUniformLocation(shader, "normalM"),
                         1, GL_FALSE, glm::value_ptr(normalM));    
 
+
     // set the active texture
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, barkTexture);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, leafTexture);
     glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, groundTexture);
+    glBindTexture(GL_TEXTURE_2D, barkTexture);
     glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D, wallTexture);
+    glBindTexture(GL_TEXTURE_2D, leafTexture);
     glActiveTexture(GL_TEXTURE4);
+    glBindTexture(GL_TEXTURE_2D, groundTexture);
+    glActiveTexture(GL_TEXTURE5);
+    glBindTexture(GL_TEXTURE_2D, wallTexture);
+    glActiveTexture(GL_TEXTURE6);
     glBindTexture(GL_TEXTURE_2D, frameTexture);
 
     // then connect each texture unit to a sampler2D in the fragment shader
-    glUniform1i(glGetUniformLocation(shader,"barkTex"), 0);
-    glUniform1i(glGetUniformLocation(shader,"leafTex"), 1);
-    glUniform1i(glGetUniformLocation(shader,"groundTex"), 2);
-    glUniform1i(glGetUniformLocation(shader,"wallTex"), 3);
-    glUniform1i(glGetUniformLocation(shader,"frameTex"), 4);
+    glUniform1i(glGetUniformLocation(shader,"barkTex"), 2);
+    glUniform1i(glGetUniformLocation(shader,"leafTex"), 3);
+    glUniform1i(glGetUniformLocation(shader,"groundTex"), 4);
+    glUniform1i(glGetUniformLocation(shader,"wallTex"), 5);
+    glUniform1i(glGetUniformLocation(shader,"frameTex"), 6);
     
     
     // ... draw our triangles
@@ -1355,6 +1483,37 @@ void render()
     // glUniform1i(glGetUniformLocation(shader, "is_light"), 1);
     // glBindVertexArray(bounding_box_vao);
     // glDrawArrays(GL_LINES, 0, sizeof(bounding_box) / (6 * sizeof(float)));
+
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, msaa_fbo);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
+    glBlitFramebuffer(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glUseProgram(fb_shader);
+
+    glUniform1f(glGetUniformLocation(fb_shader, "focalPlane"), focalPlane);
+    glUniform1f(glGetUniformLocation(fb_shader, "focalRadius"), focalRadius);
+    glUniform1f(glGetUniformLocation(fb_shader, "is_vis"), is_visualization);
+
+    // glEnable(GL_STENCIL_TEST);
+    // glActiveTexture(GL_TEXTURE2);
+    // glUniform1i(glGetUniformLocation(fb_shader, "stencilTexture"), 2);
+
+    //glDepthMask(GL_TRUE);
+    glEnable(GL_DEPTH_TEST);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, depth_texture);
+    glUniform1i(glGetUniformLocation(fb_shader, "depthTexture"), 1);
+
+
+    glDisable(GL_CULL_FACE);
+    glBindVertexArray(rect_vao);
+    glDisable(GL_DEPTH_TEST);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, fb_texture);
+    glUniform1i(glGetUniformLocation(fb_shader, "screenTexture"), 0);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 
@@ -1410,7 +1569,41 @@ void processInput(GLFWwindow *pWindow, float deltaTime) {
         specular = std::max(0.01f, specular);
     }
 
+    if (glfwGetKey(pWindow, GLFW_KEY_I) == GLFW_PRESS) {
+        focalPlane += 0.0005f;
+        focalPlane = std::min(focalPlane, 1.0f);
+    }
 
+    if (glfwGetKey(pWindow, GLFW_KEY_K) == GLFW_PRESS) {
+        focalPlane -= 0.0005f;
+        focalPlane = std::max(focalPlane, 0.0f);
+    }
+
+    if (glfwGetKey(pWindow, GLFW_KEY_O) == GLFW_PRESS) {
+        focalRadius += 0.0005f;
+        focalRadius = std::min(focalRadius, 1.0f);
+    }
+
+    if (glfwGetKey(pWindow, GLFW_KEY_L) == GLFW_PRESS) {
+        focalRadius -= 0.0005f;
+        focalRadius = std::max(focalRadius, 0.0f);
+    }
+
+    if (glfwGetKey(pWindow, GLFW_KEY_P) == GLFW_PRESS) {
+        std::cout << p_pressed << std::endl;
+        if (!p_pressed) {
+            if (is_visualization == 1.0f) {
+            is_visualization = 0.0f;
+            } else {
+                is_visualization = 1.0f;
+            }
+            p_pressed = true;
+        }
+    }
+
+    if (glfwGetKey(pWindow, GLFW_KEY_P) == GLFW_RELEASE) {
+        p_pressed = false;
+    }
 }
 
 /*****************************************************************************/
@@ -1502,9 +1695,9 @@ int main(int argc, char** argv)
 
     // ADD OBJECTS
     std::vector<float> objects; 
-    generate_object(objects, window_data, {0, 0, 0}, 0.3f);
-    generate_object(objects, wall_data, {0, 0, 0}, 0.3f);
-    generate_object(objects, tree_data, {-1, 0, -1}, 0.7f);
+    generate_object(objects, window_data, {0, .2f, 0}, 0.4f);
+    generate_object(objects, wall_data, {0, .2f, 0}, 0.4f);
+    generate_object(objects, tree_data, {0, 0, -2}, 0.7f);
     
     
     // srand(time(0));
